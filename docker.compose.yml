@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  # Main moderation API
+  moderation-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moderation-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_TYPE=sqlite
+      - DB_PATH=/app/logs/moderation.db
+      - OMKAR_RL_URL=http://omkar-rl:8001
+    volumes:
+      - ./logs:/app/logs

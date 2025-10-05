@@ -1,0 +1,264 @@
+2025-10-04 20:47:45,941 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 20:47:45,941 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 20:47:45,942 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 20:47:45,942 - event_queue - INFO - EventQueue initialized
+2025-10-04 20:47:46,308 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 20:47:46,314 - event_queue - INFO - Started 5 queue processors
+2025-10-04 20:47:46,373 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 20:47:46,375 - __main__ - INFO - All services initialized successfully
+2025-10-04 20:59:26,866 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 20:59:26,870 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 20:59:26,870 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 20:59:26,871 - event_queue - INFO - EventQueue initialized
+2025-10-04 20:59:27,055 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 20:59:27,056 - event_queue - INFO - Started 5 queue processors
+2025-10-04 20:59:27,065 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 20:59:27,066 - __main__ - INFO - All services initialized successfully
+2025-10-04 21:06:45,996 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 21:06:45,997 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 21:06:45,997 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 21:06:45,997 - event_queue - INFO - EventQueue initialized
+2025-10-04 21:06:46,257 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 21:06:46,258 - event_queue - INFO - Started 5 queue processors
+2025-10-04 21:06:46,264 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 21:06:46,265 - __main__ - INFO - All services initialized successfully
+2025-10-04 21:06:46,266 - __main__ - INFO - Shutting down services
+2025-10-04 21:06:46,266 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-04 21:06:46,267 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-04 21:06:46,267 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-04 21:06:46,267 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-04 21:06:46,267 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-04 21:06:46,267 - event_queue - INFO - EventQueue closed
+2025-10-04 22:27:18,345 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 22:27:18,345 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 22:27:18,346 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 22:27:18,346 - event_queue - INFO - EventQueue initialized
+2025-10-04 22:27:18,359 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 22:27:18,359 - event_queue - INFO - Started 5 queue processors
+2025-10-04 22:27:18,366 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 22:27:18,366 - app.main - INFO - All services initialized successfully
+2025-10-04 22:35:10,483 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 22:35:10,484 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 22:35:10,484 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 22:35:10,484 - event_queue - INFO - EventQueue initialized
+2025-10-04 22:35:10,496 - main - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 22:35:10,496 - event_queue - INFO - Started 5 queue processors
+2025-10-04 22:35:10,528 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 22:35:10,528 - main - INFO - All services initialized successfully
+2025-10-04 22:35:10,530 - main - INFO - Shutting down services
+2025-10-04 22:35:10,530 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-04 22:35:10,531 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-04 22:35:10,531 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-04 22:35:10,531 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-04 22:35:10,531 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-04 22:35:10,532 - event_queue - INFO - EventQueue closed
+2025-10-04 22:35:19,029 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 22:35:19,029 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 22:35:19,030 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 22:35:19,030 - event_queue - INFO - EventQueue initialized
+2025-10-04 22:35:19,043 - main - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 22:35:19,043 - event_queue - INFO - Started 5 queue processors
+2025-10-04 22:35:19,048 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 22:35:19,048 - main - INFO - All services initialized successfully
+2025-10-04 22:46:51,791 - app.main - INFO - Shutting down services
+2025-10-04 22:46:51,792 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-04 22:46:51,793 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-04 22:46:51,794 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-04 22:46:51,794 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-04 22:46:51,795 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-04 22:46:51,796 - event_queue - INFO - EventQueue closed
+2025-10-04 22:46:57,059 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 22:46:57,059 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 22:46:57,060 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 22:46:57,060 - event_queue - INFO - EventQueue initialized
+2025-10-04 22:46:57,072 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 22:46:57,073 - event_queue - INFO - Started 5 queue processors
+2025-10-04 22:46:57,078 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 22:46:57,079 - app.main - INFO - All services initialized successfully
+2025-10-04 22:47:09,685 - app.main - INFO - Shutting down services
+2025-10-04 22:47:09,686 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-04 22:47:09,687 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-04 22:47:09,688 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-04 22:47:09,689 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-04 22:47:09,690 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-04 22:47:09,691 - event_queue - INFO - EventQueue closed
+2025-10-04 22:47:19,957 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-04 22:47:19,958 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-04 22:47:19,959 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-04 22:47:19,959 - event_queue - INFO - EventQueue initialized
+2025-10-04 22:47:20,111 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-04 22:47:20,112 - event_queue - INFO - Started 5 queue processors
+2025-10-04 22:47:20,116 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-04 22:47:20,117 - __main__ - INFO - All services initialized successfully
+2025-10-04 22:47:20,118 - __main__ - INFO - Shutting down services
+2025-10-04 22:47:20,119 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-04 22:47:20,119 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-04 22:47:20,120 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-04 22:47:20,120 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-04 22:47:20,121 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-04 22:47:20,122 - event_queue - INFO - EventQueue closed
+2025-10-04 22:47:45,108 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-04 22:47:45,115 - logger_middleware - INFO - Response: 200 for /health in 0.005s
+2025-10-04 22:47:45,161 - logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-04 22:47:45,164 - logger_middleware - INFO - Response: 404 for /favicon.ico in 0.002s
+2025-10-04 22:47:55,862 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-04 22:47:55,867 - logger_middleware - INFO - Response: 200 for /docs in 0.003s
+2025-10-04 22:47:56,351 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-04 22:47:56,380 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.027s
+2025-10-04 22:48:27,690 - logger_middleware - INFO - Request: GET /moderate from 127.0.0.1
+2025-10-04 22:48:27,694 - logger_middleware - INFO - Response: 405 for /moderate in 0.002s
+2025-10-04 22:49:37,526 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-04 22:49:37,529 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-04 22:49:37,706 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-04 22:49:37,707 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-10-04 22:49:54,122 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-04 22:49:54,126 - logger_middleware - INFO - Response: 422 for /feedback in 0.003s
+2025-10-04 22:50:59,587 - logger_middleware - INFO - Request: POST /moderate/file from 127.0.0.1
+2025-10-04 22:50:59,602 - logger_middleware - INFO - Response: 400 for /moderate/file in 0.014s
+2025-10-04 22:51:52,383 - logger_middleware - INFO - Request: POST /moderate/file from 127.0.0.1
+2025-10-04 22:51:52,392 - logger_middleware - INFO - Response: 400 for /moderate/file in 0.008s
+2025-10-05 13:15:12,385 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-05 13:15:12,387 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-05 13:15:12,388 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-05 13:15:12,389 - event_queue - INFO - EventQueue initialized
+2025-10-05 13:15:12,860 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-05 13:15:12,861 - event_queue - INFO - Started 5 queue processors
+2025-10-05 13:15:12,889 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-05 13:15:12,890 - __main__ - INFO - All services initialized successfully
+2025-10-05 13:15:29,811 - logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-05 13:15:29,820 - logger_middleware - INFO - Response: 200 for / in 0.005s
+2025-10-05 13:15:29,916 - logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-05 13:15:29,925 - logger_middleware - INFO - Response: 404 for /favicon.ico in 0.007s
+2025-10-05 13:15:39,512 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-05 13:15:39,523 - logger_middleware - INFO - Response: 200 for /health in 0.006s
+2025-10-05 13:16:03,554 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-05 13:16:03,558 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-05 13:16:04,298 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-05 13:16:04,331 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.031s
+2025-10-05 13:16:29,209 - __main__ - INFO - Shutting down services
+2025-10-05 13:16:29,211 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-05 13:16:29,212 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-05 13:16:29,213 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-05 13:16:29,214 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-05 13:16:29,216 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-05 13:16:29,217 - event_queue - INFO - EventQueue closed
+2025-10-05 13:16:38,400 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-05 13:16:38,400 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-05 13:16:38,401 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-05 13:16:38,401 - event_queue - INFO - EventQueue initialized
+2025-10-05 13:16:38,608 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-05 13:16:38,609 - event_queue - INFO - Started 5 queue processors
+2025-10-05 13:16:38,615 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-05 13:16:38,616 - __main__ - INFO - All services initialized successfully
+2025-10-05 13:17:58,601 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-05 13:17:58,603 - __main__ - INFO - Feedback 517670e9-f168-4896-a73f-de81b5f45d61 for moderation string
+2025-10-05 13:17:58,605 - logger_middleware - INFO - Response: 400 for /feedback in 0.003s
+2025-10-05 13:18:29,871 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-05 13:18:29,874 - __main__ - INFO - Feedback 0e449c42-bc1e-43fa-9910-68b21c53aac1 for moderation string
+2025-10-05 13:18:29,892 - feedback_handler - INFO - Stored feedback 0e449c42-bc1e-43fa-9910-68b21c53aac1
+2025-10-05 13:18:29,896 - logger_middleware - INFO - Response: 200 for /feedback in 0.023s
+2025-10-05 13:18:29,907 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_0)
+2025-10-05 13:18:29,910 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_1)
+2025-10-05 13:18:29,913 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_2)
+2025-10-05 13:18:29,918 - __main__ - INFO - Feedback events emitted for 0e449c42-bc1e-43fa-9910-68b21c53aac1
+2025-10-05 13:20:05,551 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-05 13:20:05,554 - __main__ - INFO - Moderation request e33caf77-359a-4ac9-917a-220e40f8d5f0 for Text
+2025-10-05 13:20:05,555 - __main__ - ERROR - Moderation error: 
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\main.py", line 124, in moderate_content
+    raise HTTPException(
+    ...<2 lines>...
+    )
+fastapi.exceptions.HTTPException
+2025-10-05 13:20:05,569 - logger_middleware - INFO - Response: 500 for /moderate in 0.014s
+2025-10-05 13:22:09,530 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-05 13:22:09,531 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-05 13:22:09,532 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-05 13:22:09,532 - event_queue - INFO - EventQueue initialized
+2025-10-05 13:22:10,058 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-05 13:22:10,060 - event_queue - INFO - Started 5 queue processors
+2025-10-05 13:22:10,074 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-05 13:22:10,075 - __main__ - INFO - All services initialized successfully
+2025-10-05 13:22:10,080 - __main__ - INFO - Shutting down services
+2025-10-05 13:22:10,081 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-05 13:22:10,082 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-05 13:22:10,083 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-05 13:22:10,083 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-05 13:22:10,085 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-05 13:22:10,087 - event_queue - INFO - EventQueue closed
+2025-10-05 13:22:20,103 - logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-05 13:22:20,106 - logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-10-05 13:23:48,025 - logger_middleware - INFO - Request: POST /moderate/file from 127.0.0.1
+2025-10-05 13:23:48,113 - __main__ - ERROR - File moderation error: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\main.py", line 212, in moderate_file
+    mcp_meta = json.loads(mcp_metadata) if mcp_metadata else None
+               ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 344, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py", line 362, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-10-05 13:23:48,157 - logger_middleware - INFO - Response: 500 for /moderate/file in 0.131s
+2025-10-05 13:24:04,482 - logger_middleware - INFO - Request: POST /moderate/file from 127.0.0.1
+2025-10-05 13:24:04,557 - moderation_agent - ERROR - Moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 60, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 213, in _moderate_image
+    if "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-10-05 13:24:04,574 - __main__ - ERROR - File moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\main.py", line 222, in moderate_file
+    result = await moderation_agent.moderate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 60, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 213, in _moderate_image
+    if "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-10-05 13:24:04,578 - logger_middleware - INFO - Response: 500 for /moderate/file in 0.095s
+2025-10-05 13:26:51,726 - logger_middleware - INFO - Request: GET /feedback/,jnawjndqod from 127.0.0.1
+2025-10-05 13:26:51,745 - logger_middleware - INFO - Response: 200 for /feedback/,jnawjndqod in 0.016s
+2025-10-05 13:28:54,175 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-05 13:28:54,181 - logger_middleware - INFO - Response: 422 for /moderate in 0.004s
+2025-10-05 13:30:07,072 - logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-05 13:30:07,075 - logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-10-05 13:30:42,904 - logger_middleware - INFO - Request: POST /moderate/file from 127.0.0.1
+2025-10-05 13:30:42,907 - moderation_agent - ERROR - Moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 60, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 213, in _moderate_image
+    if "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-10-05 13:30:42,909 - __main__ - ERROR - File moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\main.py", line 222, in moderate_file
+    result = await moderation_agent.moderate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 60, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Asus\OneDrive\Desktop\RL-Content-Moderation\app\moderation_agent.py", line 213, in _moderate_image
+    if "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-10-05 13:30:42,915 - logger_middleware - INFO - Response: 500 for /moderate/file in 0.009s
