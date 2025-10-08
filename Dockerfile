@@ -1,7 +1,6 @@
-# Multi-stage build for optimized production image
+# Multi-stage build
 FROM python:3.11-slim as builder
 
-# Set working directory
 WORKDIR /app
 
 # Install system dependencies
@@ -9,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     postgresql-client \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
@@ -21,7 +21,6 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Production stage
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
 # Install runtime dependencies
@@ -34,16 +33,12 @@ RUN apt-get update && apt-get install -y \
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Create logs directory
-RUN mkdir -p /app/logs && chmod 777 /app/logs
+# Create necessary directories
+RUN mkdir -p /app/logs /app/reports && chmod 777 /app/logs /app/reports
 
 # Copy application code
-COPY app/main.py .
-COPY app/moderation_agent.py .
-COPY app/feedback_handler.py .
-COPY app/mcp_integration.py .
-COPY app/event_queue.py .
-COPY app/logger_middleware.py .
+COPY *.py .
+COPY .env.example .env
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser && \
@@ -57,10 +52,9 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# Set environment variables
+# Environment variables
 ENV PYTHONUNBUFFERED=1
-ENV DB_TYPE=sqlite
-ENV DB_PATH=/app/logs/moderation.db
+ENV DB_TYPE=postgres
 
 # Run application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

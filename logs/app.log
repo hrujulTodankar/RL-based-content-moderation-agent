@@ -262,3 +262,901 @@ Traceback (most recent call last):
        ^^^^^^^^^^^^^^^^^^^
 TypeError: argument of type 'NoneType' is not iterable
 2025-10-05 13:30:42,915 - logger_middleware - INFO - Response: 500 for /moderate/file in 0.009s
+2025-10-06 14:36:50,611 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-06 14:36:50,613 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-06 14:36:50,613 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-06 14:36:50,614 - event_queue - INFO - EventQueue initialized
+2025-10-06 14:36:51,225 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-06 14:36:51,228 - event_queue - INFO - Started 5 queue processors
+2025-10-06 14:36:51,251 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-06 14:36:51,252 - __main__ - INFO - All services initialized successfully
+2025-10-06 14:38:34,595 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 14:38:34,601 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-06 14:38:34,796 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 14:38:34,854 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.055s
+2025-10-06 14:38:43,176 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 14:38:43,211 - logger_middleware - INFO - Response: 200 for /health in 0.033s
+2025-10-06 14:38:43,359 - logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-06 14:38:43,371 - logger_middleware - INFO - Response: 404 for /favicon.ico in 0.010s
+2025-10-06 14:41:47,099 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 14:41:47,102 - logger_middleware - INFO - Response: 200 for /health in 0.002s
+2025-10-06 14:42:19,000 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 14:42:19,005 - logger_middleware - INFO - Response: 200 for /health in 0.002s
+2025-10-06 14:43:11,370 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:43:11,374 - logger_middleware - INFO - Response: 422 for /moderate in 0.002s
+2025-10-06 14:43:18,101 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:43:18,106 - logger_middleware - INFO - Response: 422 for /moderate in 0.002s
+2025-10-06 14:51:06,979 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:51:06,982 - __main__ - INFO - Moderation request 2ed93e18-c79d-4ffa-868b-59a856491389 for text
+2025-10-06 14:51:06,995 - feedback_handler - INFO - Stored moderation 2ed93e18-c79d-4ffa-868b-59a856491389
+2025-10-06 14:51:06,998 - logger_middleware - INFO - Response: 200 for /moderate in 0.018s
+2025-10-06 14:51:07,004 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_0)
+2025-10-06 14:52:04,905 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:52:04,906 - __main__ - INFO - Moderation request 3debe42f-b5da-4b2c-a0a7-402dd8723367 for text
+2025-10-06 14:52:04,931 - feedback_handler - INFO - Stored moderation 3debe42f-b5da-4b2c-a0a7-402dd8723367
+2025-10-06 14:52:04,935 - logger_middleware - INFO - Response: 200 for /moderate in 0.028s
+2025-10-06 14:52:04,941 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_1)
+2025-10-06 14:52:42,923 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 14:52:42,928 - logger_middleware - INFO - Response: 200 for /docs in 0.003s
+2025-10-06 14:52:43,067 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 14:52:43,072 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.002s
+2025-10-06 14:52:52,821 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:52:52,824 - __main__ - INFO - Moderation request 46b1be7c-b1d8-4ba1-8a36-6235bfc4986b for text
+2025-10-06 14:52:52,840 - feedback_handler - INFO - Stored moderation 46b1be7c-b1d8-4ba1-8a36-6235bfc4986b
+2025-10-06 14:52:52,843 - logger_middleware - INFO - Response: 200 for /moderate in 0.020s
+2025-10-06 14:52:52,846 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_2)
+2025-10-06 14:53:35,556 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 14:53:35,558 - logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-06 14:53:35,654 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 14:53:35,657 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.002s
+2025-10-06 14:53:45,112 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 14:53:45,114 - __main__ - INFO - Moderation request 52ed088f-0900-4fa8-8234-ec4f07e69a92 for code
+2025-10-06 14:53:45,131 - feedback_handler - INFO - Stored moderation 52ed088f-0900-4fa8-8234-ec4f07e69a92
+2025-10-06 14:53:45,134 - logger_middleware - INFO - Response: 200 for /moderate in 0.022s
+2025-10-06 14:53:45,141 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_3)
+2025-10-06 14:55:16,597 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 14:55:16,601 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-06 14:55:16,798 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 14:55:16,802 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.002s
+2025-10-06 14:55:29,877 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 14:55:29,879 - __main__ - INFO - Feedback 7708b694-749b-4ba2-bc9a-6dd92b4de18a for moderation ghi-789-xyz
+2025-10-06 14:55:29,894 - feedback_handler - INFO - Stored feedback 7708b694-749b-4ba2-bc9a-6dd92b4de18a
+2025-10-06 14:55:29,897 - logger_middleware - INFO - Response: 200 for /feedback in 0.018s
+2025-10-06 14:55:29,901 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_4)
+2025-10-06 14:55:29,903 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_5)
+2025-10-06 14:55:29,906 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_6)
+2025-10-06 14:55:29,907 - __main__ - INFO - Feedback events emitted for 7708b694-749b-4ba2-bc9a-6dd92b4de18a
+2025-10-06 14:56:26,702 - logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-10-06 14:56:26,708 - logger_middleware - INFO - Response: 200 for /stats in 0.004s
+2025-10-06 16:17:50,915 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:17:50,918 - __main__ - INFO - Moderation request d3daf221-d9f5-4865-9b02-9a663435ebf7 for text
+2025-10-06 16:17:50,930 - feedback_handler - INFO - Stored moderation d3daf221-d9f5-4865-9b02-9a663435ebf7
+2025-10-06 16:17:50,933 - logger_middleware - INFO - Response: 200 for /moderate in 0.017s
+2025-10-06 16:17:50,937 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_7)
+2025-10-06 16:17:52,973 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:17:52,974 - __main__ - INFO - Moderation request f358c54b-1ee0-4b24-adb7-d75911737b03 for text
+2025-10-06 16:17:52,984 - feedback_handler - INFO - Stored moderation f358c54b-1ee0-4b24-adb7-d75911737b03
+2025-10-06 16:17:52,987 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:17:52,991 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_8)
+2025-10-06 16:17:55,026 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:17:55,027 - __main__ - INFO - Moderation request f672b2cb-85ed-436b-b1c7-c4ea54688cfb for code
+2025-10-06 16:17:55,035 - feedback_handler - INFO - Stored moderation f672b2cb-85ed-436b-b1c7-c4ea54688cfb
+2025-10-06 16:17:55,037 - logger_middleware - INFO - Response: 200 for /moderate in 0.010s
+2025-10-06 16:17:55,041 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_9)
+2025-10-06 16:17:57,069 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:17:57,071 - __main__ - INFO - Moderation request e934dbe9-9568-400b-a581-9226722d74c8 for code
+2025-10-06 16:17:57,079 - feedback_handler - INFO - Stored moderation e934dbe9-9568-400b-a581-9226722d74c8
+2025-10-06 16:17:57,082 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:17:57,085 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_10)
+2025-10-06 16:17:59,111 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:17:59,113 - __main__ - INFO - Moderation request bc12a095-8c00-4eae-b647-a72b949aa629 for text
+2025-10-06 16:17:59,120 - feedback_handler - INFO - Stored moderation bc12a095-8c00-4eae-b647-a72b949aa629
+2025-10-06 16:17:59,123 - logger_middleware - INFO - Response: 200 for /moderate in 0.010s
+2025-10-06 16:17:59,126 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_11)
+2025-10-06 16:18:01,183 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:01,185 - __main__ - INFO - Feedback a3d50a4c-01ef-4766-9639-b4ca94958da5 for moderation d3daf221-d9f5-4865-9b02-9a663435ebf7
+2025-10-06 16:18:01,194 - feedback_handler - INFO - Stored feedback a3d50a4c-01ef-4766-9639-b4ca94958da5
+2025-10-06 16:18:01,197 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:18:01,201 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_12)
+2025-10-06 16:18:01,202 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_13)
+2025-10-06 16:18:01,205 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_14)
+2025-10-06 16:18:01,206 - __main__ - INFO - Feedback events emitted for a3d50a4c-01ef-4766-9639-b4ca94958da5
+2025-10-06 16:18:03,744 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:03,746 - __main__ - INFO - Feedback c540797d-3d67-4486-856d-2f4dc0c8807b for moderation f358c54b-1ee0-4b24-adb7-d75911737b03
+2025-10-06 16:18:03,757 - feedback_handler - INFO - Stored feedback c540797d-3d67-4486-856d-2f4dc0c8807b
+2025-10-06 16:18:03,759 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:03,762 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_15)
+2025-10-06 16:18:03,764 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_16)
+2025-10-06 16:18:03,765 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_17)
+2025-10-06 16:18:03,766 - __main__ - INFO - Feedback events emitted for c540797d-3d67-4486-856d-2f4dc0c8807b
+2025-10-06 16:18:06,283 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:06,284 - __main__ - INFO - Feedback 2cc5122f-e8de-40b8-8c47-a5d12bc9bb35 for moderation f672b2cb-85ed-436b-b1c7-c4ea54688cfb
+2025-10-06 16:18:06,293 - feedback_handler - INFO - Stored feedback 2cc5122f-e8de-40b8-8c47-a5d12bc9bb35
+2025-10-06 16:18:06,296 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:18:06,299 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_18)
+2025-10-06 16:18:06,300 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_19)
+2025-10-06 16:18:06,302 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_20)
+2025-10-06 16:18:06,302 - __main__ - INFO - Feedback events emitted for 2cc5122f-e8de-40b8-8c47-a5d12bc9bb35
+2025-10-06 16:18:08,831 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:08,832 - __main__ - INFO - Feedback ae365cf7-662f-4e97-a7cd-0dad144e3476 for moderation e934dbe9-9568-400b-a581-9226722d74c8
+2025-10-06 16:18:08,842 - feedback_handler - INFO - Stored feedback ae365cf7-662f-4e97-a7cd-0dad144e3476
+2025-10-06 16:18:08,844 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:18:08,847 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_21)
+2025-10-06 16:18:08,848 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_22)
+2025-10-06 16:18:08,850 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_23)
+2025-10-06 16:18:08,851 - __main__ - INFO - Feedback events emitted for ae365cf7-662f-4e97-a7cd-0dad144e3476
+2025-10-06 16:18:11,386 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:11,386 - __main__ - INFO - Feedback 88f2c778-967c-47f7-bdfa-31653f50be53 for moderation bc12a095-8c00-4eae-b647-a72b949aa629
+2025-10-06 16:18:11,397 - feedback_handler - INFO - Stored feedback 88f2c778-967c-47f7-bdfa-31653f50be53
+2025-10-06 16:18:11,399 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:18:11,401 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_24)
+2025-10-06 16:18:11,403 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_25)
+2025-10-06 16:18:11,405 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_26)
+2025-10-06 16:18:11,406 - __main__ - INFO - Feedback events emitted for 88f2c778-967c-47f7-bdfa-31653f50be53
+2025-10-06 16:18:13,955 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:13,956 - __main__ - INFO - Moderation request fb330f83-57b7-4480-8075-aeaf1ae39e66 for text
+2025-10-06 16:18:13,966 - feedback_handler - INFO - Stored moderation fb330f83-57b7-4480-8075-aeaf1ae39e66
+2025-10-06 16:18:13,968 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:18:13,971 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_27)
+2025-10-06 16:18:16,004 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:16,006 - __main__ - INFO - Feedback a5d0c2f9-8446-4b2f-8897-720c9d1b32bd for moderation fb330f83-57b7-4480-8075-aeaf1ae39e66
+2025-10-06 16:18:16,016 - feedback_handler - INFO - Stored feedback a5d0c2f9-8446-4b2f-8897-720c9d1b32bd
+2025-10-06 16:18:16,018 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:16,021 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_28)
+2025-10-06 16:18:16,023 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_29)
+2025-10-06 16:18:16,025 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_30)
+2025-10-06 16:18:16,025 - __main__ - INFO - Feedback events emitted for a5d0c2f9-8446-4b2f-8897-720c9d1b32bd
+2025-10-06 16:18:18,272 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:18,273 - __main__ - INFO - Moderation request 20f407a5-6d84-42d7-8ad4-16ae69877aa4 for text
+2025-10-06 16:18:18,282 - feedback_handler - INFO - Stored moderation 20f407a5-6d84-42d7-8ad4-16ae69877aa4
+2025-10-06 16:18:18,285 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:18,289 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_31)
+2025-10-06 16:18:20,326 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:20,327 - __main__ - INFO - Feedback bc0ce52f-431c-4d0c-b76c-8f018973092a for moderation 20f407a5-6d84-42d7-8ad4-16ae69877aa4
+2025-10-06 16:18:20,339 - feedback_handler - INFO - Stored feedback bc0ce52f-431c-4d0c-b76c-8f018973092a
+2025-10-06 16:18:20,341 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:20,344 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_32)
+2025-10-06 16:18:20,346 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_33)
+2025-10-06 16:18:20,348 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_34)
+2025-10-06 16:18:20,348 - __main__ - INFO - Feedback events emitted for bc0ce52f-431c-4d0c-b76c-8f018973092a
+2025-10-06 16:18:22,576 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:22,577 - __main__ - INFO - Moderation request a6ad0c12-4ac6-4bc3-b117-c2101aa0c0f3 for text
+2025-10-06 16:18:22,586 - feedback_handler - INFO - Stored moderation a6ad0c12-4ac6-4bc3-b117-c2101aa0c0f3
+2025-10-06 16:18:22,588 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:18:22,592 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_35)
+2025-10-06 16:18:24,617 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:24,618 - __main__ - INFO - Feedback c9900a29-3678-42d5-82a9-f4c3a91ef952 for moderation a6ad0c12-4ac6-4bc3-b117-c2101aa0c0f3
+2025-10-06 16:18:24,629 - feedback_handler - INFO - Stored feedback c9900a29-3678-42d5-82a9-f4c3a91ef952
+2025-10-06 16:18:24,631 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:24,635 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_36)
+2025-10-06 16:18:24,636 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_37)
+2025-10-06 16:18:24,638 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_38)
+2025-10-06 16:18:24,639 - __main__ - INFO - Feedback events emitted for c9900a29-3678-42d5-82a9-f4c3a91ef952
+2025-10-06 16:18:26,868 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:26,869 - __main__ - INFO - Moderation request e2d6c0f9-e836-46b8-bf14-2d6f71c8be0a for text
+2025-10-06 16:18:26,877 - feedback_handler - INFO - Stored moderation e2d6c0f9-e836-46b8-bf14-2d6f71c8be0a
+2025-10-06 16:18:26,879 - logger_middleware - INFO - Response: 200 for /moderate in 0.010s
+2025-10-06 16:18:26,882 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_39)
+2025-10-06 16:18:28,914 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:28,915 - __main__ - INFO - Feedback bc2149ca-23ff-43d0-a157-dc723a4c0c15 for moderation e2d6c0f9-e836-46b8-bf14-2d6f71c8be0a
+2025-10-06 16:18:28,922 - feedback_handler - INFO - Stored feedback bc2149ca-23ff-43d0-a157-dc723a4c0c15
+2025-10-06 16:18:28,924 - logger_middleware - INFO - Response: 200 for /feedback in 0.009s
+2025-10-06 16:18:28,927 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_40)
+2025-10-06 16:18:28,928 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_41)
+2025-10-06 16:18:28,930 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_42)
+2025-10-06 16:18:28,931 - __main__ - INFO - Feedback events emitted for bc2149ca-23ff-43d0-a157-dc723a4c0c15
+2025-10-06 16:18:31,161 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:31,162 - __main__ - INFO - Moderation request 7d72f72e-60f9-4d1c-8c4c-ea20b357c499 for text
+2025-10-06 16:18:31,173 - feedback_handler - INFO - Stored moderation 7d72f72e-60f9-4d1c-8c4c-ea20b357c499
+2025-10-06 16:18:31,175 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:31,178 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_43)
+2025-10-06 16:18:33,237 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:33,238 - __main__ - INFO - Feedback 0c7a20fe-c0d3-466d-82af-25cbc8cc233e for moderation 7d72f72e-60f9-4d1c-8c4c-ea20b357c499
+2025-10-06 16:18:33,247 - feedback_handler - INFO - Stored feedback 0c7a20fe-c0d3-466d-82af-25cbc8cc233e
+2025-10-06 16:18:33,249 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:18:33,252 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_44)
+2025-10-06 16:18:33,254 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_45)
+2025-10-06 16:18:33,255 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_46)
+2025-10-06 16:18:33,256 - __main__ - INFO - Feedback events emitted for 0c7a20fe-c0d3-466d-82af-25cbc8cc233e
+2025-10-06 16:18:35,490 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:35,491 - __main__ - INFO - Moderation request 5f09f28c-cf0c-41de-b8f6-ce1a069e8255 for text
+2025-10-06 16:18:35,501 - feedback_handler - INFO - Stored moderation 5f09f28c-cf0c-41de-b8f6-ce1a069e8255
+2025-10-06 16:18:35,503 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:18:35,506 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_47)
+2025-10-06 16:18:37,549 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:37,550 - __main__ - INFO - Feedback d67f19ec-a942-40a9-91c4-68bdfb148c8b for moderation 5f09f28c-cf0c-41de-b8f6-ce1a069e8255
+2025-10-06 16:18:37,560 - feedback_handler - INFO - Stored feedback d67f19ec-a942-40a9-91c4-68bdfb148c8b
+2025-10-06 16:18:37,562 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:18:37,565 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_48)
+2025-10-06 16:18:37,567 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_49)
+2025-10-06 16:18:37,569 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_50)
+2025-10-06 16:18:37,569 - __main__ - INFO - Feedback events emitted for d67f19ec-a942-40a9-91c4-68bdfb148c8b
+2025-10-06 16:18:39,789 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:39,790 - __main__ - INFO - Moderation request 03b8db5e-9b06-4a52-acd1-626c90aaf92a for text
+2025-10-06 16:18:39,800 - feedback_handler - INFO - Stored moderation 03b8db5e-9b06-4a52-acd1-626c90aaf92a
+2025-10-06 16:18:39,803 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:39,806 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_51)
+2025-10-06 16:18:41,862 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:41,863 - __main__ - INFO - Feedback 807cef19-9602-4587-bc1e-1186213f9ecc for moderation 03b8db5e-9b06-4a52-acd1-626c90aaf92a
+2025-10-06 16:18:41,874 - feedback_handler - INFO - Stored feedback 807cef19-9602-4587-bc1e-1186213f9ecc
+2025-10-06 16:18:41,876 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:41,879 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_52)
+2025-10-06 16:18:41,881 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_53)
+2025-10-06 16:18:41,883 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_54)
+2025-10-06 16:18:41,883 - __main__ - INFO - Feedback events emitted for 807cef19-9602-4587-bc1e-1186213f9ecc
+2025-10-06 16:18:44,121 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:44,123 - __main__ - INFO - Moderation request 9f074f40-ae81-4648-bc7b-313be0d04631 for text
+2025-10-06 16:18:44,133 - feedback_handler - INFO - Stored moderation 9f074f40-ae81-4648-bc7b-313be0d04631
+2025-10-06 16:18:44,135 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:44,138 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_55)
+2025-10-06 16:18:46,157 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:46,159 - __main__ - INFO - Feedback e57b57af-85a6-4c72-9d3a-75eab637f4ca for moderation 9f074f40-ae81-4648-bc7b-313be0d04631
+2025-10-06 16:18:46,168 - feedback_handler - INFO - Stored feedback e57b57af-85a6-4c72-9d3a-75eab637f4ca
+2025-10-06 16:18:46,170 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:18:46,173 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_56)
+2025-10-06 16:18:46,175 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_57)
+2025-10-06 16:18:46,177 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_58)
+2025-10-06 16:18:46,177 - __main__ - INFO - Feedback events emitted for e57b57af-85a6-4c72-9d3a-75eab637f4ca
+2025-10-06 16:18:48,407 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:48,408 - __main__ - INFO - Moderation request ab966f8b-ef87-4d3a-be01-17d9ed1a5674 for text
+2025-10-06 16:18:48,418 - feedback_handler - INFO - Stored moderation ab966f8b-ef87-4d3a-be01-17d9ed1a5674
+2025-10-06 16:18:48,420 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:48,425 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_59)
+2025-10-06 16:18:50,464 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:50,465 - __main__ - INFO - Feedback dea8b71f-edea-4372-8900-54048140b3f2 for moderation ab966f8b-ef87-4d3a-be01-17d9ed1a5674
+2025-10-06 16:18:50,476 - feedback_handler - INFO - Stored feedback dea8b71f-edea-4372-8900-54048140b3f2
+2025-10-06 16:18:50,478 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:18:50,481 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_60)
+2025-10-06 16:18:50,482 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_61)
+2025-10-06 16:18:50,484 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_62)
+2025-10-06 16:18:50,485 - __main__ - INFO - Feedback events emitted for dea8b71f-edea-4372-8900-54048140b3f2
+2025-10-06 16:18:52,738 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:52,739 - __main__ - INFO - Moderation request ed01ce73-f629-4d3c-a1f8-8c3d4502475f for text
+2025-10-06 16:18:52,749 - feedback_handler - INFO - Stored moderation ed01ce73-f629-4d3c-a1f8-8c3d4502475f
+2025-10-06 16:18:52,751 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:18:52,754 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_63)
+2025-10-06 16:18:54,777 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:54,778 - __main__ - INFO - Feedback 6269fbea-8276-41e9-b0f0-8e721054a31d for moderation ed01ce73-f629-4d3c-a1f8-8c3d4502475f
+2025-10-06 16:18:54,788 - feedback_handler - INFO - Stored feedback 6269fbea-8276-41e9-b0f0-8e721054a31d
+2025-10-06 16:18:54,791 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:18:54,794 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_64)
+2025-10-06 16:18:54,796 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_65)
+2025-10-06 16:18:54,798 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_66)
+2025-10-06 16:18:54,799 - __main__ - INFO - Feedback events emitted for 6269fbea-8276-41e9-b0f0-8e721054a31d
+2025-10-06 16:18:57,026 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:18:57,027 - __main__ - INFO - Moderation request 2fbe8670-e331-44e5-9605-df53b1ce455d for text
+2025-10-06 16:18:57,039 - feedback_handler - INFO - Stored moderation 2fbe8670-e331-44e5-9605-df53b1ce455d
+2025-10-06 16:18:57,041 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:18:57,043 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_67)
+2025-10-06 16:18:59,086 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:18:59,092 - __main__ - INFO - Feedback 3239da40-8ba7-4e6e-b45d-7f1ea1691fbc for moderation 2fbe8670-e331-44e5-9605-df53b1ce455d
+2025-10-06 16:18:59,102 - feedback_handler - INFO - Stored feedback 3239da40-8ba7-4e6e-b45d-7f1ea1691fbc
+2025-10-06 16:18:59,104 - logger_middleware - INFO - Response: 200 for /feedback in 0.017s
+2025-10-06 16:18:59,107 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_68)
+2025-10-06 16:18:59,109 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_69)
+2025-10-06 16:18:59,111 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_70)
+2025-10-06 16:18:59,111 - __main__ - INFO - Feedback events emitted for 3239da40-8ba7-4e6e-b45d-7f1ea1691fbc
+2025-10-06 16:19:01,354 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:01,355 - __main__ - INFO - Moderation request 2d47211b-cf46-41d1-ab20-cb10240dcba3 for text
+2025-10-06 16:19:01,367 - feedback_handler - INFO - Stored moderation 2d47211b-cf46-41d1-ab20-cb10240dcba3
+2025-10-06 16:19:01,369 - logger_middleware - INFO - Response: 200 for /moderate in 0.014s
+2025-10-06 16:19:01,372 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_71)
+2025-10-06 16:19:03,417 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:03,419 - __main__ - INFO - Feedback 732d0613-0b18-4529-ae13-b529e0de7471 for moderation 2d47211b-cf46-41d1-ab20-cb10240dcba3
+2025-10-06 16:19:03,429 - feedback_handler - INFO - Stored feedback 732d0613-0b18-4529-ae13-b529e0de7471
+2025-10-06 16:19:03,430 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:19:03,434 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_72)
+2025-10-06 16:19:03,436 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_73)
+2025-10-06 16:19:03,438 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_74)
+2025-10-06 16:19:03,439 - __main__ - INFO - Feedback events emitted for 732d0613-0b18-4529-ae13-b529e0de7471
+2025-10-06 16:19:05,655 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:05,657 - __main__ - INFO - Moderation request f1349e0a-6fc0-4955-a6db-57fcf2684fcf for text
+2025-10-06 16:19:05,666 - feedback_handler - INFO - Stored moderation f1349e0a-6fc0-4955-a6db-57fcf2684fcf
+2025-10-06 16:19:05,669 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:19:05,674 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_75)
+2025-10-06 16:19:07,728 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:07,729 - __main__ - INFO - Feedback 1443ead3-c4e0-4e65-952d-432b5008e36e for moderation f1349e0a-6fc0-4955-a6db-57fcf2684fcf
+2025-10-06 16:19:07,740 - feedback_handler - INFO - Stored feedback 1443ead3-c4e0-4e65-952d-432b5008e36e
+2025-10-06 16:19:07,742 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:19:07,745 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_76)
+2025-10-06 16:19:07,746 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_77)
+2025-10-06 16:19:07,748 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_78)
+2025-10-06 16:19:07,749 - __main__ - INFO - Feedback events emitted for 1443ead3-c4e0-4e65-952d-432b5008e36e
+2025-10-06 16:19:09,967 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:09,968 - __main__ - INFO - Moderation request 6ccfd486-670f-4671-a296-0ab850f4120c for text
+2025-10-06 16:19:09,980 - feedback_handler - INFO - Stored moderation 6ccfd486-670f-4671-a296-0ab850f4120c
+2025-10-06 16:19:09,984 - logger_middleware - INFO - Response: 200 for /moderate in 0.015s
+2025-10-06 16:19:09,988 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_79)
+2025-10-06 16:19:12,032 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:12,033 - __main__ - INFO - Feedback c8573cc1-c3aa-4dd0-9fcd-6d3e13e308a7 for moderation 6ccfd486-670f-4671-a296-0ab850f4120c
+2025-10-06 16:19:12,044 - feedback_handler - INFO - Stored feedback c8573cc1-c3aa-4dd0-9fcd-6d3e13e308a7
+2025-10-06 16:19:12,046 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:19:12,049 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_80)
+2025-10-06 16:19:12,051 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_81)
+2025-10-06 16:19:12,053 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_82)
+2025-10-06 16:19:12,053 - __main__ - INFO - Feedback events emitted for c8573cc1-c3aa-4dd0-9fcd-6d3e13e308a7
+2025-10-06 16:19:14,294 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:14,295 - __main__ - INFO - Moderation request 21ec4599-0a72-41c2-9961-dd0c9574f45e for text
+2025-10-06 16:19:14,304 - feedback_handler - INFO - Stored moderation 21ec4599-0a72-41c2-9961-dd0c9574f45e
+2025-10-06 16:19:14,306 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:19:14,309 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_83)
+2025-10-06 16:19:16,352 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:16,353 - __main__ - INFO - Feedback 71b809e3-4f77-4b36-a8c7-f4f75efd7232 for moderation 21ec4599-0a72-41c2-9961-dd0c9574f45e
+2025-10-06 16:19:16,363 - feedback_handler - INFO - Stored feedback 71b809e3-4f77-4b36-a8c7-f4f75efd7232
+2025-10-06 16:19:16,366 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:19:16,371 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_84)
+2025-10-06 16:19:16,374 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_85)
+2025-10-06 16:19:16,377 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_86)
+2025-10-06 16:19:16,377 - __main__ - INFO - Feedback events emitted for 71b809e3-4f77-4b36-a8c7-f4f75efd7232
+2025-10-06 16:19:18,613 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:18,614 - __main__ - INFO - Moderation request ca425a0b-9a6b-42b8-9867-d611eee50346 for text
+2025-10-06 16:19:18,625 - feedback_handler - INFO - Stored moderation ca425a0b-9a6b-42b8-9867-d611eee50346
+2025-10-06 16:19:18,628 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:19:18,630 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_87)
+2025-10-06 16:19:20,676 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:20,677 - __main__ - INFO - Feedback f593b864-e58f-4061-a5a0-2194276c67d0 for moderation ca425a0b-9a6b-42b8-9867-d611eee50346
+2025-10-06 16:19:20,689 - feedback_handler - INFO - Stored feedback f593b864-e58f-4061-a5a0-2194276c67d0
+2025-10-06 16:19:20,691 - logger_middleware - INFO - Response: 200 for /feedback in 0.014s
+2025-10-06 16:19:20,694 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_88)
+2025-10-06 16:19:20,697 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_89)
+2025-10-06 16:19:20,699 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_90)
+2025-10-06 16:19:20,700 - __main__ - INFO - Feedback events emitted for f593b864-e58f-4061-a5a0-2194276c67d0
+2025-10-06 16:19:22,937 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:22,938 - __main__ - INFO - Moderation request b6e87a73-2bc6-4984-b9a2-4b851869d949 for text
+2025-10-06 16:19:22,948 - feedback_handler - INFO - Stored moderation b6e87a73-2bc6-4984-b9a2-4b851869d949
+2025-10-06 16:19:22,950 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:19:22,954 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_91)
+2025-10-06 16:19:24,980 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:24,981 - __main__ - INFO - Feedback 8ba74224-a7fd-4f65-9c16-971e64ff8806 for moderation b6e87a73-2bc6-4984-b9a2-4b851869d949
+2025-10-06 16:19:24,992 - feedback_handler - INFO - Stored feedback 8ba74224-a7fd-4f65-9c16-971e64ff8806
+2025-10-06 16:19:24,994 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:19:24,997 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_92)
+2025-10-06 16:19:24,999 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_93)
+2025-10-06 16:19:25,001 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_94)
+2025-10-06 16:19:25,001 - __main__ - INFO - Feedback events emitted for 8ba74224-a7fd-4f65-9c16-971e64ff8806
+2025-10-06 16:19:27,248 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:27,259 - __main__ - INFO - Moderation request 64a08bc0-267e-443d-880b-7706818b9849 for text
+2025-10-06 16:19:27,284 - feedback_handler - INFO - Stored moderation 64a08bc0-267e-443d-880b-7706818b9849
+2025-10-06 16:19:27,310 - logger_middleware - INFO - Response: 200 for /moderate in 0.061s
+2025-10-06 16:19:27,317 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_95)
+2025-10-06 16:19:29,355 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:29,357 - __main__ - INFO - Feedback 6a37e91b-07b0-4419-a725-cc99c57ac519 for moderation 64a08bc0-267e-443d-880b-7706818b9849
+2025-10-06 16:19:29,375 - feedback_handler - INFO - Stored feedback 6a37e91b-07b0-4419-a725-cc99c57ac519
+2025-10-06 16:19:29,378 - logger_middleware - INFO - Response: 200 for /feedback in 0.021s
+2025-10-06 16:19:29,382 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_96)
+2025-10-06 16:19:29,388 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_97)
+2025-10-06 16:19:29,390 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_98)
+2025-10-06 16:19:29,391 - __main__ - INFO - Feedback events emitted for 6a37e91b-07b0-4419-a725-cc99c57ac519
+2025-10-06 16:19:31,605 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:31,606 - __main__ - INFO - Moderation request 6fa3fbd6-2d4f-4ebf-bd1d-438fde19bdd6 for text
+2025-10-06 16:19:31,616 - feedback_handler - INFO - Stored moderation 6fa3fbd6-2d4f-4ebf-bd1d-438fde19bdd6
+2025-10-06 16:19:31,618 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:19:31,622 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_99)
+2025-10-06 16:19:33,674 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:33,675 - __main__ - INFO - Feedback 8d674b95-0228-4935-9581-baa792024b3e for moderation 6fa3fbd6-2d4f-4ebf-bd1d-438fde19bdd6
+2025-10-06 16:19:33,685 - feedback_handler - INFO - Stored feedback 8d674b95-0228-4935-9581-baa792024b3e
+2025-10-06 16:19:33,687 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:19:33,690 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_100)
+2025-10-06 16:19:33,691 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_101)
+2025-10-06 16:19:33,693 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_102)
+2025-10-06 16:19:33,694 - __main__ - INFO - Feedback events emitted for 8d674b95-0228-4935-9581-baa792024b3e
+2025-10-06 16:19:35,933 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:19:35,935 - __main__ - INFO - Moderation request ff449690-e492-4a3e-a252-805718cbb8f2 for text
+2025-10-06 16:19:35,945 - feedback_handler - INFO - Stored moderation ff449690-e492-4a3e-a252-805718cbb8f2
+2025-10-06 16:19:35,947 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:19:35,950 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_103)
+2025-10-06 16:19:37,993 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:19:37,994 - __main__ - INFO - Feedback bba7486a-e187-422a-8121-e3031505cba8 for moderation ff449690-e492-4a3e-a252-805718cbb8f2
+2025-10-06 16:19:38,004 - feedback_handler - INFO - Stored feedback bba7486a-e187-422a-8121-e3031505cba8
+2025-10-06 16:19:38,006 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:19:38,010 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_104)
+2025-10-06 16:19:38,012 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_105)
+2025-10-06 16:19:38,014 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_106)
+2025-10-06 16:19:38,015 - __main__ - INFO - Feedback events emitted for bba7486a-e187-422a-8121-e3031505cba8
+2025-10-06 16:21:49,054 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:21:49,055 - __main__ - INFO - Moderation request eac58a11-7f29-4e14-a302-00e2e9227058 for text
+2025-10-06 16:21:49,065 - feedback_handler - INFO - Stored moderation eac58a11-7f29-4e14-a302-00e2e9227058
+2025-10-06 16:21:49,068 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:21:49,071 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_107)
+2025-10-06 16:21:51,129 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:21:51,130 - __main__ - INFO - Moderation request 0d44550e-3b1e-44ab-80c4-a86513155849 for text
+2025-10-06 16:21:51,141 - feedback_handler - INFO - Stored moderation 0d44550e-3b1e-44ab-80c4-a86513155849
+2025-10-06 16:21:51,143 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:21:51,146 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_108)
+2025-10-06 16:21:53,199 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:21:53,200 - __main__ - INFO - Moderation request c8f69087-215c-467b-98ec-69ceda72f099 for code
+2025-10-06 16:21:53,211 - feedback_handler - INFO - Stored moderation c8f69087-215c-467b-98ec-69ceda72f099
+2025-10-06 16:21:53,213 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:21:53,217 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_109)
+2025-10-06 16:21:55,248 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:21:55,249 - __main__ - INFO - Moderation request 805311c2-5c3d-4947-ad02-e8dabfc8308e for code
+2025-10-06 16:21:55,262 - feedback_handler - INFO - Stored moderation 805311c2-5c3d-4947-ad02-e8dabfc8308e
+2025-10-06 16:21:55,264 - logger_middleware - INFO - Response: 200 for /moderate in 0.015s
+2025-10-06 16:21:55,269 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_110)
+2025-10-06 16:21:57,307 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:21:57,308 - __main__ - INFO - Moderation request e74aaa9e-2e5d-4ab7-9643-334972068a27 for text
+2025-10-06 16:21:57,320 - feedback_handler - INFO - Stored moderation e74aaa9e-2e5d-4ab7-9643-334972068a27
+2025-10-06 16:21:57,322 - logger_middleware - INFO - Response: 200 for /moderate in 0.014s
+2025-10-06 16:21:57,325 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_111)
+2025-10-06 16:21:59,380 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:21:59,381 - __main__ - INFO - Feedback fb2edb9c-be35-4bd0-9aec-8f0ac9cbf977 for moderation eac58a11-7f29-4e14-a302-00e2e9227058
+2025-10-06 16:21:59,389 - feedback_handler - INFO - Stored feedback fb2edb9c-be35-4bd0-9aec-8f0ac9cbf977
+2025-10-06 16:21:59,393 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:21:59,399 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_112)
+2025-10-06 16:21:59,401 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_113)
+2025-10-06 16:21:59,403 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_114)
+2025-10-06 16:21:59,404 - __main__ - INFO - Feedback events emitted for fb2edb9c-be35-4bd0-9aec-8f0ac9cbf977
+2025-10-06 16:22:01,925 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:01,927 - __main__ - INFO - Feedback 140a1328-39ab-4123-b093-c3bd6a5f35ce for moderation 0d44550e-3b1e-44ab-80c4-a86513155849
+2025-10-06 16:22:01,935 - feedback_handler - INFO - Stored feedback 140a1328-39ab-4123-b093-c3bd6a5f35ce
+2025-10-06 16:22:01,938 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:22:01,941 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_115)
+2025-10-06 16:22:01,943 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_116)
+2025-10-06 16:22:01,945 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_117)
+2025-10-06 16:22:01,946 - __main__ - INFO - Feedback events emitted for 140a1328-39ab-4123-b093-c3bd6a5f35ce
+2025-10-06 16:22:04,488 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:04,489 - __main__ - INFO - Feedback b3602a26-9072-440d-a8e6-a093ef2fa438 for moderation c8f69087-215c-467b-98ec-69ceda72f099
+2025-10-06 16:22:04,498 - feedback_handler - INFO - Stored feedback b3602a26-9072-440d-a8e6-a093ef2fa438
+2025-10-06 16:22:04,500 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:22:04,503 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_118)
+2025-10-06 16:22:04,505 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_119)
+2025-10-06 16:22:04,506 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_120)
+2025-10-06 16:22:04,507 - __main__ - INFO - Feedback events emitted for b3602a26-9072-440d-a8e6-a093ef2fa438
+2025-10-06 16:22:07,046 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:07,047 - __main__ - INFO - Feedback 6efa3888-61c8-4d73-b9c3-e3506c3b4e1e for moderation 805311c2-5c3d-4947-ad02-e8dabfc8308e
+2025-10-06 16:22:07,054 - feedback_handler - INFO - Stored feedback 6efa3888-61c8-4d73-b9c3-e3506c3b4e1e
+2025-10-06 16:22:07,056 - logger_middleware - INFO - Response: 200 for /feedback in 0.009s
+2025-10-06 16:22:07,060 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_121)
+2025-10-06 16:22:07,062 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_122)
+2025-10-06 16:22:07,065 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_123)
+2025-10-06 16:22:07,066 - __main__ - INFO - Feedback events emitted for 6efa3888-61c8-4d73-b9c3-e3506c3b4e1e
+2025-10-06 16:22:09,586 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:09,587 - __main__ - INFO - Feedback 1dca6ba1-44e7-46ff-a447-1498a1e388d2 for moderation e74aaa9e-2e5d-4ab7-9643-334972068a27
+2025-10-06 16:22:09,598 - feedback_handler - INFO - Stored feedback 1dca6ba1-44e7-46ff-a447-1498a1e388d2
+2025-10-06 16:22:09,601 - logger_middleware - INFO - Response: 200 for /feedback in 0.014s
+2025-10-06 16:22:09,605 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_124)
+2025-10-06 16:22:09,607 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_125)
+2025-10-06 16:22:09,609 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_126)
+2025-10-06 16:22:09,609 - __main__ - INFO - Feedback events emitted for 1dca6ba1-44e7-46ff-a447-1498a1e388d2
+2025-10-06 16:22:12,161 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:12,162 - __main__ - INFO - Moderation request 281b70ec-c067-42cb-9c8a-17889a0cc9fb for text
+2025-10-06 16:22:12,172 - feedback_handler - INFO - Stored moderation 281b70ec-c067-42cb-9c8a-17889a0cc9fb
+2025-10-06 16:22:12,176 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:22:12,179 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_127)
+2025-10-06 16:22:14,213 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:14,215 - __main__ - INFO - Feedback 647fbd2b-c05e-4ce6-abcd-631b1125c75a for moderation 281b70ec-c067-42cb-9c8a-17889a0cc9fb
+2025-10-06 16:22:14,225 - feedback_handler - INFO - Stored feedback 647fbd2b-c05e-4ce6-abcd-631b1125c75a
+2025-10-06 16:22:14,228 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:22:14,231 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_128)
+2025-10-06 16:22:14,233 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_129)
+2025-10-06 16:22:14,236 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_130)
+2025-10-06 16:22:14,236 - __main__ - INFO - Feedback events emitted for 647fbd2b-c05e-4ce6-abcd-631b1125c75a
+2025-10-06 16:22:16,476 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:16,478 - __main__ - INFO - Moderation request c10df94c-23ec-4ed7-96e7-4bf3e70a615b for text
+2025-10-06 16:22:16,488 - feedback_handler - INFO - Stored moderation c10df94c-23ec-4ed7-96e7-4bf3e70a615b
+2025-10-06 16:22:16,490 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:22:16,494 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_131)
+2025-10-06 16:22:18,538 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:18,540 - __main__ - INFO - Feedback baf67015-ac57-49cf-af2d-aac611af07a4 for moderation c10df94c-23ec-4ed7-96e7-4bf3e70a615b
+2025-10-06 16:22:18,551 - feedback_handler - INFO - Stored feedback baf67015-ac57-49cf-af2d-aac611af07a4
+2025-10-06 16:22:18,553 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:22:18,557 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_132)
+2025-10-06 16:22:18,558 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_133)
+2025-10-06 16:22:18,561 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_134)
+2025-10-06 16:22:18,562 - __main__ - INFO - Feedback events emitted for baf67015-ac57-49cf-af2d-aac611af07a4
+2025-10-06 16:22:20,812 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:20,813 - __main__ - INFO - Moderation request d495f167-f103-4c96-9ed7-7017b8bf04e1 for text
+2025-10-06 16:22:20,823 - feedback_handler - INFO - Stored moderation d495f167-f103-4c96-9ed7-7017b8bf04e1
+2025-10-06 16:22:20,826 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:22:20,829 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_135)
+2025-10-06 16:22:22,883 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:22,886 - __main__ - INFO - Feedback 39a8ee1a-92c2-439b-b890-f020fe82b3b7 for moderation d495f167-f103-4c96-9ed7-7017b8bf04e1
+2025-10-06 16:22:22,896 - feedback_handler - INFO - Stored feedback 39a8ee1a-92c2-439b-b890-f020fe82b3b7
+2025-10-06 16:22:22,898 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:22:22,901 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_136)
+2025-10-06 16:22:22,903 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_137)
+2025-10-06 16:22:22,905 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_138)
+2025-10-06 16:22:22,906 - __main__ - INFO - Feedback events emitted for 39a8ee1a-92c2-439b-b890-f020fe82b3b7
+2025-10-06 16:22:25,140 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:25,141 - __main__ - INFO - Moderation request d770f033-3408-47f3-9c71-47916be630d7 for text
+2025-10-06 16:22:25,150 - feedback_handler - INFO - Stored moderation d770f033-3408-47f3-9c71-47916be630d7
+2025-10-06 16:22:25,152 - logger_middleware - INFO - Response: 200 for /moderate in 0.011s
+2025-10-06 16:22:25,156 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_139)
+2025-10-06 16:22:27,208 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:27,210 - __main__ - INFO - Feedback cef8004c-d129-4f6c-aa57-64d141e91571 for moderation d770f033-3408-47f3-9c71-47916be630d7
+2025-10-06 16:22:27,224 - feedback_handler - INFO - Stored feedback cef8004c-d129-4f6c-aa57-64d141e91571
+2025-10-06 16:22:27,227 - logger_middleware - INFO - Response: 200 for /feedback in 0.017s
+2025-10-06 16:22:27,232 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_140)
+2025-10-06 16:22:27,234 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_141)
+2025-10-06 16:22:27,239 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_142)
+2025-10-06 16:22:27,240 - __main__ - INFO - Feedback events emitted for cef8004c-d129-4f6c-aa57-64d141e91571
+2025-10-06 16:22:29,475 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:29,476 - __main__ - INFO - Moderation request 12e7484e-269f-40ac-a221-ebc5e7110e10 for text
+2025-10-06 16:22:29,560 - feedback_handler - INFO - Stored moderation 12e7484e-269f-40ac-a221-ebc5e7110e10
+2025-10-06 16:22:29,576 - logger_middleware - INFO - Response: 200 for /moderate in 0.099s
+2025-10-06 16:22:29,579 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_143)
+2025-10-06 16:22:31,635 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:31,637 - __main__ - INFO - Feedback 11b3a602-e6af-40b9-a517-fc646a6892d7 for moderation 12e7484e-269f-40ac-a221-ebc5e7110e10
+2025-10-06 16:22:31,648 - feedback_handler - INFO - Stored feedback 11b3a602-e6af-40b9-a517-fc646a6892d7
+2025-10-06 16:22:31,651 - logger_middleware - INFO - Response: 200 for /feedback in 0.015s
+2025-10-06 16:22:31,655 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_144)
+2025-10-06 16:22:31,657 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_145)
+2025-10-06 16:22:31,660 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_146)
+2025-10-06 16:22:31,660 - __main__ - INFO - Feedback events emitted for 11b3a602-e6af-40b9-a517-fc646a6892d7
+2025-10-06 16:22:33,897 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:33,898 - __main__ - INFO - Moderation request 1abe7eb4-1582-4d91-bf0b-3f4da638f2d6 for text
+2025-10-06 16:22:33,909 - feedback_handler - INFO - Stored moderation 1abe7eb4-1582-4d91-bf0b-3f4da638f2d6
+2025-10-06 16:22:33,910 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:22:33,914 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_147)
+2025-10-06 16:22:35,954 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:35,956 - __main__ - INFO - Feedback 02a153d8-e38a-42ff-b227-b35c84d4722e for moderation 1abe7eb4-1582-4d91-bf0b-3f4da638f2d6
+2025-10-06 16:22:35,968 - feedback_handler - INFO - Stored feedback 02a153d8-e38a-42ff-b227-b35c84d4722e
+2025-10-06 16:22:35,973 - logger_middleware - INFO - Response: 200 for /feedback in 0.017s
+2025-10-06 16:22:35,976 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_148)
+2025-10-06 16:22:35,978 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_149)
+2025-10-06 16:22:35,980 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_150)
+2025-10-06 16:22:35,980 - __main__ - INFO - Feedback events emitted for 02a153d8-e38a-42ff-b227-b35c84d4722e
+2025-10-06 16:22:38,220 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:38,222 - __main__ - INFO - Moderation request 63c61690-ffdc-4805-b46b-90524dbb13d7 for text
+2025-10-06 16:22:38,234 - feedback_handler - INFO - Stored moderation 63c61690-ffdc-4805-b46b-90524dbb13d7
+2025-10-06 16:22:38,238 - logger_middleware - INFO - Response: 200 for /moderate in 0.015s
+2025-10-06 16:22:38,241 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_151)
+2025-10-06 16:22:40,270 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:40,271 - __main__ - INFO - Feedback 533cb59c-064a-4613-92e9-063004a44153 for moderation 63c61690-ffdc-4805-b46b-90524dbb13d7
+2025-10-06 16:22:40,283 - feedback_handler - INFO - Stored feedback 533cb59c-064a-4613-92e9-063004a44153
+2025-10-06 16:22:40,285 - logger_middleware - INFO - Response: 200 for /feedback in 0.014s
+2025-10-06 16:22:40,288 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_152)
+2025-10-06 16:22:40,291 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_153)
+2025-10-06 16:22:40,294 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_154)
+2025-10-06 16:22:40,294 - __main__ - INFO - Feedback events emitted for 533cb59c-064a-4613-92e9-063004a44153
+2025-10-06 16:22:42,517 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:42,519 - __main__ - INFO - Moderation request 3925bca3-b671-4906-a455-f73535e56e53 for text
+2025-10-06 16:22:42,528 - feedback_handler - INFO - Stored moderation 3925bca3-b671-4906-a455-f73535e56e53
+2025-10-06 16:22:42,530 - logger_middleware - INFO - Response: 200 for /moderate in 0.012s
+2025-10-06 16:22:42,534 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_155)
+2025-10-06 16:22:44,582 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:44,583 - __main__ - INFO - Feedback 0da8c0ae-79d6-4094-9567-80976260c32f for moderation 3925bca3-b671-4906-a455-f73535e56e53
+2025-10-06 16:22:44,593 - feedback_handler - INFO - Stored feedback 0da8c0ae-79d6-4094-9567-80976260c32f
+2025-10-06 16:22:44,595 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:22:44,600 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_156)
+2025-10-06 16:22:44,602 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_157)
+2025-10-06 16:22:44,605 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_158)
+2025-10-06 16:22:44,606 - __main__ - INFO - Feedback events emitted for 0da8c0ae-79d6-4094-9567-80976260c32f
+2025-10-06 16:22:46,845 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:46,846 - __main__ - INFO - Moderation request d3ffb3a1-f1a1-4b04-8322-12e884bec49a for text
+2025-10-06 16:22:46,858 - feedback_handler - INFO - Stored moderation d3ffb3a1-f1a1-4b04-8322-12e884bec49a
+2025-10-06 16:22:46,861 - logger_middleware - INFO - Response: 200 for /moderate in 0.015s
+2025-10-06 16:22:46,864 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_159)
+2025-10-06 16:22:48,895 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:48,897 - __main__ - INFO - Feedback 454fbf5b-0041-4938-8594-41c9e9e7c755 for moderation d3ffb3a1-f1a1-4b04-8322-12e884bec49a
+2025-10-06 16:22:48,907 - feedback_handler - INFO - Stored feedback 454fbf5b-0041-4938-8594-41c9e9e7c755
+2025-10-06 16:22:48,909 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:22:48,913 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_160)
+2025-10-06 16:22:48,914 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_161)
+2025-10-06 16:22:48,917 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_162)
+2025-10-06 16:22:48,917 - __main__ - INFO - Feedback events emitted for 454fbf5b-0041-4938-8594-41c9e9e7c755
+2025-10-06 16:22:51,152 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:51,155 - __main__ - INFO - Moderation request 5d91c53c-2444-4a89-ba60-55399231b7e1 for text
+2025-10-06 16:22:51,165 - feedback_handler - INFO - Stored moderation 5d91c53c-2444-4a89-ba60-55399231b7e1
+2025-10-06 16:22:51,167 - logger_middleware - INFO - Response: 200 for /moderate in 0.014s
+2025-10-06 16:22:51,172 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_163)
+2025-10-06 16:22:53,204 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:53,205 - __main__ - INFO - Feedback 74f3625b-f852-4a11-a9ef-55d9c8f2b36a for moderation 5d91c53c-2444-4a89-ba60-55399231b7e1
+2025-10-06 16:22:53,217 - feedback_handler - INFO - Stored feedback 74f3625b-f852-4a11-a9ef-55d9c8f2b36a
+2025-10-06 16:22:53,220 - logger_middleware - INFO - Response: 200 for /feedback in 0.015s
+2025-10-06 16:22:53,222 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_164)
+2025-10-06 16:22:53,224 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_165)
+2025-10-06 16:22:53,225 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_166)
+2025-10-06 16:22:53,226 - __main__ - INFO - Feedback events emitted for 74f3625b-f852-4a11-a9ef-55d9c8f2b36a
+2025-10-06 16:22:55,449 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:55,450 - __main__ - INFO - Moderation request b134651b-9049-4af4-a917-c317c846d799 for text
+2025-10-06 16:22:55,465 - feedback_handler - INFO - Stored moderation b134651b-9049-4af4-a917-c317c846d799
+2025-10-06 16:22:55,467 - logger_middleware - INFO - Response: 200 for /moderate in 0.017s
+2025-10-06 16:22:55,469 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_167)
+2025-10-06 16:22:57,516 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:22:57,517 - __main__ - INFO - Feedback 04c17169-6900-4065-ba8d-459a73422dd2 for moderation b134651b-9049-4af4-a917-c317c846d799
+2025-10-06 16:22:57,532 - feedback_handler - INFO - Stored feedback 04c17169-6900-4065-ba8d-459a73422dd2
+2025-10-06 16:22:57,534 - logger_middleware - INFO - Response: 200 for /feedback in 0.018s
+2025-10-06 16:22:57,537 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_168)
+2025-10-06 16:22:57,539 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_169)
+2025-10-06 16:22:57,541 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_170)
+2025-10-06 16:22:57,541 - __main__ - INFO - Feedback events emitted for 04c17169-6900-4065-ba8d-459a73422dd2
+2025-10-06 16:22:59,763 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:22:59,766 - __main__ - INFO - Moderation request d606a91d-3a08-4b77-bc10-50f4c0d34466 for text
+2025-10-06 16:22:59,781 - feedback_handler - INFO - Stored moderation d606a91d-3a08-4b77-bc10-50f4c0d34466
+2025-10-06 16:22:59,783 - logger_middleware - INFO - Response: 200 for /moderate in 0.018s
+2025-10-06 16:22:59,786 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_171)
+2025-10-06 16:23:01,840 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:01,841 - __main__ - INFO - Feedback 3ed186b5-46db-4b06-a239-6dcaef384d44 for moderation d606a91d-3a08-4b77-bc10-50f4c0d34466
+2025-10-06 16:23:01,855 - feedback_handler - INFO - Stored feedback 3ed186b5-46db-4b06-a239-6dcaef384d44
+2025-10-06 16:23:01,857 - logger_middleware - INFO - Response: 200 for /feedback in 0.016s
+2025-10-06 16:23:01,860 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_172)
+2025-10-06 16:23:01,861 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_173)
+2025-10-06 16:23:01,863 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_174)
+2025-10-06 16:23:01,863 - __main__ - INFO - Feedback events emitted for 3ed186b5-46db-4b06-a239-6dcaef384d44
+2025-10-06 16:23:04,099 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:04,100 - __main__ - INFO - Moderation request c306a635-6b3e-4d02-a8ed-48c8279ad3dd for text
+2025-10-06 16:23:04,117 - feedback_handler - INFO - Stored moderation c306a635-6b3e-4d02-a8ed-48c8279ad3dd
+2025-10-06 16:23:04,120 - logger_middleware - INFO - Response: 200 for /moderate in 0.020s
+2025-10-06 16:23:04,122 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_175)
+2025-10-06 16:23:06,166 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:06,167 - __main__ - INFO - Feedback ad618f94-f854-486f-8b78-da6976840ce9 for moderation c306a635-6b3e-4d02-a8ed-48c8279ad3dd
+2025-10-06 16:23:06,182 - feedback_handler - INFO - Stored feedback ad618f94-f854-486f-8b78-da6976840ce9
+2025-10-06 16:23:06,184 - logger_middleware - INFO - Response: 200 for /feedback in 0.017s
+2025-10-06 16:23:06,187 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_176)
+2025-10-06 16:23:06,189 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_177)
+2025-10-06 16:23:06,191 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_178)
+2025-10-06 16:23:06,191 - __main__ - INFO - Feedback events emitted for ad618f94-f854-486f-8b78-da6976840ce9
+2025-10-06 16:23:08,424 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:08,426 - __main__ - INFO - Moderation request 37cc852d-bdf8-4e06-8020-79ff60a58bad for text
+2025-10-06 16:23:08,438 - feedback_handler - INFO - Stored moderation 37cc852d-bdf8-4e06-8020-79ff60a58bad
+2025-10-06 16:23:08,441 - logger_middleware - INFO - Response: 200 for /moderate in 0.016s
+2025-10-06 16:23:08,444 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_179)
+2025-10-06 16:23:10,483 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:10,484 - __main__ - INFO - Feedback f3efde37-cc4d-4090-a324-f0959522575e for moderation 37cc852d-bdf8-4e06-8020-79ff60a58bad
+2025-10-06 16:23:10,499 - feedback_handler - INFO - Stored feedback f3efde37-cc4d-4090-a324-f0959522575e
+2025-10-06 16:23:10,501 - logger_middleware - INFO - Response: 200 for /feedback in 0.018s
+2025-10-06 16:23:10,505 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_180)
+2025-10-06 16:23:10,506 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_181)
+2025-10-06 16:23:10,508 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_182)
+2025-10-06 16:23:10,508 - __main__ - INFO - Feedback events emitted for f3efde37-cc4d-4090-a324-f0959522575e
+2025-10-06 16:23:12,758 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:12,760 - __main__ - INFO - Moderation request e0b80de4-903a-4c85-91cc-eb44ad67f25d for text
+2025-10-06 16:23:12,773 - feedback_handler - INFO - Stored moderation e0b80de4-903a-4c85-91cc-eb44ad67f25d
+2025-10-06 16:23:12,775 - logger_middleware - INFO - Response: 200 for /moderate in 0.016s
+2025-10-06 16:23:12,777 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_183)
+2025-10-06 16:23:14,817 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:14,819 - __main__ - INFO - Feedback f78495c0-e606-4141-9e30-2a03acbd1c95 for moderation e0b80de4-903a-4c85-91cc-eb44ad67f25d
+2025-10-06 16:23:14,833 - feedback_handler - INFO - Stored feedback f78495c0-e606-4141-9e30-2a03acbd1c95
+2025-10-06 16:23:14,837 - logger_middleware - INFO - Response: 200 for /feedback in 0.018s
+2025-10-06 16:23:14,840 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_184)
+2025-10-06 16:23:14,842 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_185)
+2025-10-06 16:23:14,844 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_186)
+2025-10-06 16:23:14,844 - __main__ - INFO - Feedback events emitted for f78495c0-e606-4141-9e30-2a03acbd1c95
+2025-10-06 16:23:17,084 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:17,085 - __main__ - INFO - Moderation request 4d501b37-f81a-4209-a27e-06e3436de4ae for text
+2025-10-06 16:23:17,096 - feedback_handler - INFO - Stored moderation 4d501b37-f81a-4209-a27e-06e3436de4ae
+2025-10-06 16:23:17,099 - logger_middleware - INFO - Response: 200 for /moderate in 0.013s
+2025-10-06 16:23:17,102 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_187)
+2025-10-06 16:23:19,141 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:19,142 - __main__ - INFO - Feedback add331ab-4c12-4946-81b0-7f5820ffbf79 for moderation 4d501b37-f81a-4209-a27e-06e3436de4ae
+2025-10-06 16:23:19,156 - feedback_handler - INFO - Stored feedback add331ab-4c12-4946-81b0-7f5820ffbf79
+2025-10-06 16:23:19,158 - logger_middleware - INFO - Response: 200 for /feedback in 0.017s
+2025-10-06 16:23:19,161 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_188)
+2025-10-06 16:23:19,164 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_189)
+2025-10-06 16:23:19,166 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_190)
+2025-10-06 16:23:19,166 - __main__ - INFO - Feedback events emitted for add331ab-4c12-4946-81b0-7f5820ffbf79
+2025-10-06 16:23:21,413 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:21,415 - __main__ - INFO - Moderation request e5adb9fd-9191-4377-954f-60a68c783e3f for text
+2025-10-06 16:23:21,432 - feedback_handler - INFO - Stored moderation e5adb9fd-9191-4377-954f-60a68c783e3f
+2025-10-06 16:23:21,433 - logger_middleware - INFO - Response: 200 for /moderate in 0.019s
+2025-10-06 16:23:21,437 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_191)
+2025-10-06 16:23:23,483 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:23,484 - __main__ - INFO - Feedback 6a753269-56d2-4d27-b9ca-7bc807f1b935 for moderation e5adb9fd-9191-4377-954f-60a68c783e3f
+2025-10-06 16:23:23,491 - feedback_handler - INFO - Stored feedback 6a753269-56d2-4d27-b9ca-7bc807f1b935
+2025-10-06 16:23:23,493 - logger_middleware - INFO - Response: 200 for /feedback in 0.009s
+2025-10-06 16:23:23,496 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_192)
+2025-10-06 16:23:23,498 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_193)
+2025-10-06 16:23:23,499 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_194)
+2025-10-06 16:23:23,500 - __main__ - INFO - Feedback events emitted for 6a753269-56d2-4d27-b9ca-7bc807f1b935
+2025-10-06 16:23:25,732 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:25,733 - __main__ - INFO - Moderation request c8d51c4d-a38b-435f-81c6-c89369904ef6 for text
+2025-10-06 16:23:25,745 - feedback_handler - INFO - Stored moderation c8d51c4d-a38b-435f-81c6-c89369904ef6
+2025-10-06 16:23:25,748 - logger_middleware - INFO - Response: 200 for /moderate in 0.014s
+2025-10-06 16:23:25,751 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_195)
+2025-10-06 16:23:27,801 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:27,802 - __main__ - INFO - Feedback 3d85625e-91a5-4ca0-987e-06f89cafc93b for moderation c8d51c4d-a38b-435f-81c6-c89369904ef6
+2025-10-06 16:23:27,811 - feedback_handler - INFO - Stored feedback 3d85625e-91a5-4ca0-987e-06f89cafc93b
+2025-10-06 16:23:27,813 - logger_middleware - INFO - Response: 200 for /feedback in 0.011s
+2025-10-06 16:23:27,817 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_196)
+2025-10-06 16:23:27,819 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_197)
+2025-10-06 16:23:27,822 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_198)
+2025-10-06 16:23:27,823 - __main__ - INFO - Feedback events emitted for 3d85625e-91a5-4ca0-987e-06f89cafc93b
+2025-10-06 16:23:30,063 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:30,064 - __main__ - INFO - Moderation request e1f10f83-3ce7-4162-8a48-aed65653fca2 for text
+2025-10-06 16:23:30,077 - feedback_handler - INFO - Stored moderation e1f10f83-3ce7-4162-8a48-aed65653fca2
+2025-10-06 16:23:30,080 - logger_middleware - INFO - Response: 200 for /moderate in 0.016s
+2025-10-06 16:23:30,082 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_199)
+2025-10-06 16:23:32,124 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:32,125 - __main__ - INFO - Feedback 750474e7-cc25-4dc3-8ad9-c6a9252ec667 for moderation e1f10f83-3ce7-4162-8a48-aed65653fca2
+2025-10-06 16:23:32,135 - feedback_handler - INFO - Stored feedback 750474e7-cc25-4dc3-8ad9-c6a9252ec667
+2025-10-06 16:23:32,138 - logger_middleware - INFO - Response: 200 for /feedback in 0.012s
+2025-10-06 16:23:32,141 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_200)
+2025-10-06 16:23:32,143 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_201)
+2025-10-06 16:23:32,145 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_202)
+2025-10-06 16:23:32,146 - __main__ - INFO - Feedback events emitted for 750474e7-cc25-4dc3-8ad9-c6a9252ec667
+2025-10-06 16:23:34,386 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:23:34,387 - __main__ - INFO - Moderation request 78b9c6b2-ca2c-4c89-a96b-a9005180aaf2 for text
+2025-10-06 16:23:34,403 - feedback_handler - INFO - Stored moderation 78b9c6b2-ca2c-4c89-a96b-a9005180aaf2
+2025-10-06 16:23:34,405 - logger_middleware - INFO - Response: 200 for /moderate in 0.018s
+2025-10-06 16:23:34,409 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_203)
+2025-10-06 16:23:36,455 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:23:36,458 - __main__ - INFO - Feedback 893eabd2-dd6a-4956-ae56-5722ecff1103 for moderation 78b9c6b2-ca2c-4c89-a96b-a9005180aaf2
+2025-10-06 16:23:36,473 - feedback_handler - INFO - Stored feedback 893eabd2-dd6a-4956-ae56-5722ecff1103
+2025-10-06 16:23:36,475 - logger_middleware - INFO - Response: 200 for /feedback in 0.019s
+2025-10-06 16:23:36,478 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_204)
+2025-10-06 16:23:36,480 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_205)
+2025-10-06 16:23:36,482 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_206)
+2025-10-06 16:23:36,483 - __main__ - INFO - Feedback events emitted for 893eabd2-dd6a-4956-ae56-5722ecff1103
+2025-10-06 16:31:11,377 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-06 16:31:11,378 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-06 16:31:11,378 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-06 16:31:11,379 - event_queue - INFO - EventQueue initialized
+2025-10-06 16:31:11,654 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-06 16:31:11,654 - event_queue - INFO - Started 5 queue processors
+2025-10-06 16:31:11,659 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-06 16:31:11,659 - __main__ - INFO - All services initialized successfully
+2025-10-06 16:32:00,077 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:32:00,079 - logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-06 16:32:00,190 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:32:00,214 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.024s
+2025-10-06 16:32:10,358 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 16:32:10,360 - logger_middleware - INFO - Response: 200 for /health in 0.001s
+2025-10-06 16:32:56,123 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:32:56,126 - logger_middleware - INFO - Response: 422 for /moderate in 0.002s
+2025-10-06 16:33:11,757 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:33:11,758 - logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-06 16:33:11,891 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:33:11,894 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-10-06 16:43:32,872 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 16:43:32,873 - logger_middleware - INFO - Response: 200 for /health in 0.001s
+2025-10-06 16:46:07,091 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-06 16:46:07,091 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-06 16:46:07,092 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-06 16:46:07,092 - event_queue - INFO - EventQueue initialized
+2025-10-06 16:46:07,732 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-06 16:46:07,733 - event_queue - INFO - Started 5 queue processors
+2025-10-06 16:46:07,751 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-06 16:46:07,751 - __main__ - INFO - All services initialized successfully
+2025-10-06 16:46:48,862 - logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-10-06 16:46:48,865 - logger_middleware - INFO - Response: 200 for /health in 0.002s
+2025-10-06 16:48:48,661 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:48:48,664 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-06 16:48:48,759 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:48:48,787 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.025s
+2025-10-06 16:48:59,378 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:48:59,382 - __main__ - INFO - Moderation request 2fa19811-81e2-49fc-9352-d56141b05a8c for text
+2025-10-06 16:48:59,394 - feedback_handler - INFO - Stored moderation 2fa19811-81e2-49fc-9352-d56141b05a8c
+2025-10-06 16:48:59,396 - logger_middleware - INFO - Response: 200 for /moderate in 0.017s
+2025-10-06 16:48:59,398 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_0)
+2025-10-06 16:49:29,445 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:49:29,447 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-06 16:49:29,528 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:49:29,531 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-10-06 16:49:39,369 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:49:39,371 - __main__ - INFO - Moderation request f4c40959-f7c2-4fd1-b31c-c6958f413711 for text
+2025-10-06 16:49:39,382 - feedback_handler - INFO - Stored moderation f4c40959-f7c2-4fd1-b31c-c6958f413711
+2025-10-06 16:49:39,385 - logger_middleware - INFO - Response: 200 for /moderate in 0.014s
+2025-10-06 16:49:39,389 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_1)
+2025-10-06 16:50:10,582 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:50:10,584 - logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-06 16:50:10,662 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:50:10,665 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-10-06 16:50:18,806 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:50:18,807 - __main__ - INFO - Moderation request 9cf7f86f-86b2-4b24-b853-81e9d5bbbd97 for code
+2025-10-06 16:50:18,819 - feedback_handler - INFO - Stored moderation 9cf7f86f-86b2-4b24-b853-81e9d5bbbd97
+2025-10-06 16:50:18,823 - logger_middleware - INFO - Response: 200 for /moderate in 0.015s
+2025-10-06 16:50:18,827 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_2)
+2025-10-06 16:50:47,306 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-06 16:50:47,309 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-06 16:50:47,378 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-06 16:50:47,380 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-10-06 16:51:15,553 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:51:15,554 - __main__ - INFO - Feedback 8ac3338c-7a85-499c-8e85-1dc1940dd6aa for moderation ghi-789-xyz
+2025-10-06 16:51:15,568 - feedback_handler - INFO - Stored feedback 8ac3338c-7a85-499c-8e85-1dc1940dd6aa
+2025-10-06 16:51:15,571 - logger_middleware - INFO - Response: 200 for /feedback in 0.016s
+2025-10-06 16:51:15,575 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_3)
+2025-10-06 16:51:15,577 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_4)
+2025-10-06 16:51:15,579 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_5)
+2025-10-06 16:51:15,580 - __main__ - INFO - Feedback events emitted for 8ac3338c-7a85-499c-8e85-1dc1940dd6aa
+2025-10-06 16:51:16,808 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:51:16,810 - __main__ - INFO - Feedback 4aa97ff9-d321-4ec8-91ba-6920bda8241e for moderation ghi-789-xyz
+2025-10-06 16:51:16,820 - feedback_handler - INFO - Stored feedback 4aa97ff9-d321-4ec8-91ba-6920bda8241e
+2025-10-06 16:51:16,823 - logger_middleware - INFO - Response: 200 for /feedback in 0.013s
+2025-10-06 16:51:16,826 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_6)
+2025-10-06 16:51:16,829 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_7)
+2025-10-06 16:51:16,831 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_8)
+2025-10-06 16:51:16,831 - __main__ - INFO - Feedback events emitted for 4aa97ff9-d321-4ec8-91ba-6920bda8241e
+2025-10-06 16:51:39,637 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-06 16:51:39,638 - __main__ - INFO - Moderation request 0df959db-e618-4898-9f0e-06d17ab47ae6 for text
+2025-10-06 16:51:39,669 - feedback_handler - INFO - Stored moderation 0df959db-e618-4898-9f0e-06d17ab47ae6
+2025-10-06 16:51:39,671 - logger_middleware - INFO - Response: 200 for /moderate in 0.033s
+2025-10-06 16:51:39,675 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_9)
+2025-10-06 16:52:21,515 - logger_middleware - INFO - Request: POST /feedback from 127.0.0.1
+2025-10-06 16:52:21,517 - __main__ - INFO - Feedback 3e5f76d6-ec01-4c32-8d12-637cf614d6a1 for moderation 0df959db-e618-4898-9f0e-06d17ab47ae6
+2025-10-06 16:52:21,528 - feedback_handler - INFO - Stored feedback 3e5f76d6-ec01-4c32-8d12-637cf614d6a1
+2025-10-06 16:52:21,530 - logger_middleware - INFO - Response: 200 for /feedback in 0.014s
+2025-10-06 16:52:21,533 - event_queue - INFO - Event emitted: feedback_omkar_rl (id: feedback_omkar_rl_10)
+2025-10-06 16:52:21,535 - event_queue - INFO - Event emitted: feedback_bhiv_analytics (id: feedback_bhiv_analytics_11)
+2025-10-06 16:52:21,537 - event_queue - INFO - Event emitted: feedback_nlp_confidence (id: feedback_nlp_confidence_12)
+2025-10-06 16:52:21,537 - __main__ - INFO - Feedback events emitted for 3e5f76d6-ec01-4c32-8d12-637cf614d6a1
+2025-10-08 20:45:46,933 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-08 20:45:46,935 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-08 20:45:46,936 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-08 20:45:46,936 - event_queue - INFO - EventQueue initialized
+2025-10-08 20:46:42,172 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-08 20:46:42,172 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-08 20:46:42,173 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-08 20:46:42,174 - event_queue - INFO - EventQueue initialized
+2025-10-08 20:46:42,556 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-08 20:46:42,557 - event_queue - INFO - Started 5 queue processors
+2025-10-08 20:46:42,574 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-08 20:46:42,575 - __main__ - INFO - All services initialized successfully
+2025-10-08 20:52:56,344 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-08 20:52:56,345 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-08 20:52:56,346 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-08 20:52:56,346 - event_queue - INFO - EventQueue initialized
+2025-10-08 20:52:56,563 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-08 20:52:56,564 - event_queue - INFO - Started 5 queue processors
+2025-10-08 20:52:56,571 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-08 20:52:56,571 - __main__ - INFO - All services initialized successfully
+2025-10-08 20:54:31,160 - moderation_agent - INFO - ModerationAgent initialized
+2025-10-08 20:54:31,161 - feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-08 20:54:31,161 - mcp_integration - INFO - MCPIntegrator initialized
+2025-10-08 20:54:31,162 - event_queue - INFO - EventQueue initialized
+2025-10-08 20:54:31,390 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-10-08 20:54:31,391 - event_queue - INFO - Started 5 queue processors
+2025-10-08 20:54:31,396 - feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-08 20:54:31,397 - __main__ - INFO - All services initialized successfully
+2025-10-08 20:55:05,677 - logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-08 20:55:05,680 - logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-10-08 20:55:05,747 - logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-08 20:55:05,752 - logger_middleware - INFO - Response: 404 for /favicon.ico in 0.002s
+2025-10-08 20:55:37,137 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-08 20:55:37,143 - logger_middleware - INFO - Response: 200 for /docs in 0.004s
+2025-10-08 20:55:37,308 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-08 20:55:37,374 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.063s
+2025-10-08 20:55:55,860 - logger_middleware - INFO - Request: POST /demo/run from 127.0.0.1
+2025-10-08 20:55:55,864 - logger_middleware - INFO - Response: 403 for /demo/run in 0.003s
+2025-10-08 21:02:58,903 - logger_middleware - INFO - Request: GET /learning/report from 127.0.0.1
+2025-10-08 21:02:58,908 - logger_middleware - INFO - Response: 405 for /learning/report in 0.003s
+2025-10-08 21:04:06,723 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-08 21:04:06,726 - logger_middleware - INFO - Response: 403 for /moderate in 0.002s
+2025-10-08 21:07:00,871 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-08 21:07:00,873 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:07:00,874 - __main__ - INFO - Moderation request d4783db3-1aac-404d-b1bd-b6aa6f8b955e for text
+2025-10-08 21:07:03,673 - integration_services - ERROR - Error getting NLP context: All connection attempts failed
+2025-10-08 21:07:03,688 - feedback_handler - INFO - Stored moderation d4783db3-1aac-404d-b1bd-b6aa6f8b955e
+2025-10-08 21:07:03,690 - logger_middleware - INFO - Response: 200 for /moderate in 2.818s
+2025-10-08 21:07:03,695 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_0)
+2025-10-08 21:07:30,369 - logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-08 21:07:30,373 - logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-10-08 21:07:30,528 - logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-08 21:07:30,533 - logger_middleware - INFO - Response: 200 for /openapi.json in 0.003s
+2025-10-08 21:08:56,648 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-08 21:08:56,651 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:08:56,652 - __main__ - INFO - Moderation request 836be9cc-0636-4535-a550-878f60127b5a for text
+2025-10-08 21:08:59,424 - integration_services - ERROR - Error getting NLP context: All connection attempts failed
+2025-10-08 21:08:59,441 - feedback_handler - INFO - Stored moderation 836be9cc-0636-4535-a550-878f60127b5a
+2025-10-08 21:08:59,443 - logger_middleware - INFO - Response: 200 for /moderate in 2.795s
+2025-10-08 21:08:59,447 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_1)
+2025-10-08 21:10:03,829 - logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-10-08 21:10:03,831 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:10:03,832 - __main__ - INFO - Moderation request c613047b-a28b-4390-85f2-e8910a258d42 for text
+2025-10-08 21:10:06,580 - integration_services - ERROR - Error getting NLP context: All connection attempts failed
+2025-10-08 21:10:06,596 - feedback_handler - INFO - Stored moderation c613047b-a28b-4390-85f2-e8910a258d42
+2025-10-08 21:10:06,599 - logger_middleware - INFO - Response: 200 for /moderate in 2.769s
+2025-10-08 21:10:06,602 - event_queue - INFO - Event emitted: moderation_completed (id: moderation_completed_2)
+2025-10-08 21:10:29,550 - logger_middleware - INFO - Request: POST /learning/report from 127.0.0.1
+2025-10-08 21:10:29,556 - logger_middleware - INFO - Response: 403 for /learning/report in 0.003s
+2025-10-08 21:10:41,232 - logger_middleware - INFO - Request: GET /integration/metrics from 127.0.0.1
+2025-10-08 21:10:41,236 - logger_middleware - INFO - Response: 403 for /integration/metrics in 0.002s
+2025-10-08 21:11:01,048 - logger_middleware - INFO - Request: GET /integration/metrics from 127.0.0.1
+2025-10-08 21:11:01,050 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:11:01,052 - logger_middleware - INFO - Response: 401 for /integration/metrics in 0.004s
+2025-10-08 21:11:12,268 - logger_middleware - INFO - Request: POST /learning/report from 127.0.0.1
+2025-10-08 21:11:12,271 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:11:12,274 - logger_middleware - INFO - Response: 401 for /learning/report in 0.004s
+2025-10-08 21:11:20,824 - logger_middleware - INFO - Request: POST /demo/run from 127.0.0.1
+2025-10-08 21:11:20,825 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:11:20,827 - logger_middleware - INFO - Response: 200 for /demo/run in 0.002s
+2025-10-08 21:12:18,789 - logger_middleware - INFO - Request: POST /demo/run from 127.0.0.1
+2025-10-08 21:12:18,791 - auth_middleware - ERROR - Invalid token: Not enough segments
+2025-10-08 21:12:18,795 - logger_middleware - INFO - Response: 200 for /demo/run in 0.003s
+2025-10-08 21:12:44,622 - __main__ - INFO - Shutting down services
+2025-10-08 21:12:44,623 - event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-08 21:12:44,623 - event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-08 21:12:44,624 - event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-08 21:12:44,625 - event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-08 21:12:44,625 - event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-08 21:12:44,626 - event_queue - INFO - EventQueue closed

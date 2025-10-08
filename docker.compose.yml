@@ -10,8 +10,164 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DB_TYPE=sqlite
-      - DB_PATH=/app/logs/moderation.db
-      - OMKAR_RL_URL=http://omkar-rl:8001
+      - DB_TYPE=postgres
+      - DATABASE_URL=postgresql://moderator:moderator_pass@postgres:5432/moderation_db
+      - BHIV_API_URL=http://bhiv-service:9001
+      - RL_CORE_API_URL=http://rl-core:9002
+      - NLP_API_URL=http://nlp-service:9003
+      - SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SERVICE_JWT_TOKEN=${SERVICE_JWT_TOKEN}
     volumes:
       - ./logs:/app/logs
+      - ./reports:/app/reports
+    depends_on:
+      - postgres
+      - bhiv-service
+      - rl-core
+      - nlp-service
+    restart: unless-stopped
+    networks:
+      - moderation-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    container_name: moderation-db
+    environment:
+      - POSTGRES_USER=moderator
+      - POSTGRES_PASSWORD=moderator_pass
+      - POSTGRES_DB=moderation_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - moderation-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moderator"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # BHIV Service (Ashmit - Mock)
+  bhiv-service:
+    image: python:3.11-slim
+    container_name: bhiv-service
+    command: >
+      sh -c "pip install fastapi uvicorn pyjwt && python -c "
+
+      
+# from fastapi import FastAPI, Header, HTTPException
+# import uvicorn
+# import os
+
+# app = FastAPI()
+
+# def verify_token(authorization: str = Header(None)):
+#     if not authorization or not authorization.startswith(\"Bearer \"):
+#         return None
+#     return True
+
+# @app.post(\"/bhiv/feedback\")
+# async def bhiv_feedback(data: dict, authorization: str = Header(None)):
+#     verify_token(authorization)
+#     return {
+#         \"status\": \"success\",
+#         \"analytics_logged\": True,
+#         \"sentiment_analysis\": {
+#             \"score\": 0.8,
+#             \"label\": \"positive\"
+#         }
+#     }
+
+# @app.get(\"/health\")
+# def health():
+#     return {\"status\": \"healthy\", \"service\": \"BHIV\"}
+
+# if __name__ == \"__main__\":
+#     uvicorn.run(app, host=\"0.0.0.0\", port=9001)
+#       '"
+#     ports:
+#       - "9001:9001"
+#     networks:
+#       - moderation-network
+
+#   # RL Core Service (Omkar - Mock)
+#   rl-core:
+#     image: python:3.11-slim
+#     container_name: rl-core
+#     command: >
+#       sh -c "pip install fastapi uvicorn pyjwt &&
+#              python -c '
+# from fastapi import FastAPI, Header
+# import uvicorn
+
+# app = FastAPI()
+
+# @app.post(\"/rl/update\")
+# async def rl_update(data: dict, authorization: str = Header(None)):
+#     return {
+#         \"status\": \"success\",
+#         \"q_value_updated\": True,
+#         \"new_q_value\": data.get(\"reward\", 0) * 0.5
+#     }
+
+# @app.get(\"/health\")
+# def health():
+#     return {\"status\": \"healthy\", \"service\": \"RL_Core\"}
+
+# if __name__ == \"__main__\":
+#     uvicorn.run(app, host=\"0.0.0.0\", port=9002)
+#       '"
+#     ports:
+#       - "9002:9002"
+#     networks:
+#       - moderation-network
+
+#   # NLP Service (Aditya - Mock)
+#   nlp-service:
+#     image: python:3.11-slim
+#     container_name: nlp-service
+#     command: >
+#       sh -c "pip install fastapi uvicorn pyjwt &&
+#              python -c '
+# from fastapi import FastAPI, Header
+# import uvicorn
+
+# app = FastAPI()
+
+# @app.post(\"/nlp/context\")
+# async def nlp_context(data: dict, authorization: str = Header(None)):
+#     content = data.get(\"content\", \"\")
+#     return {
+#         \"confidence\": 0.85,
+#         \"toxicity\": 0.1 if \"spam\" in content.lower() else 0.0,
+#         \"sentiment\": 0.7,
+#         \"language\": \"en\",
+#         \"context_embedding\": [0.1] * 128
+#     }
+
+# @app.get(\"/health\")
+# def health():
+#     return {\"status\": \"healthy\", \"service\": \"NLP\"}
+
+# if __name__ == \"__main__\":
+#     uvicorn.run(app, host=\"0.0.0.0\", port=9003)
+#       '"
+#     ports:
+#       - "9003:9003"
+#     networks:
+#       - moderation-network
+
+# volumes:
+#   postgres-data:
+
+# networks:
+#   moderation-network:
+#     driver: bridge
