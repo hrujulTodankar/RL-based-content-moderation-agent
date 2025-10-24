@@ -37,6 +37,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 RUN mkdir -p /app/logs /app/reports && chmod 777 /app/logs /app/reports
 
 # Copy application code
+COPY app/ ./app/
 COPY *.py .
 COPY .env.example .env
 
@@ -57,4 +58,4 @@ ENV PYTHONUNBUFFERED=1
 ENV DB_TYPE=postgres
 
 # Run application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

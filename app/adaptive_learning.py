@@ -16,7 +16,7 @@ class AdaptiveLearningVisualizer:
     def __init__(self, reports_dir: str = "reports"):
         self.reports_dir = reports_dir
         os.makedirs(reports_dir, exist_ok=True)
-        
+
         self.learning_data = {
             "iterations": [],
             "rewards": [],
@@ -24,7 +24,8 @@ class AdaptiveLearningVisualizer:
             "confidence": [],
             "false_positives": [],
             "false_negatives": [],
-            "accuracy": []
+            "accuracy": [],
+            "timestamps": []  # Add timestamps for live updates
         }
     
     def add_iteration(
@@ -45,6 +46,7 @@ class AdaptiveLearningVisualizer:
         self.learning_data["false_positives"].append(1 if is_false_positive else 0)
         self.learning_data["false_negatives"].append(1 if is_false_negative else 0)
         self.learning_data["accuracy"].append(1 if is_correct else 0)
+        self.learning_data["timestamps"].append(datetime.utcnow().isoformat())
     
     def generate_learning_cycle_report(self, filename: str = "learning_cycle.png"):
         """Generate comprehensive learning visualization"""
@@ -196,6 +198,26 @@ class AdaptiveLearningVisualizer:
             return 0.0
         
         return ((second_half_avg - first_half_avg) / abs(first_half_avg)) * 100
+
+    def get_live_data(self) -> Dict[str, Any]:
+        """Get current live learning data for real-time visualization"""
+        if not self.learning_data["iterations"]:
+            return {"status": "no_data"}
+
+        # Get last 50 iterations for live view
+        recent_count = min(50, len(self.learning_data["iterations"]))
+        recent_indices = range(len(self.learning_data["iterations"]) - recent_count, len(self.learning_data["iterations"]))
+
+        return {
+            "status": "active",
+            "iterations": [self.learning_data["iterations"][i] for i in recent_indices],
+            "rewards": [self.learning_data["rewards"][i] for i in recent_indices],
+            "scores": [self.learning_data["scores"][i] for i in recent_indices],
+            "confidence": [self.learning_data["confidence"][i] for i in recent_indices],
+            "accuracy": [self.learning_data["accuracy"][i] for i in recent_indices],
+            "timestamps": [self.learning_data["timestamps"][i] for i in recent_indices],
+            "summary": self.get_summary_stats()
+        }
 
 # Global instance
 visualizer = AdaptiveLearningVisualizer()

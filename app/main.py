@@ -9,25 +9,16 @@ import json
 import uuid
 import os
 from pathlib import Path
-#from .auth_middleware import jwt_auth, get_current_user_optional
+from .auth_middleware import jwt_auth, get_current_user_optional
 
+from .integration_services import integration_services
 
-
-async def get_current_user_optional(credentials=None):
-    # Bypass authentication and return a dummy user
-    return {"user_id": "demo-user", "role": "admin"}
-
-# Comment out the real jwt_auth
-# jwt_auth = JWTAuthMiddleware()
-
-from integration_services import integration_services
-from adaptive_learning import visualizer
-
-from moderation_agent import ModerationAgent
-from feedback_handler import FeedbackHandler
-from mcp_integration import MCPIntegrator
-from event_queue import EventQueue
-from logger_middleware import LoggerMiddleware
+from .adaptive_learning import visualizer
+from .moderation_agent import ModerationAgent
+from .feedback_handler import FeedbackHandler
+from .mcp_integration import MCPIntegrator
+from .event_queue import EventQueue
+from .logger_middleware import LoggerMiddleware
 
 # Create logs directory if it doesn't exist
 log_dir = Path(__file__).parent.parent / 'logs'
@@ -99,7 +90,7 @@ event_queue = EventQueue()
 async def moderate_content(
     request: ModerationRequest,
     background_tasks: BackgroundTasks,
-    user: dict = Depends(get_current_user_optional)  # Optional auth
+    user: dict = Depends(get_current_user_optional)  # Optional auth for demo
 ):
     """
     Moderate content with RL-powered decision making
@@ -162,7 +153,8 @@ async def moderate_content(
             "mcp_weighted_score": result.get("mcp_weighted_score"),
             "reasons": result["reasons"],
             "timestamp": datetime.utcnow().isoformat(),
-            "user_id": user.get("user_id") if user else None
+            "user_id": user.get("user_id") if user else None,
+            "state": result.get("state")  # Store state for RL learning
         }
         
         await feedback_handler.store_moderation(moderation_record)
@@ -232,15 +224,32 @@ async def submit_feedback(
         )
         
         # Get RL data for pipeline
-        moderation_history = [h for h in moderation_agent.history 
+        moderation_history = [h for h in moderation_agent.history
                              if h.get("moderation_id") == feedback.moderation_id]
-        
+
         if moderation_history:
             rl_data = {
                 "reward": reward_value,
                 "state": moderation_history[-1]["state"],
                 "action": moderation_history[-1]["action"]
             }
+
+            # Send to BHIV InsightFlow for analytics
+            background_tasks.add_task(
+                integration_services.send_to_bhiv_feedback,
+                feedback.moderation_id,
+                {
+                    "feedback_type": feedback.feedback_type,
+                    "rating": feedback.rating,
+                    "reward_value": reward_value,
+                    "sentiment": "positive" if reward_value > 0 else "negative",
+                    "engagement_score": abs(reward_value),
+                    "metadata": {
+                        "user_id": user.get("user_id") if user else feedback.user_id,
+                        "comment": feedback.comment
+                    }
+                }
+            )
             
             # Execute full integration pipeline in background
             background_tasks.add_task(
@@ -304,7 +313,7 @@ async def execute_integration_pipeline(
 
 # New endpoint: Integration metrics
 @app.get("/integration/metrics")
-async def get_integration_metrics(user: dict = Depends(get_current_user_optional)):
+async def get_integration_metrics(user: dict = Depends(jwt_auth)):
     """
     Get integration service metrics (secured endpoint)
     Requires JWT authentication
@@ -318,14 +327,14 @@ async def get_integration_metrics(user: dict = Depends(get_current_user_optional
 
 # New endpoint: Generate learning report
 @app.post("/learning/report")
-async def generate_learning_report(user: dict = Depends(get_current_user_optional)):
+async def generate_learning_report(user: dict = Depends(jwt_auth)):
     """
     Generate adaptive learning visualization report (secured endpoint)
     """
     try:
         filepath = visualizer.generate_learning_cycle_report()
         summary = visualizer.get_summary_stats()
-        
+
         return {
             "status": "success",
             "report_path": filepath,
@@ -337,9 +346,26 @@ async def generate_learning_report(user: dict = Depends(get_current_user_optiona
         raise HTTPException(status_code=500, detail="Error generating report")
 
 
+# New endpoint: Live learning data
+@app.get("/learning/live")
+async def get_live_learning_data(user: dict = Depends(jwt_auth)):
+    """
+    Get live adaptive learning data for real-time visualization (secured endpoint)
+    """
+    try:
+        live_data = visualizer.get_live_data()
+        return {
+            "live_data": live_data,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Error getting live data: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Error retrieving live data")
+
+
 # New endpoint: Connectivity test
 @app.get("/integration/connectivity")
-async def test_connectivity(user: dict = Depends(get_current_user_optional)):
+async def test_connectivity(user: dict = Depends(jwt_auth)):
     """
     Test connectivity with all integrated services (secured endpoint)
     """
@@ -401,7 +427,7 @@ async def test_connectivity(user: dict = Depends(get_current_user_optional)):
 
 # New endpoint: Demo flow
 @app.post("/demo/run")
-async def run_demo_flow(user: dict = Depends(get_current_user_optional)):
+async def run_demo_flow(user: dict = Depends(jwt_auth)):
     """
     Run the complete demo flow:
     Content → Moderation → Feedback → RL Update → Analytics

@@ -1537,3 +1537,7 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-10-09 14:52:58,669 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
 2025-10-09 14:52:58,670 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
 2025-10-09 14:52:58,671 - app.event_queue - INFO - EventQueue closed
+2025-10-24 10:24:53,102 - app.moderation_agent - INFO - ModerationAgent initialized
+2025-10-24 10:24:53,105 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-24 10:24:53,105 - app.mcp_integration - INFO - MCPIntegrator initialized
+2025-10-24 10:24:53,106 - app.event_queue - INFO - EventQueue initialized

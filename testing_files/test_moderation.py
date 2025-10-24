@@ -1,8 +1,8 @@
 import pytest
 import asyncio
 from httpx import AsyncClient
-from main import app
-from moderation_agent import ModerationAgent
+from app.main import app
+from app.moderation_agent import ModerationAgent
 from feedback_handler import FeedbackHandler
 import json
 

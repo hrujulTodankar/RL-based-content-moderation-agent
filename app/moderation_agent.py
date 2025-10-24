@@ -393,36 +393,62 @@ class ModerationAgent:
         moderation_id: str,
         reward: float
     ):
-        """Update Q-table with user feedback reward"""
+        """Update Q-table with user feedback reward and send to RL Core"""
         try:
             # Find corresponding history entry
             for entry in reversed(self.history[-100:]):
                 if "moderation_id" in entry and entry["moderation_id"] == moderation_id:
                     state = entry["state"]
                     action = entry["action"]
-                    
+
                     state_key = tuple(round(x, 2) for x in state)
-                    
+
                     # Initialize Q-values if not exists
                     if state_key not in self.q_table:
                         self.q_table[state_key] = [0.0] * self.action_dim
-                    
+
                     # Q-learning update
                     old_q = self.q_table[state_key][action]
-                    
+
                     # No next state in this simplified version
                     new_q = old_q + self.learning_rate * (reward - old_q)
-                    
+
                     self.q_table[state_key][action] = new_q
-                    
+
                     logger.info(
                         f"Updated Q-value for action {action}: "
                         f"{old_q:.3f} -> {new_q:.3f} (reward: {reward:.3f})"
                     )
+
+                    # Send to RL Core for distributed learning
+                    await self._send_to_rl_core(moderation_id, reward, state, action)
                     break
-                    
+
         except Exception as e:
             logger.error(f"Error updating with feedback: {str(e)}")
+
+    async def _send_to_rl_core(
+        self,
+        moderation_id: str,
+        reward: float,
+        state: List[float],
+        action: int
+    ):
+        """Send RL update to Omkar's RL Core service"""
+        try:
+            from integration_services import integration_services
+            result = await integration_services.send_to_rl_core_update(
+                moderation_id=moderation_id,
+                reward=reward,
+                state=state,
+                action=action
+            )
+            if result["success"]:
+                logger.info(f"RL Core update sent successfully for {moderation_id}")
+            else:
+                logger.warning(f"RL Core update failed: {result['error']}")
+        except Exception as e:
+            logger.error(f"Error sending to RL Core: {str(e)}")
     
     def get_statistics(self) -> Dict[str, Any]:
         """Get agent statistics"""
