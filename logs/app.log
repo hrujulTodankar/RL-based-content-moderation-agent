@@ -1541,3 +1541,50 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-10-24 10:24:53,105 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
 2025-10-24 10:24:53,105 - app.mcp_integration - INFO - MCPIntegrator initialized
 2025-10-24 10:24:53,106 - app.event_queue - INFO - EventQueue initialized
+2025-10-27 15:05:42,639 - app.moderation_agent - INFO - ModerationAgent initialized
+2025-10-27 15:05:42,640 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-27 15:05:42,641 - app.mcp_integration - INFO - MCPIntegrator initialized
+2025-10-27 15:05:42,641 - app.event_queue - INFO - EventQueue initialized
+2025-10-27 15:05:42,652 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-10-27 15:05:42,653 - app.event_queue - INFO - Started 5 queue processors
+2025-10-27 15:05:42,669 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-27 15:05:42,670 - app.main - INFO - All services initialized successfully
+2025-10-27 15:06:06,876 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-27 15:06:06,879 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-10-27 15:06:06,918 - app.logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-27 15:06:06,922 - app.logger_middleware - INFO - Response: 404 for /favicon.ico in 0.002s
+2025-10-27 15:06:13,273 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-27 15:06:13,275 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-27 15:06:13,888 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-27 15:06:13,929 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.038s
+2025-10-27 15:07:15,972 - app.moderation_agent - INFO - ModerationAgent initialized
+2025-10-27 15:07:15,972 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-27 15:07:15,973 - app.mcp_integration - INFO - MCPIntegrator initialized
+2025-10-27 15:07:15,973 - app.event_queue - INFO - EventQueue initialized
+2025-10-27 15:07:15,991 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-10-27 15:07:15,991 - app.event_queue - INFO - Started 5 queue processors
+2025-10-27 15:07:15,996 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-27 15:07:15,996 - app.main - INFO - All services initialized successfully
+2025-10-27 15:07:15,997 - app.main - INFO - Shutting down services
+2025-10-27 15:07:15,997 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-10-27 15:07:15,997 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-10-27 15:07:15,997 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-10-27 15:07:15,998 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-10-27 15:07:15,998 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-10-27 15:07:15,998 - app.event_queue - INFO - EventQueue closed
+2025-10-27 15:07:23,856 - app.moderation_agent - INFO - ModerationAgent initialized
+2025-10-27 15:07:23,856 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-10-27 15:07:23,856 - app.mcp_integration - INFO - MCPIntegrator initialized
+2025-10-27 15:07:23,856 - app.event_queue - INFO - EventQueue initialized
+2025-10-27 15:07:23,868 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-10-27 15:07:23,868 - app.event_queue - INFO - Started 5 queue processors
+2025-10-27 15:07:23,873 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-10-27 15:07:23,873 - app.main - INFO - All services initialized successfully
+2025-10-27 15:08:08,131 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-10-27 15:08:08,133 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-10-27 15:08:08,166 - app.logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-10-27 15:08:08,168 - app.logger_middleware - INFO - Response: 404 for /favicon.ico in 0.001s
+2025-10-27 15:08:13,019 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-10-27 15:08:13,021 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-10-27 15:08:13,193 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-10-27 15:08:13,210 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.016s
