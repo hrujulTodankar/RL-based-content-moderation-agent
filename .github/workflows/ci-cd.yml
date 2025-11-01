@@ -50,7 +50,7 @@ jobs:
 
   check-tickets:
     runs-on: ubuntu-latest
-    if: github.event_name == 'issues' || github.event_name == 'issue_comment'
+    if: always()  # Run on all events to ensure visibility
 
     steps:
     - name: Checkout code
@@ -115,6 +115,10 @@ jobs:
         echo "-----------------------------------"
         echo "This workflow run shows that all pending work items have been"
         echo "successfully implemented and the system is production-ready."
+        echo ""
+        echo "🔗 REPOSITORY: https://github.com/hrujulTodankar/RL-based-content-moderation-agent"
+        echo "📈 TOTAL COMMITS: $(git rev-list --count HEAD)"
+        echo "🏷️  LATEST TAG: $(git describe --tags --abbrev=0 2>/dev/null || echo 'No tags yet')"
 
   build-and-push:
     needs: test
