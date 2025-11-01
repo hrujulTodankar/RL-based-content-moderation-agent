@@ -5,6 +5,10 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  issues:
+    types: [opened, edited, closed]
+  issue_comment:
+    types: [created]
 
 jobs:
   test:
@@ -42,6 +46,20 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         file: ./coverage.xml
+
+  check-tickets:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' || github.event_name == 'issue_comment'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Check ticket status
+      run: |
+        echo "Checking ticket status..."
+        # Add logic to check if all tickets are completed
+        echo "All tickets should be visible in GitHub Actions"
 
   build-and-push:
     needs: test
