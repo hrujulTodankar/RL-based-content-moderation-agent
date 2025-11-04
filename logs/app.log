@@ -1588,3 +1588,368 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-10-27 15:08:13,021 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
 2025-10-27 15:08:13,193 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
 2025-10-27 15:08:13,210 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.016s
+2025-11-04 10:16:41,919 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:16:41,919 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:16:42,157 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:16:42,159 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:16:42,167 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:16:42,168 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:16:42,169 - __main__ - INFO - Shutting down services
+2025-11-04 10:16:42,169 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-04 10:16:42,169 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-04 10:16:42,169 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-04 10:16:42,170 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-04 10:16:42,170 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-04 10:16:42,170 - app.event_queue - INFO - EventQueue closed
+2025-11-04 10:17:38,183 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:17:38,183 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:17:38,418 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:17:38,419 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:17:38,426 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:17:38,427 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:18:56,966 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:18:56,969 - app.logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-11-04 10:18:57,112 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:18:57,150 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.037s
+2025-11-04 10:21:45,590 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:21:45,590 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:21:45,721 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:21:45,722 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:21:45,725 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:21:45,725 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:21:54,206 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:21:54,209 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:22:00,129 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:22:00,131 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-11-04 10:22:00,223 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:22:00,241 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.017s
+2025-11-04 10:22:13,273 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:22:13,276 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:23:02,023 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:23:02,025 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:23:34,533 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:23:34,533 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:23:34,660 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:23:34,660 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:23:34,663 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:23:34,664 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:24:32,022 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:24:32,023 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:24:58,789 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:24:58,792 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 10:24:58,823 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:24:58,963 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:24:58,964 - app.logger_middleware - INFO - Response: 200 for /static/css/styles.css in 0.141s
+2025-11-04 10:24:58,970 - app.logger_middleware - INFO - Response: 200 for /static/js/app.js in 0.006s
+2025-11-04 10:24:59,146 - app.logger_middleware - INFO - Request: GET /moderated-content from 127.0.0.1
+2025-11-04 10:24:59,147 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:24:59,150 - app.logger_middleware - INFO - Response: 404 for /moderated-content in 0.001s
+2025-11-04 10:24:59,153 - app.logger_middleware - INFO - Response: 404 for /stats in 0.005s
+2025-11-04 10:24:59,157 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:24:59,158 - app.logger_middleware - INFO - Response: 404 for /stats in 0.001s
+2025-11-04 10:24:59,179 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:24:59,185 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.003s
+2025-11-04 10:27:17,446 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:27:17,448 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:27:27,841 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,843 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,871 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,873 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,890 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,892 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,907 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,909 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,938 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,940 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,971 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,974 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:27,988 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:27:27,991 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:27:30,782 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:27:30,784 - app.logger_middleware - INFO - Response: 404 for /stats in 0.001s
+2025-11-04 10:27:30,787 - app.logger_middleware - INFO - Request: GET /moderated-content from 127.0.0.1
+2025-11-04 10:27:30,789 - app.logger_middleware - INFO - Response: 404 for /moderated-content in 0.001s
+2025-11-04 10:27:30,795 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:27:30,796 - app.logger_middleware - INFO - Response: 404 for /stats in 0.001s
+2025-11-04 10:27:35,793 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:27:35,835 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:27:46,037 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:27:46,225 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:27:55,007 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:27:55,009 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:28:01,674 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:28:01,675 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:28:11,678 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:28:11,680 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:28:26,709 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:28:26,712 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.002s
+2025-11-04 10:28:57,630 - app.logger_middleware - INFO - Request: POST /moderate from 127.0.0.1
+2025-11-04 10:28:57,632 - app.logger_middleware - INFO - Response: 404 for /moderate in 0.001s
+2025-11-04 10:32:48,560 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:32:48,560 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:32:48,698 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:32:48,698 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:32:48,703 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:32:48,703 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:33:18,135 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:33:18,138 - app.endpoints.analytics - ERROR - Error retrieving moderated content: 'NoneType' object has no attribute 'execute'
+2025-11-04 10:33:18,139 - app.logger_middleware - INFO - Response: 500 for /api/moderated-content in 0.003s
+2025-11-04 10:33:39,271 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:33:39,271 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:33:39,402 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:33:39,403 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:33:39,406 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:33:39,407 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:34:34,818 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:34:34,821 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:34:34,826 - app.endpoints.analytics - ERROR - Error retrieving moderated content: name 'json' is not defined
+2025-11-04 10:34:34,827 - app.logger_middleware - INFO - Response: 500 for /api/moderated-content in 0.009s
+2025-11-04 10:35:19,248 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:35:19,249 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:35:19,378 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:35:19,378 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:35:19,382 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:35:19,382 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:35:36,208 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:35:36,212 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:35:36,214 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.006s
+2025-11-04 10:35:44,216 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:35:44,222 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:35:57,218 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:35:57,221 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 10:35:57,238 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:35:57,240 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:35:57,357 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.118s
+2025-11-04 10:35:57,359 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.118s
+2025-11-04 10:35:57,373 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:35:57,375 - app.logger_middleware - INFO - Request: GET /moderated-content from 127.0.0.1
+2025-11-04 10:35:57,377 - app.logger_middleware - INFO - Response: 404 for /stats in 0.003s
+2025-11-04 10:35:57,378 - app.logger_middleware - INFO - Response: 404 for /moderated-content in 0.004s
+2025-11-04 10:35:57,391 - app.logger_middleware - INFO - Request: GET /stats from 127.0.0.1
+2025-11-04 10:35:57,393 - app.logger_middleware - INFO - Response: 404 for /stats in 0.001s
+2025-11-04 10:35:57,400 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-04 10:35:57,403 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.003s
+2025-11-04 10:39:03,424 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:39:03,426 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-11-04 10:39:03,504 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:39:03,520 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.015s
+2025-11-04 10:39:14,843 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:39:14,847 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 10:39:35,108 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:39:35,111 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-04 10:42:15,597 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:42:15,604 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:42:17,325 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:42:17,332 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:42:24,477 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:42:24,482 - app.logger_middleware - INFO - Response: 200 for / in 0.003s
+2025-11-04 10:42:24,504 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:42:24,506 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.002s
+2025-11-04 10:42:24,509 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:42:24,512 - app.logger_middleware - INFO - Response: 200 for /static/js/app.js in 0.002s
+2025-11-04 10:42:24,544 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:42:24,546 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:42:24,551 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.005s
+2025-11-04 10:42:24,554 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.007s
+2025-11-04 10:42:47,531 - app.logger_middleware - INFO - Request: GET /api/docs from 127.0.0.1
+2025-11-04 10:42:47,534 - app.logger_middleware - INFO - Response: 404 for /api/docs in 0.001s
+2025-11-04 10:43:26,823 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:43:26,823 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:43:27,084 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:43:27,084 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:43:27,089 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:43:27,090 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:43:42,524 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:43:42,527 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 10:43:42,559 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:43:42,693 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.134s
+2025-11-04 10:43:42,703 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:43:42,705 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-04 10:43:42,706 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:43:42,709 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:43:42,711 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:43:42,713 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.007s
+2025-11-04 10:43:52,973 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:43:52,976 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 10:44:26,846 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:44:26,849 - app.logger_middleware - INFO - Response: 307 for /api in 0.001s
+2025-11-04 10:44:26,856 - app.logger_middleware - INFO - Request: GET /api/ from 127.0.0.1
+2025-11-04 10:44:26,858 - app.logger_middleware - INFO - Response: 200 for /api/ in 0.001s
+2025-11-04 10:45:55,787 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:45:55,787 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:45:55,945 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:45:55,945 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:45:55,948 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:45:55,948 - __main__ - INFO - All services initialized successfully
+2025-11-04 10:46:02,864 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:46:02,865 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:46:26,697 - app.logger_middleware - INFO - Request: GET /api/ from 127.0.0.1
+2025-11-04 10:46:26,699 - app.logger_middleware - INFO - Response: 200 for /api/ in 0.001s
+2025-11-04 10:46:44,206 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:46:44,206 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-04 10:46:44,207 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-04 10:46:49,651 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:46:49,653 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:46:49,674 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:46:49,674 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-04 10:46:49,675 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-04 10:46:56,973 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:46:56,974 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:46:57,007 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:46:57,119 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.112s
+2025-11-04 10:46:57,123 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:46:57,126 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.003s
+2025-11-04 10:46:57,131 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:46:57,132 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-04 10:46:57,133 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-04 10:46:57,138 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:46:57,145 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:46:57,150 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.011s
+2025-11-04 10:47:06,321 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:47:06,322 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:47:06,344 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:47:06,345 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:47:06,350 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 10:47:06,354 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.009s
+2025-11-04 10:48:09,131 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:48:09,158 - app.logger_middleware - INFO - Response: 200 for / in 0.026s
+2025-11-04 10:48:09,173 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:48:09,177 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.003s
+2025-11-04 10:48:09,197 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:09,199 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:48:09,206 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.006s
+2025-11-04 10:48:09,211 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.012s
+2025-11-04 10:48:34,797 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:48:34,799 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:48:34,816 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:34,822 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:48:34,825 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:48:34,830 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-04 10:48:36,436 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:48:36,438 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:48:36,456 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:36,461 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-04 10:48:36,463 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:48:36,467 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 10:48:37,981 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:48:37,983 - app.logger_middleware - INFO - Response: 200 for /api in 0.000s
+2025-11-04 10:48:38,008 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:38,012 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 10:48:47,534 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:48:47,537 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 10:48:47,561 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:48:47,563 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.002s
+2025-11-04 10:48:47,570 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:47,574 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 10:48:47,577 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:48:47,581 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 10:48:49,448 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:48:49,450 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:48:49,482 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:48:49,487 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-04 10:48:51,209 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:48:51,210 - app.logger_middleware - INFO - Response: 200 for /docs in 0.000s
+2025-11-04 10:48:51,299 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:48:51,339 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.040s
+2025-11-04 10:48:59,157 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:48:59,158 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:49:16,367 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:49:16,368 - app.logger_middleware - INFO - Response: 200 for /api in 0.000s
+2025-11-04 10:49:36,111 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:49:36,114 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 10:49:36,138 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:49:36,141 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.002s
+2025-11-04 10:49:36,148 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:49:36,149 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:49:36,153 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 10:49:36,157 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.007s
+2025-11-04 10:50:31,721 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:50:31,723 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:50:31,763 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:50:31,767 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 10:52:20,737 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:52:20,739 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:52:20,771 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:52:20,775 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 10:52:28,684 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:52:28,685 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:52:28,714 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:52:28,715 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:52:28,718 - app.logger_middleware - INFO - Response: 200 for /static/css/styles.css in 0.004s
+2025-11-04 10:52:28,720 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.004s
+2025-11-04 10:52:28,730 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:52:28,731 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:52:28,736 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-04 10:52:28,740 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.008s
+2025-11-04 10:52:37,280 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:52:37,282 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:52:37,315 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:52:37,320 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-04 10:52:40,199 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:52:40,201 - app.logger_middleware - INFO - Response: 200 for /docs in 0.000s
+2025-11-04 10:52:40,282 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:52:40,284 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-11-04 10:52:53,684 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:52:53,685 - app.logger_middleware - INFO - Response: 200 for /docs in 0.000s
+2025-11-04 10:52:53,745 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:52:53,747 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-11-04 10:54:50,719 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-04 10:54:50,720 - app.logger_middleware - INFO - Response: 200 for /docs in 0.000s
+2025-11-04 10:54:50,803 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-04 10:54:50,804 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-11-04 10:57:57,550 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-04 10:57:57,552 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-04 10:57:57,596 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:57:57,602 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-04 10:58:11,327 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 10:58:11,329 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 10:58:11,348 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 10:58:11,351 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.003s
+2025-11-04 10:58:11,353 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 10:58:11,355 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.002s
+2025-11-04 10:58:11,360 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 10:58:11,361 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 10:58:11,367 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.005s
+2025-11-04 10:58:11,371 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.010s
+2025-11-04 10:58:39,230 - app.event_queue - INFO - EventQueue initialized
+2025-11-04 10:58:39,230 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-04 10:58:39,352 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-04 10:58:39,353 - app.event_queue - INFO - Started 5 queue processors
+2025-11-04 10:58:39,356 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 10:58:39,356 - __main__ - INFO - All services initialized successfully
+2025-11-04 11:01:00,711 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 11:01:00,713 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 11:01:00,734 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 11:01:00,736 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 11:01:00,852 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.115s
+2025-11-04 11:01:00,853 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.119s
+2025-11-04 11:01:00,865 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 11:01:00,866 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 11:01:00,866 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-04 11:01:00,869 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-04 11:01:00,874 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-04 11:01:00,878 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.011s
+2025-11-04 11:02:41,687 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 11:02:41,689 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.002s
+2025-11-04 11:03:23,273 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 11:03:23,276 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-04 11:03:23,300 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-04 11:03:23,301 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-04 11:03:23,306 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.005s
+2025-11-04 11:03:23,307 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.005s
+2025-11-04 11:03:23,321 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 11:03:23,322 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 11:03:23,327 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-04 11:03:23,330 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.009s
+2025-11-04 11:03:30,592 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 11:03:30,594 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 11:03:30,621 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 11:03:30,625 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-04 11:03:30,627 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 11:03:30,631 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-04 11:03:36,425 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-04 11:03:36,427 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-04 11:03:36,444 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-04 11:03:36,449 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-04 11:03:36,452 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-04 11:03:36,458 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
