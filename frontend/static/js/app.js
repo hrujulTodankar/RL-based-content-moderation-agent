@@ -70,7 +70,7 @@ class ModerationDashboard {
 
     async loadStats() {
         try {
-            const response = await fetch('/stats');
+            const response = await fetch('/api/stats');
             const stats = await response.json();
 
             document.getElementById('total-moderated').textContent = stats.total_moderations || 0;
@@ -85,14 +85,14 @@ class ModerationDashboard {
         this.showLoading();
         try {
             // Try to get real data from backend
-            const response = await fetch('/moderated-content?page=1&limit=12');
+            const response = await fetch('/api/moderated-content?page=1&limit=12');
             if (response.ok) {
                 const data = await response.json();
                 this.moderatedContent = data.content || [];
                 this.totalItems = data.total || 0;
             } else {
                 // Fallback to sample data
-                const statsResponse = await fetch('/stats');
+                const statsResponse = await fetch('/api/stats');
                 const stats = statsResponse.ok ? await statsResponse.json() : {};
                 this.moderatedContent = this.generateSampleContent(stats.total_moderations || 10);
             }
@@ -284,7 +284,7 @@ class ModerationDashboard {
         this.showLoading();
 
         try {
-            const response = await fetch('/moderate', {
+            const response = await fetch('/api/moderate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -371,7 +371,7 @@ class ModerationDashboard {
         const comment = document.getElementById('feedback-comment').value.trim();
 
         try {
-            const response = await fetch('/feedback', {
+            const response = await fetch('/api/feedback', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
