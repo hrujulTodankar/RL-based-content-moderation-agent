@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional, Dict, Any
 import logging
+import json
 from datetime import datetime
 
 from ..auth_middleware import jwt_auth, get_current_user_optional
@@ -24,6 +25,105 @@ async def get_stats():
     except Exception as e:
         logger.error(f"Error retrieving stats: {str(e)}")
         raise HTTPException(status_code=500, detail="Error retrieving statistics")
+
+@router.get("/moderated-content")
+async def get_moderated_content(page: int = 1, limit: int = 12):
+    """Get paginated list of moderated content"""
+    try:
+        # Ensure feedback_handler is initialized
+        if not feedback_handler.db_conn and not feedback_handler.pool:
+            await feedback_handler.initialize()
+
+        if feedback_handler.db_type == "postgres" and feedback_handler.pool:
+            return await _get_moderated_content_postgres(page, limit)
+        else:
+            return await _get_moderated_content_sqlite(page, limit)
+    except Exception as e:
+        logger.error(f"Error retrieving moderated content: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error retrieving moderated content")
+
+async def _get_moderated_content_sqlite(page: int, limit: int):
+    """Get moderated content from SQLite"""
+    offset = (page - 1) * limit
+
+    cursor = await feedback_handler.db_conn.execute("""
+        SELECT moderation_id, content_type, flagged, score, confidence,
+               reasons, timestamp
+        FROM moderations
+        ORDER BY timestamp DESC
+        LIMIT ? OFFSET ?
+    """, (limit, offset))
+
+    rows = await cursor.fetchall()
+
+    cursor = await feedback_handler.db_conn.execute("SELECT COUNT(*) FROM moderations")
+    total = (await cursor.fetchone())[0]
+
+    content = []
+    for row in rows:
+        content.append({
+            "moderation_id": row[0],
+            "content_type": row[1],
+            "flagged": bool(row[2]),
+            "score": float(row[3]),
+            "confidence": float(row[4]),
+            "reasons": json.loads(row[5]) if row[5] else [],
+            "timestamp": row[6],
+            "nlp_metadata": {
+                "sentiment": "neutral",
+                "topic": "general",
+                "toxicity": 0.1
+            }
+        })
+
+    return {
+        "content": content,
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "pages": (total + limit - 1) // limit
+    }
+
+async def _get_moderated_content_postgres(page: int, limit: int):
+    """Get moderated content from PostgreSQL"""
+    offset = (page - 1) * limit
+
+    async with feedback_handler.pool.acquire() as conn:
+        rows = await conn.fetch("""
+            SELECT moderation_id, content_type, flagged, score, confidence,
+                   reasons, timestamp
+            FROM moderations
+            ORDER BY timestamp DESC
+            LIMIT $1 OFFSET $2
+        """, limit, offset)
+
+        total_row = await conn.fetchrow("SELECT COUNT(*) FROM moderations")
+        total = total_row["count"]
+
+        content = []
+        for row in rows:
+            content.append({
+                "moderation_id": row["moderation_id"],
+                "content_type": row["content_type"],
+                "flagged": row["flagged"],
+                "score": float(row["score"]),
+                "confidence": float(row["confidence"]),
+                "reasons": row["reasons"] or [],
+                "timestamp": row["timestamp"].isoformat(),
+                "nlp_metadata": {
+                    "sentiment": "neutral",
+                    "topic": "general",
+                    "toxicity": 0.1
+                }
+            })
+
+        return {
+            "content": content,
+            "total": total,
+            "page": page,
+            "limit": limit,
+            "pages": (total + limit - 1) // limit
+        }
 
 @router.get("/integration/metrics")
 async def get_integration_metrics(user: dict = Depends(jwt_auth)):
