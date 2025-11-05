@@ -319,7 +319,13 @@ async def get_api_docs():
                 <div class="endpoint">
                     <span class="endpoint-method method-POST">POST</span>
                     <span class="endpoint-path">/api/moderate</span>
-                    <div class="endpoint-description">Submit content for moderation</div>
+                    <div class="endpoint-description">Submit text content for moderation</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method method-POST">POST</span>
+                    <span class="endpoint-path">/api/moderate/file</span>
+                    <div class="endpoint-description">Upload and moderate image, video, or audio files</div>
                 </div>
 
                 <div class="endpoint">
@@ -332,6 +338,45 @@ async def get_api_docs():
                     <span class="endpoint-method method-GET">GET</span>
                     <a href="/api/health" class="endpoint-path">/api/health</a>
                     <div class="endpoint-description">Health check endpoint</div>
+                </div>
+            </div>
+
+            <div class="api-section">
+                <h2><i class="fas fa-upload"></i> Multimedia Content Moderation</h2>
+                <div class="upload-section">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Upload Media Files</h3>
+                            <p>Drag & drop images, videos, or audio files here, or click to browse</p>
+                            <input type="file" id="file-input" accept="image/*,video/*,audio/*" style="display: none;">
+                            <button class="btn upload-btn" onclick="document.getElementById('file-input').click()">
+                                <i class="fas fa-folder-open"></i> Choose Files
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="upload-options">
+                        <div class="option-group">
+                            <label for="content-type">Content Type:</label>
+                            <select id="content-type" class="form-control">
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                                <option value="audio">Audio</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="moderateFile()" id="moderate-btn" disabled>
+                            <i class="fas fa-shield-alt"></i> Moderate Content
+                        </button>
+                    </div>
+                </div>
+
+                <div class="preview-section" id="preview-section" style="display: none;">
+                    <h4><i class="fas fa-eye"></i> Preview & Results</h4>
+                    <div class="preview-container">
+                        <div class="media-preview" id="media-preview"></div>
+                        <div class="moderation-results" id="moderation-results"></div>
+                    </div>
                 </div>
             </div>
 
@@ -366,6 +411,183 @@ async def get_api_docs():
         </div>
 
         <script>
+            let selectedFile = null;
+
+            // File upload handling
+            document.getElementById('file-input').addEventListener('change', handleFileSelect);
+            document.getElementById('upload-area').addEventListener('click', () => document.getElementById('file-input').click());
+
+            // Drag and drop functionality
+            const uploadArea = document.getElementById('upload-area');
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                uploadArea.classList.add('dragover');
+            }
+
+            function unhighlight(e) {
+                uploadArea.classList.remove('dragover');
+            }
+
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            function handleFileSelect(e) {
+                const files = e.target.files;
+                handleFiles(files);
+            }
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    selectedFile = files[0];
+                    updateUploadArea();
+                    document.getElementById('moderate-btn').disabled = false;
+                }
+            }
+
+            function updateUploadArea() {
+                const uploadContent = uploadArea.querySelector('.upload-content');
+                const fileName = selectedFile.name;
+                const fileSize = (selectedFile.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+                uploadContent.innerHTML = `
+                    <i class="fas fa-file-alt upload-icon" style="color: #28a745;"></i>
+                    <h3>File Selected</h3>
+                    <p><strong>${fileName}</strong> (${fileSize})</p>
+                    <button class="btn upload-btn" onclick="clearFile()">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                `;
+            }
+
+            function clearFile() {
+                selectedFile = null;
+                document.getElementById('file-input').value = '';
+                document.getElementById('moderate-btn').disabled = true;
+
+                const uploadContent = document.querySelector('.upload-content');
+                uploadContent.innerHTML = `
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>Upload Media Files</h3>
+                    <p>Drag & drop images, videos, or audio files here, or click to browse</p>
+                    <button class="btn upload-btn" onclick="document.getElementById('file-input').click()">
+                        <i class="fas fa-folder-open"></i> Choose Files
+                    </button>
+                `;
+
+                document.getElementById('preview-section').style.display = 'none';
+            }
+
+            async function moderateFile() {
+                if (!selectedFile) {
+                    alert('Please select a file first');
+                    return;
+                }
+
+                const contentType = document.getElementById('content-type').value;
+                const moderateBtn = document.getElementById('moderate-btn');
+
+                moderateBtn.disabled = true;
+                moderateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('file', selectedFile);
+                    formData.append('content_type', contentType);
+
+                    const response = await fetch('/api/moderate/file', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        displayResults(result);
+                    } else {
+                        throw new Error(result.detail || 'Moderation failed');
+                    }
+
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                    console.error('Moderation error:', error);
+                } finally {
+                    moderateBtn.disabled = false;
+                    moderateBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Moderate Content';
+                }
+            }
+
+            function displayResults(result) {
+                const previewSection = document.getElementById('preview-section');
+                const mediaPreview = document.getElementById('media-preview');
+                const moderationResults = document.getElementById('moderation-results');
+
+                previewSection.style.display = 'block';
+
+                // Create media preview
+                let mediaElement = '';
+                if (selectedFile.type.startsWith('image/')) {
+                    mediaElement = `<img src="${URL.createObjectURL(selectedFile)}" alt="Uploaded image">`;
+                } else if (selectedFile.type.startsWith('video/')) {
+                    mediaElement = `<video controls><source src="${URL.createObjectURL(selectedFile)}" type="${selectedFile.type}"></video>`;
+                } else if (selectedFile.type.startsWith('audio/')) {
+                    mediaElement = `<audio controls><source src="${URL.createObjectURL(selectedFile)}" type="${selectedFile.type}"></audio>`;
+                }
+
+                mediaPreview.innerHTML = `
+                    <h5>Uploaded File</h5>
+                    ${mediaElement}
+                    <p><strong>File:</strong> ${selectedFile.name}</p>
+                    <p><strong>Size:</strong> ${(selectedFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+                    <p><strong>Type:</strong> ${selectedFile.type}</p>
+                `;
+
+                // Create moderation results
+                const statusClass = result.flagged ? 'flagged' : '';
+                const statusText = result.flagged ? 'FLAGGED' : 'APPROVED';
+                const statusColor = result.flagged ? '#dc3545' : '#28a745';
+
+                moderationResults.innerHTML = `
+                    <div class="result-card ${statusClass}">
+                        <h5>Moderation Results</h5>
+                        <div class="result-score ${statusClass}">
+                            Status: ${statusText}
+                        </div>
+                        <p><strong>Score:</strong> ${(result.score * 100).toFixed(2)}%</p>
+                        <p><strong>Confidence:</strong> ${(result.confidence * 100).toFixed(2)}%</p>
+                        <p><strong>Content Type:</strong> ${result.content_type}</p>
+                        <p><strong>Moderation ID:</strong> ${result.moderation_id}</p>
+                        <div class="result-reasons">
+                            <strong>Analysis:</strong><br>
+                            ${result.reasons.map(reason => `<span class="result-reason">${reason}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Scroll to results
+                previewSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
             // Load stats and RL progress dynamically
             async function loadStats() {
                 try {
@@ -764,6 +986,167 @@ async def get_bns_content():
                 font-weight: bold;
                 color: #28a745;
                 font-size: 1.1rem;
+            }}
+
+            .upload-section {{
+                margin: 20px 0;
+            }}
+
+            .upload-area {{
+                border: 2px dashed #667eea;
+                border-radius: 10px;
+                padding: 40px;
+                text-align: center;
+                background: rgba(102, 126, 234, 0.05);
+                transition: all 0.3s ease;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }}
+
+            .upload-area:hover, .upload-area.dragover {{
+                border-color: #28a745;
+                background: rgba(40, 167, 69, 0.1);
+            }}
+
+            .upload-icon {{
+                font-size: 3rem;
+                color: #667eea;
+                margin-bottom: 15px;
+            }}
+
+            .upload-content h3 {{
+                color: #2c3e50;
+                margin-bottom: 10px;
+            }}
+
+            .upload-content p {{
+                color: #7f8c8d;
+                margin-bottom: 20px;
+            }}
+
+            .upload-btn {{
+                background: linear-gradient(135deg, #667eea, #764ba2) !important;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                color: white;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }}
+
+            .upload-btn:hover {{
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            }}
+
+            .upload-options {{
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+            }}
+
+            .option-group {{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }}
+
+            .option-group label {{
+                font-weight: 600;
+                color: #2c3e50;
+                font-size: 0.9rem;
+            }}
+
+            .form-control {{
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                min-width: 120px;
+            }}
+
+            .preview-section {{
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 20px;
+            }}
+
+            .preview-container {{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-top: 15px;
+            }}
+
+            .media-preview {{
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+                text-align: center;
+            }}
+
+            .media-preview img, .media-preview video, .media-preview audio {{
+                max-width: 100%;
+                max-height: 300px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }}
+
+            .moderation-results {{
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+            }}
+
+            .result-card {{
+                background: white;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-left: 4px solid #28a745;
+            }}
+
+            .result-card.flagged {{
+                border-left-color: #dc3545;
+            }}
+
+            .result-score {{
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #28a745;
+            }}
+
+            .result-score.flagged {{
+                color: #dc3545;
+            }}
+
+            .result-reasons {{
+                margin-top: 10px;
+                font-size: 0.9rem;
+            }}
+
+            .result-reason {{
+                background: #e9ecef;
+                padding: 5px 10px;
+                border-radius: 15px;
+                margin: 2px 2px 2px 0;
+                display: inline-block;
+                font-size: 0.8rem;
+            }}
+
+            @media (max-width: 768px) {{
+                .preview-container {{
+                    grid-template-columns: 1fr;
+                }}
+
+                .upload-options {{
+                    flex-direction: column;
+                    gap: 15px;
+                }}
             }}
 
             .moderation-info.approved {{

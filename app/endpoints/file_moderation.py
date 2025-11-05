@@ -38,6 +38,11 @@ async def moderate_file(
     Moderate uploaded files (images, audio, video)
     Handles large files asynchronously with proper error handling
     """
+    # For demo purposes, skip authentication
+    """
+    Moderate uploaded files (images, audio, video)
+    Handles large files asynchronously with proper error handling
+    """
     try:
         moderation_id = str(uuid.uuid4())
 
