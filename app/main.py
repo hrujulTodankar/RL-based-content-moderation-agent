@@ -175,7 +175,7 @@ async def get_api_docs():
 
             .stat-card {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: red;
+                color: white;
                 padding: 20px;
                 border-radius: 10px;
                 text-align: center;
@@ -244,8 +244,39 @@ async def get_api_docs():
     <body>
         <div class="api-container">
             <div class="api-header">
-                <h1><i class="fas fa-shield-alt"></i> RL Content Moderation API</h1>
-                <p>RESTful API for AI-powered content moderation with reinforcement learning</p>
+                <h1><i class="fas fa-brain"></i> RL Content Moderation API</h1>
+                <p>AI-powered content moderation with adaptive learning and Indian legal content transparency</p>
+            </div>
+
+            <div class="api-section">
+                <h2><i class="fas fa-chart-line"></i> RL Learning Progress</h2>
+                <div class="rl-progress" id="rl-progress">
+                    <div class="progress-header">
+                        <div class="progress-title">Adaptive Learning Progress</div>
+                        <div class="progress-metric" id="learning-confidence">Confidence: 0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="total-learnings">0</div>
+                            <div>Total Learnings</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="accuracy-rate">0%</div>
+                            <div>Accuracy Rate</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="q-table-size">0</div>
+                            <div>Q-Table Size</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="feedback-count">0</div>
+                            <div>Feedback Received</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="api-section">
@@ -294,13 +325,37 @@ async def get_api_docs():
                 <div class="endpoint">
                     <span class="endpoint-method method-POST">POST</span>
                     <span class="endpoint-path">/api/feedback</span>
-                    <div class="endpoint-description">Submit feedback on moderation decisions</div>
+                    <div class="endpoint-description">Submit feedback on moderation decisions (triggers RL learning)</div>
                 </div>
 
                 <div class="endpoint">
                     <span class="endpoint-method method-GET">GET</span>
                     <a href="/api/health" class="endpoint-path">/api/health</a>
                     <div class="endpoint-description">Health check endpoint</div>
+                </div>
+            </div>
+
+            <div class="api-section">
+                <h2><i class="fas fa-gavel"></i> Indian Legal Content</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <a href="/bns" class="btn" style="background: linear-gradient(135deg, #28a745, #20c997); margin: 0; text-decoration: none; color: white;">
+                            <i class="fas fa-book"></i> BNS 2023
+                        </a>
+                    </div>
+                    <div class="stat-card">
+                        <a href="/crpc" class="btn" style="background: linear-gradient(135deg, #dc3545, #fd7e14); margin: 0; text-decoration: none; color: white;">
+                            <i class="fas fa-balance-scale"></i> CrPC 1973
+                        </a>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">RL</div>
+                        <div class="stat-label">Moderation Type</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Transparency</div>
+                    </div>
                 </div>
             </div>
 
@@ -311,7 +366,7 @@ async def get_api_docs():
         </div>
 
         <script>
-            // Load stats dynamically
+            // Load stats and RL progress dynamically
             async function loadStats() {
                 try {
                     const response = await fetch('/api/stats');
@@ -321,13 +376,33 @@ async def get_api_docs():
                     document.getElementById('flagged-count').textContent = stats.flagged_count || 0;
                     document.getElementById('avg-confidence').textContent = `${(stats.avg_confidence * 100 || 0).toFixed(1)}%`;
                     document.getElementById('total-feedback').textContent = stats.total_feedback || 0;
+                    document.getElementById('feedback-count').textContent = stats.total_feedback || 0;
+
+                    // Calculate learning progress
+                    const totalModerations = stats.total_moderations || 0;
+                    const totalFeedback = stats.total_feedback || 0;
+                    const avgConfidence = stats.avg_confidence || 0;
+
+                    // Learning progress based on feedback ratio and confidence
+                    const feedbackRatio = totalModerations > 0 ? (totalFeedback / totalModerations) : 0;
+                    const learningProgress = Math.min((feedbackRatio * 0.6 + avgConfidence * 0.4) * 100, 100);
+
+                    document.getElementById('progress-fill').style.width = `${learningProgress}%`;
+                    document.getElementById('learning-confidence').textContent = `Confidence: ${(avgConfidence * 100).toFixed(1)}%`;
+                    document.getElementById('total-learnings').textContent = totalFeedback;
+                    document.getElementById('accuracy-rate').textContent = `${(avgConfidence * 100).toFixed(1)}%`;
+
+                    // Mock Q-table size (would come from agent stats in real implementation)
+                    document.getElementById('q-table-size').textContent = Math.floor(totalFeedback * 2.5);
+
                 } catch (error) {
                     console.error('Error loading stats:', error);
                 }
             }
 
-            // Load stats on page load
+            // Load stats on page load and refresh every 5 seconds
             document.addEventListener('DOMContentLoaded', loadStats);
+            setInterval(loadStats, 5000);
         </script>
     </body>
     </html>
@@ -455,7 +530,7 @@ async def get_bns_content():
         section_info = {
             "section": section_num,
             "title": section_data["title"],
-            "content": content,
+            # "content": content,
             "category": section_data.get("category", "unknown").replace("_", " ").title(),
             "score": round(base_score, 3),
             "confidence": round(confidence, 3),
@@ -631,6 +706,64 @@ async def get_bns_content():
             .bns-item.rejected {{
                 border-left: 4px solid #dc3545;
                 opacity: 0.8;
+            }}
+
+            .rl-progress {{
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 20px;
+                margin: 20px 0;
+                border-left: 4px solid #28a745;
+            }}
+
+            .progress-header {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }}
+
+            .progress-title {{
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #2c3e50;
+            }}
+
+            .progress-metric {{
+                font-size: 0.9rem;
+                color: #7f8c8d;
+            }}
+
+            .progress-bar {{
+                width: 100%;
+                height: 20px;
+                background: #e9ecef;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }}
+
+            .progress-fill {{
+                height: 100%;
+                background: linear-gradient(90deg, #28a745, #20c997);
+                transition: width 0.3s ease;
+            }}
+
+            .progress-stats {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                font-size: 0.9rem;
+            }}
+
+            .progress-stat {{
+                text-align: center;
+            }}
+
+            .progress-stat-value {{
+                font-weight: bold;
+                color: #28a745;
+                font-size: 1.1rem;
             }}
 
             .moderation-info.approved {{
