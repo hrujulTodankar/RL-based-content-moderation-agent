@@ -8,6 +8,10 @@ import json
 import uuid
 
 from ..auth_middleware import jwt_auth, get_current_user_optional
+
+# For demo purposes, disable authentication
+async def demo_user():
+    return {"user_id": "demo-user"}
 from ..integration_services import integration_services
 from ..moderation_agent import ModerationAgent
 from ..feedback_handler import FeedbackHandler
@@ -43,13 +47,15 @@ class ModerationResponse(BaseModel):
 @router.post("/moderate", response_model=ModerationResponse)
 async def moderate_content(
     request: ModerationRequest,
-    background_tasks: BackgroundTasks,
-    user: dict = Depends(get_current_user_optional)  # Optional auth for demo
+    background_tasks: BackgroundTasks
 ):
     """
     Moderate content with RL-powered decision making
     Now integrated with NLP context
     """
+    # For demo purposes, skip authentication
+    if user is None:
+        user = {"user_id": "demo-user"}
     try:
         moderation_id = str(uuid.uuid4())
         logger.info(f"Moderation request {moderation_id} for {request.content_type}")
@@ -109,7 +115,7 @@ async def moderate_content(
             "mcp_weighted_score": result.get("mcp_weighted_score"),
             "reasons": result["reasons"],
             "timestamp": datetime.utcnow().isoformat(),
-            "user_id": user.get("user_id") if user else None,
+            "user_id": "demo-user",
             "state": result.get("state")  # Store state for RL learning
         }
 

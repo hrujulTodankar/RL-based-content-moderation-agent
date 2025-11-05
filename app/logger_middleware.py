@@ -46,6 +46,11 @@ class LoggerMiddleware(BaseHTTPMiddleware):
         logger.info(f"Request: {request.method} {request.url.path} from {client_host}")
         
         try:
+            # Skip auth check for demo endpoints
+            if request.url.path.startswith("/api/moderate") or request.url.path.startswith("/api/feedback"):
+                # Allow demo access
+                pass
+
             # Process request
             response = await call_next(request)
             

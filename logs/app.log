@@ -1953,3 +1953,892 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-11-04 11:03:36,449 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
 2025-11-04 11:03:36,452 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
 2025-11-04 11:03:36,458 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-05 09:47:27,642 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 09:47:27,642 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 09:47:27,866 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 09:47:27,867 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 09:47:27,880 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 09:47:27,881 - __main__ - INFO - All services initialized successfully
+2025-11-05 09:47:37,393 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-05 09:47:37,395 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-11-05 09:47:37,487 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-05 09:47:37,510 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.021s
+2025-11-05 09:47:47,661 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 09:47:47,700 - app.logger_middleware - INFO - Response: 200 for / in 0.039s
+2025-11-05 09:47:47,715 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-05 09:47:47,717 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-05 09:47:47,836 - app.logger_middleware - INFO - Response: 200 for /static/css/styles.css in 0.119s
+2025-11-05 09:47:47,837 - app.logger_middleware - INFO - Response: 200 for /static/js/app.js in 0.119s
+2025-11-05 09:47:47,915 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 09:47:47,916 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 09:47:47,917 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 09:47:47,921 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-05 09:47:47,928 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 09:47:47,932 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.014s
+2025-11-05 09:47:47,962 - app.logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-11-05 09:47:47,965 - app.logger_middleware - INFO - Response: 404 for /favicon.ico in 0.002s
+2025-11-05 09:47:58,986 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-05 09:47:58,988 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-11-05 09:47:59,067 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-05 09:47:59,068 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-11-05 09:48:02,995 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 09:48:02,997 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-05 09:48:03,023 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 09:48:03,024 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 09:48:03,028 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-05 09:48:03,031 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.007s
+2025-11-05 09:48:05,720 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 09:48:05,723 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 09:48:09,428 - app.logger_middleware - INFO - Request: GET /api from 127.0.0.1
+2025-11-05 09:48:09,429 - app.logger_middleware - INFO - Response: 200 for /api in 0.001s
+2025-11-05 09:48:09,477 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 09:48:09,480 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 09:51:49,274 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:51:49,277 - app.logger_middleware - INFO - Response: 422 for /api/moderate in 0.001s
+2025-11-05 09:51:54,844 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:51:54,847 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.002s
+2025-11-05 09:52:07,446 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:52:07,448 - app.auth_middleware - ERROR - Invalid token: Not enough segments
+2025-11-05 09:52:07,448 - app.endpoints.moderation - INFO - Moderation request f0877f4c-67b5-486a-867c-2e30c03705eb for text
+2025-11-05 09:52:10,266 - app.integration_services - ERROR - Error getting NLP context: All connection attempts failed
+2025-11-05 09:52:10,266 - app.feedback_handler - ERROR - Error storing moderation: 'NoneType' object has no attribute 'execute'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 148, in store_moderation
+    await self._store_moderation_sqlite(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 157, in _store_moderation_sqlite
+    await self.db_conn.execute("""
+          ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2025-11-05 09:52:10,269 - app.endpoints.moderation - ERROR - Moderation error: 'NoneType' object has no attribute 'execute'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\moderation.py", line 116, in moderate_content
+    await feedback_handler.store_moderation(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 148, in store_moderation
+    await self._store_moderation_sqlite(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 157, in _store_moderation_sqlite
+    await self.db_conn.execute("""
+          ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2025-11-05 09:52:10,272 - app.logger_middleware - INFO - Response: 500 for /api/moderate in 2.825s
+2025-11-05 09:52:13,288 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:52:13,290 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:52:31,976 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:52:31,978 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:53:02,982 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:53:02,983 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:53:32,882 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:53:32,884 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:54:05,250 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:54:05,252 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:54:26,954 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:54:26,956 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:54:58,888 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:54:58,891 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:55:53,651 - app.logger_middleware - INFO - Request: POST /api/feedback from 127.0.0.1
+2025-11-05 09:55:53,652 - app.logger_middleware - INFO - Response: 403 for /api/feedback in 0.001s
+2025-11-05 09:56:44,690 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:56:44,691 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:57:20,493 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:57:20,495 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:57:35,544 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:57:35,547 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 09:57:58,381 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 09:57:58,383 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 10:00:25,693 - app.logger_middleware - INFO - Request: GET /api/health from 127.0.0.1
+2025-11-05 10:00:25,694 - app.logger_middleware - INFO - Response: 200 for /api/health in 0.001s
+2025-11-05 10:03:02,130 - app.logger_middleware - INFO - Request: GET /api/health from 127.0.0.1
+2025-11-05 10:03:02,132 - app.logger_middleware - INFO - Response: 200 for /api/health in 0.001s
+2025-11-05 10:03:04,172 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 10:03:04,175 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.002s
+2025-11-05 10:03:06,716 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 10:03:06,718 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 10:03:09,256 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 10:03:09,258 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 10:03:11,801 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 10:03:11,804 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.002s
+2025-11-05 10:03:14,340 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 10:03:14,342 - app.logger_middleware - INFO - Response: 403 for /api/moderate in 0.001s
+2025-11-05 10:06:21,372 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 10:06:21,376 - app.logger_middleware - INFO - Response: 200 for / in 0.003s
+2025-11-05 10:06:21,391 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-05 10:06:21,393 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-05 10:06:21,397 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.005s
+2025-11-05 10:06:21,399 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.005s
+2025-11-05 10:06:21,405 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 10:06:21,406 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 10:06:21,410 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-05 10:06:21,414 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.008s
+2025-11-05 10:13:08,681 - app.logger_middleware - INFO - Request: GET /api/health from 127.0.0.1
+2025-11-05 10:13:08,684 - app.logger_middleware - INFO - Response: 200 for /api/health in 0.002s
+2025-11-05 10:13:56,489 - app.logger_middleware - INFO - Request: GET /api/health from 127.0.0.1
+2025-11-05 10:13:56,493 - app.logger_middleware - INFO - Response: 200 for /api/health in 0.001s
+2025-11-05 10:16:41,118 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:16:41,121 - app.logger_middleware - INFO - Response: 404 for /bns in 0.001s
+2025-11-05 10:16:57,243 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 10:16:57,245 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-05 10:18:10,412 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 10:18:10,414 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-05 10:18:10,432 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-05 10:18:10,434 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-05 10:18:10,437 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.004s
+2025-11-05 10:18:10,441 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.005s
+2025-11-05 10:18:10,454 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 10:18:10,455 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 10:18:10,461 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-05 10:18:10,466 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.011s
+2025-11-05 10:18:14,274 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:18:14,276 - app.logger_middleware - INFO - Response: 404 for /bns in 0.001s
+2025-11-05 10:19:10,709 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 10:19:10,710 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 10:19:10,854 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 10:19:10,855 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 10:19:10,858 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 10:19:10,859 - __main__ - INFO - All services initialized successfully
+2025-11-05 10:19:10,859 - __main__ - INFO - Shutting down services
+2025-11-05 10:19:10,860 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-05 10:19:10,860 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-05 10:19:10,860 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-05 10:19:10,860 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-05 10:19:10,860 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-05 10:19:10,861 - app.event_queue - INFO - EventQueue closed
+2025-11-05 10:19:41,708 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:19:41,710 - app.logger_middleware - INFO - Response: 404 for /bns in 0.001s
+2025-11-05 10:19:42,728 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:19:42,730 - app.logger_middleware - INFO - Response: 404 for /bns in 0.001s
+2025-11-05 10:19:58,517 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 10:19:58,520 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-05 10:19:58,547 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 10:19:58,548 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 10:19:58,551 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-05 10:19:58,556 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.008s
+2025-11-05 10:21:02,249 - app.logger_middleware - INFO - Request: GET /bns-content from 127.0.0.1
+2025-11-05 10:21:02,250 - app.logger_middleware - INFO - Response: 404 for /bns-content in 0.001s
+2025-11-05 10:21:33,280 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:21:33,281 - app.logger_middleware - INFO - Response: 404 for /bns in 0.001s
+2025-11-05 10:22:59,412 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 10:22:59,412 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 10:22:59,554 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 10:22:59,555 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 10:22:59,560 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 10:22:59,561 - __main__ - INFO - All services initialized successfully
+2025-11-05 10:23:16,190 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:23:16,195 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 10:23:44,360 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:23:44,365 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 10:23:44,446 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 10:23:44,447 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 10:23:44,449 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 10:28:50,454 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 10:28:50,457 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 11:03:33,295 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:03:33,302 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 11:03:47,666 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:03:47,669 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 11:04:23,702 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:04:23,704 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 11:04:23,742 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:04:23,743 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:04:23,746 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 11:06:01,862 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 11:06:01,862 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 11:06:02,037 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 11:06:02,038 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 11:06:02,042 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 11:06:02,042 - __main__ - INFO - All services initialized successfully
+2025-11-05 11:07:11,619 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:07:11,625 - app.logger_middleware - INFO - Response: 200 for /bns in 0.005s
+2025-11-05 11:07:25,788 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:07:25,790 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 11:07:30,882 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:07:30,884 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 11:07:30,920 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:07:30,921 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:07:30,923 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 11:48:23,315 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 11:48:23,321 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 11:48:23,365 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:48:23,366 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:48:23,373 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.006s
+2025-11-05 11:48:40,287 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:48:40,289 - app.logger_middleware - INFO - Response: 404 for /crpc in 0.001s
+2025-11-05 11:49:56,372 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 11:49:56,373 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 11:49:56,935 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 11:49:56,936 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 11:49:56,943 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 11:49:56,943 - __main__ - INFO - All services initialized successfully
+2025-11-05 11:50:20,612 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:50:20,621 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.006s
+2025-11-05 11:50:36,151 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:50:36,154 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 11:52:33,430 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:52:33,435 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.003s
+2025-11-05 11:52:33,474 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:52:33,475 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:52:33,477 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 11:52:51,819 - app.logger_middleware - INFO - Request: GET /crpc. from 127.0.0.1
+2025-11-05 11:52:51,821 - app.logger_middleware - INFO - Response: 404 for /crpc. in 0.001s
+2025-11-05 11:53:48,366 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:53:48,369 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 11:54:34,569 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:54:34,573 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 11:54:34,621 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:54:34,622 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:54:34,626 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 11:56:25,057 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:56:25,061 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.003s
+2025-11-05 11:56:32,299 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:56:32,301 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 11:56:32,336 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:56:32,337 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:56:32,340 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 11:56:40,014 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:56:40,016 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 11:56:54,892 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:56:54,894 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 11:59:11,892 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 11:59:11,898 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.003s
+2025-11-05 11:59:11,936 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 11:59:11,936 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 11:59:11,938 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-05 12:00:35,797 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:00:35,798 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:00:36,051 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:00:36,052 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:00:36,055 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:00:36,055 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:01:40,157 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:01:40,160 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 12:01:40,193 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:01:40,194 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:01:40,196 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 12:03:19,746 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:03:19,752 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.004s
+2025-11-05 12:03:19,786 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:03:19,787 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:03:19,789 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 12:03:30,952 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:03:30,956 - app.logger_middleware - INFO - Response: 200 for /bns in 0.003s
+2025-11-05 12:04:44,188 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 12:04:44,191 - app.logger_middleware - ERROR - Error processing /api/moderate: cannot access local variable 'user' where it is not associated with a value
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\moderation.py", line 57, in moderate_content
+    if user is None:
+       ^^^^
+UnboundLocalError: cannot access local variable 'user' where it is not associated with a value
+2025-11-05 12:05:14,980 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-05 12:05:14,983 - app.logger_middleware - ERROR - Error processing /api/moderate: cannot access local variable 'user' where it is not associated with a value
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 118, in receive
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\moderation.py", line 57, in moderate_content
+    if user is None:
+       ^^^^
+UnboundLocalError: cannot access local variable 'user' where it is not associated with a value
+2025-11-05 12:06:12,945 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:06:12,945 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:06:13,132 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:06:13,134 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:06:13,139 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:06:13,140 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:06:56,732 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 12:06:56,765 - app.logger_middleware - INFO - Response: 200 for / in 0.033s
+2025-11-05 12:06:56,786 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-05 12:06:56,788 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-05 12:06:56,906 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.120s
+2025-11-05 12:06:56,909 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.120s
+2025-11-05 12:06:56,920 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:06:56,920 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:06:56,921 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 12:06:56,924 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 12:06:56,928 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:06:56,932 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.010s
+2025-11-05 12:07:01,567 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:07:01,570 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 12:07:01,596 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:07:01,601 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 12:08:07,975 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:08:07,979 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 12:08:08,016 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:08:08,023 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.006s
+2025-11-05 12:08:18,508 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:08:18,512 - app.logger_middleware - INFO - Response: 200 for /bns in 0.003s
+2025-11-05 12:10:22,417 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:10:22,417 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:10:22,611 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:10:22,611 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:10:22,615 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:10:22,615 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:12:11,890 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:12:11,896 - app.logger_middleware - INFO - Response: 200 for /bns in 0.005s
+2025-11-05 12:12:22,821 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:12:22,823 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 12:12:55,857 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:12:55,860 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 12:13:36,692 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:13:36,695 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 12:15:32,430 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:15:32,434 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 12:15:55,333 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:15:55,336 - app.logger_middleware - INFO - Response: 200 for /bns in 0.002s
+2025-11-05 12:16:10,440 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:16:10,442 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:17:00,891 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:17:00,894 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:17:35,708 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:17:35,711 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:19:07,392 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:19:07,397 - app.logger_middleware - INFO - Response: 200 for /bns in 0.003s
+2025-11-05 12:19:18,674 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:19:18,676 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:19:20,854 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:19:20,856 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:20:39,441 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:20:39,443 - app.logger_middleware - INFO - Response: 200 for /bns in 0.001s
+2025-11-05 12:22:46,301 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:22:46,305 - app.logger_middleware - INFO - Response: 200 for /bns in 0.003s
+2025-11-05 12:24:12,242 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:24:12,243 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:24:12,495 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:24:12,495 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:24:12,501 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:24:12,501 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:25:06,061 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:25:06,066 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 12:25:06,140 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:25:06,141 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:25:06,143 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 12:30:47,020 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:30:47,021 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:30:47,199 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:30:47,200 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:30:47,203 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:30:47,204 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:32:31,209 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:32:31,214 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 12:32:31,242 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:32:31,243 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:32:31,245 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-05 12:36:42,467 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:36:42,467 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:36:42,657 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:36:42,658 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:36:42,665 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:36:42,665 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:37:33,357 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:37:33,362 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 12:37:33,407 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:37:33,408 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:37:33,411 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 12:40:36,375 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:40:36,375 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:40:36,616 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:40:36,617 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:40:36,621 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:40:36,621 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:41:33,826 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:41:33,832 - app.logger_middleware - INFO - Response: 200 for /bns in 0.005s
+2025-11-05 12:41:33,877 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:41:33,879 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:41:33,882 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 12:46:43,176 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:46:43,176 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:46:43,377 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:46:43,377 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:46:43,382 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:46:43,382 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:48:00,331 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:48:00,335 - app.logger_middleware - INFO - Response: 200 for /bns in 0.004s
+2025-11-05 12:48:00,360 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:48:00,361 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:48:00,363 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 12:50:10,230 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:50:10,235 - app.logger_middleware - ERROR - Error processing /crpc: 'approval_reasons'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\main.py", line 1096, in get_crpc_content
+    {"<br>".join(f"• {reason}" for reason in item["approval_reasons"])}
+                                             ~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'approval_reasons'
+2025-11-05 12:52:02,208 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:52:02,210 - app.logger_middleware - ERROR - Error processing /crpc: 'approval_reasons'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\main.py", line 1096, in get_crpc_content
+    <strong>Approval Reasons:</strong><br>
+    
+KeyError: 'approval_reasons'
+2025-11-05 12:53:15,299 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:53:15,299 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:53:15,542 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:53:15,544 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:53:15,548 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:53:15,548 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:55:13,501 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:55:13,504 - app.logger_middleware - ERROR - Error processing /crpc: name 'approval_reasons' is not defined
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\main.py", line 837, in get_crpc_content
+    "approval_reasons": approval_reasons if base_score >= 0.7 else [],
+                        ^^^^^^^^^^^^^^^^
+NameError: name 'approval_reasons' is not defined
+2025-11-05 12:55:17,904 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:55:17,905 - app.logger_middleware - ERROR - Error processing /crpc: name 'approval_reasons' is not defined
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\main.py", line 837, in get_crpc_content
+    "approval_reasons": approval_reasons if base_score >= 0.7 else [],
+                        ^^^^^^^^^^^^^^^^
+NameError: name 'approval_reasons' is not defined
+2025-11-05 12:55:23,528 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 12:55:23,533 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-05 12:55:23,566 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-05 12:55:23,691 - app.logger_middleware - INFO - Response: 304 for /static/css/styles.css in 0.124s
+2025-11-05 12:55:23,692 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-05 12:55:23,698 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.005s
+2025-11-05 12:55:23,751 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:55:23,751 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:55:23,752 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-05 12:55:23,755 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 12:55:23,759 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:55:23,767 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.010s
+2025-11-05 12:55:30,969 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:55:30,971 - app.logger_middleware - ERROR - Error processing /crpc: name 'approval_reasons' is not defined
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\logger_middleware.py", line 55, in dispatch
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        dependant=dependant, values=values, is_coroutine=is_coroutine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\main.py", line 837, in get_crpc_content
+    "approval_reasons": approval_reasons if base_score >= 0.7 else [],
+                        ^^^^^^^^^^^^^^^^
+NameError: name 'approval_reasons' is not defined
+2025-11-05 12:58:06,675 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 12:58:06,675 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 12:58:06,935 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 12:58:06,936 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 12:58:06,939 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:58:06,940 - __main__ - INFO - All services initialized successfully
+2025-11-05 12:58:48,136 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 12:58:48,141 - app.logger_middleware - INFO - Response: 200 for / in 0.003s
+2025-11-05 12:58:48,235 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:58:48,236 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 12:58:48,237 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 12:58:48,241 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.005s
+2025-11-05 12:58:48,246 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 12:58:48,251 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.013s
+2025-11-05 12:58:54,097 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 12:58:54,102 - app.logger_middleware - INFO - Response: 200 for /bns in 0.003s
+2025-11-05 12:58:54,126 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:58:54,130 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 12:59:11,684 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-05 12:59:11,685 - app.logger_middleware - INFO - Response: 200 for /docs in 0.001s
+2025-11-05 12:59:11,781 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-05 12:59:11,828 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.045s
+2025-11-05 12:59:14,527 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-05 12:59:14,529 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-05 12:59:14,557 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:59:14,559 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-05 12:59:14,566 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.005s
+2025-11-05 12:59:14,571 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.012s
+2025-11-05 12:59:29,096 - app.logger_middleware - INFO - Request: GET /docs from 127.0.0.1
+2025-11-05 12:59:29,100 - app.logger_middleware - INFO - Response: 200 for /docs in 0.002s
+2025-11-05 12:59:29,209 - app.logger_middleware - INFO - Request: GET /openapi.json from 127.0.0.1
+2025-11-05 12:59:29,210 - app.logger_middleware - INFO - Response: 200 for /openapi.json in 0.001s
+2025-11-05 12:59:35,311 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 12:59:35,314 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 12:59:35,377 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 12:59:35,381 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 13:03:19,583 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 13:03:19,583 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 13:03:19,836 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 13:03:19,837 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 13:03:19,841 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 13:03:19,841 - __main__ - INFO - All services initialized successfully
+2025-11-05 13:03:43,864 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 13:03:43,868 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 13:03:43,908 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 13:03:43,910 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 13:03:43,913 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.004s
+2025-11-05 13:06:29,927 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 13:06:29,927 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 13:06:30,126 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 13:06:30,126 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 13:06:30,130 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 13:06:30,131 - __main__ - INFO - All services initialized successfully
+2025-11-05 13:06:55,681 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 13:06:55,685 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.003s
+2025-11-05 13:06:55,718 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 13:06:55,720 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 13:06:55,723 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.003s
+2025-11-05 13:06:58,878 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 13:06:58,880 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.001s
+2025-11-05 13:06:58,898 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 13:06:58,899 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 13:06:58,901 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.001s
+2025-11-05 13:07:17,906 - app.logger_middleware - INFO - Request: GET /.well-known/appspecific/com.chrome.devtools.json from 127.0.0.1
+2025-11-05 13:07:17,908 - app.logger_middleware - INFO - Response: 404 for /.well-known/appspecific/com.chrome.devtools.json in 0.001s
+2025-11-05 13:09:24,796 - app.logger_middleware - INFO - Request: GET /.well-known/appspecific/com.chrome.devtools.json from 127.0.0.1
+2025-11-05 13:09:24,798 - app.logger_middleware - INFO - Response: 404 for /.well-known/appspecific/com.chrome.devtools.json in 0.001s
+2025-11-05 13:13:54,568 - app.event_queue - INFO - EventQueue initialized
+2025-11-05 13:13:54,569 - app.feedback_handler - INFO - FeedbackHandler initialized with sqlite
+2025-11-05 13:13:54,750 - __main__ - INFO - Starting RL-Powered Content Moderation API
+2025-11-05 13:13:54,751 - app.event_queue - INFO - Started 5 queue processors
+2025-11-05 13:13:54,755 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-05 13:13:54,755 - __main__ - INFO - All services initialized successfully
+2025-11-05 13:14:23,401 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 13:14:23,404 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.002s
+2025-11-05 13:14:23,441 - app.logger_middleware - INFO - Request: GET /.well-known/appspecific/com.chrome.devtools.json from 127.0.0.1
+2025-11-05 13:14:23,447 - app.logger_middleware - INFO - Response: 404 for /.well-known/appspecific/com.chrome.devtools.json in 0.004s
+2025-11-05 13:14:23,490 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 13:14:23,491 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 13:14:23,495 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 13:14:33,459 - app.logger_middleware - INFO - Request: GET /bns from 127.0.0.1
+2025-11-05 13:14:33,465 - app.logger_middleware - INFO - Response: 200 for /bns in 0.005s
+2025-11-05 13:14:33,493 - app.logger_middleware - INFO - Request: GET /.well-known/appspecific/com.chrome.devtools.json from 127.0.0.1
+2025-11-05 13:14:33,498 - app.logger_middleware - INFO - Response: 404 for /.well-known/appspecific/com.chrome.devtools.json in 0.002s
+2025-11-05 13:14:33,499 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-05 13:14:33,500 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-05 13:14:33,502 - app.logger_middleware - INFO - Response: 200 for /api/stats in 0.002s
+2025-11-05 13:14:42,632 - app.logger_middleware - INFO - Request: GET /crpc from 127.0.0.1
+2025-11-05 13:14:42,637 - app.logger_middleware - INFO - Response: 200 for /crpc in 0.003s
+2025-11-05 13:14:42,655 - app.logger_middleware - INFO - Request: GET /.well-known/appspecific/com.chrome.devtools.json from 127.0.0.1
+2025-11-05 13:14:42,657 - app.logger_middleware - INFO - Response: 404 for /.well-known/appspecific/com.chrome.devtools.json in 0.001s
+2025-11-05 13:14:42,666 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1

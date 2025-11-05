@@ -114,8 +114,7 @@ async def emit_feedback_events(feedback_record: Dict[str, Any]):
 @router.post("/feedback", response_model=FeedbackResponse)
 async def submit_feedback(
     feedback: FeedbackRequest,
-    background_tasks: BackgroundTasks,
-    user: dict = Depends(get_current_user_optional)
+    background_tasks: BackgroundTasks
 ):
     """
     Accept user feedback and execute full integration pipeline:
