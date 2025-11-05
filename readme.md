@@ -1,23 +1,37 @@
-# RL-Powered Content Moderation System
+# RL-Powered Content Moderation System with Indian Legal Content Transparency
 
 ## Project Overview
-This project implements an advanced content moderation system powered by Reinforcement Learning (RL) that automatically learns and improves from user feedback. The system can moderate various types of content including text, images, audio, video, and code snippets.
+This project implements an advanced content moderation system powered by Reinforcement Learning (RL) that automatically learns and improves from user feedback. The system specializes in moderating Indian legal content with complete transparency features, showing approved and rejected content with detailed reasoning.
+
+The system can moderate various types of content including text, images, audio, video, and code snippets, with special focus on Indian legal documents like Bharatiya Nyaya Sanhita (BNS) and Code of Criminal Procedure (CrPC).
 
 ### Key Features
-1. **Multi-Modal Content Support**
+1. **Indian Legal Content Moderation**
+   - Bharatiya Nyaya Sanhita (BNS) 2023 content moderation
+   - Code of Criminal Procedure (CrPC) 1973 content moderation
+   - Dynamic approval/rejection reasons based on legal content analysis
+   - Complete transparency with visual distinction between approved/rejected content
+
+2. **Multi-Modal Content Support**
    - Text moderation with NLP context understanding
    - Image content analysis
    - Audio content processing
    - Video content analysis
    - Code snippet evaluation
 
-2. **Adaptive Learning**
+3. **Adaptive Learning**
    - Real-time learning from user feedback
    - Confidence-based decision making
    - Historical performance tracking
    - Automated improvement over time
 
-3. **Integration Capabilities**
+4. **Complete Transparency Features**
+   - Approved content (green) with specific approval reasons
+   - Rejected content (red) with detailed rejection reasons
+   - Content-aware analysis for legal terminology, structure, and procedural elements
+   - Score-based dynamic reasoning
+
+5. **Integration Capabilities**
    - Model Context Protocol (MCP) integration
    - Event-driven architecture
    - Scalable feedback handling
@@ -50,6 +64,19 @@ This project implements an advanced content moderation system powered by Reinfor
    - Manages MCP integration
    - Processes analytics data
 
+5. **Legal Content Repository** (`indian_laws_data.py`)
+   - Centralized repository for Indian legal content
+   - BNS and CrPC data management
+   - Content categorization and metadata
+   - Easy extensibility for additional legal content
+
+6. **Web Interface** (`app/main.py`)
+   - BNS content moderation display (`/bns`)
+   - CrPC content moderation display (`/crpc`)
+   - Dynamic approval/rejection reasons
+   - Visual distinction with color coding
+   - Real-time statistics and analytics
+
 ## Setup Instructions
 
 1. **Environment Setup**
@@ -81,13 +108,21 @@ This project implements an advanced content moderation system powered by Reinfor
    - API documentation: http://localhost:8000/docs
    - Health check: http://localhost:8000/health
    - Main API: http://localhost:8000
+   - BNS Moderated Content: http://localhost:8000/bns
+   - CrPC Moderated Content: http://localhost:8000/crpc
+   - API Overview: http://localhost:8000/api
 
 ## Demonstration Flow
 
-### 1. Basic Content Moderation
+### 1. View Moderated Indian Legal Content
+- **BNS Content**: Visit http://localhost:8000/bns to see Bharatiya Nyaya Sanhita sections with approval/rejection status
+- **CrPC Content**: Visit http://localhost:8000/crpc to see Code of Criminal Procedure sections with detailed reasons
+- **API Overview**: Visit http://localhost:8000/api for interactive API documentation
+
+### 2. Basic Content Moderation
 ```bash
 # Example cURL request for text moderation
-curl -X POST "http://localhost:8000/moderate" \\
+curl -X POST "http://localhost:8000/api/moderate" \\
      -H "Content-Type: application/json" \\
      -d '{
            "content": "Sample text to moderate",
@@ -96,10 +131,10 @@ curl -X POST "http://localhost:8000/moderate" \\
          }'
 ```
 
-### 2. Feedback Submission
+### 3. Feedback Submission
 ```bash
 # Example feedback submission
-curl -X POST "http://localhost:8000/feedback" \\
+curl -X POST "http://localhost:8000/api/feedback" \\
      -H "Content-Type: application/json" \\
      -d '{
            "moderation_id": "<ID_FROM_PREVIOUS_RESPONSE>",
@@ -108,10 +143,11 @@ curl -X POST "http://localhost:8000/feedback" \\
          }'
 ```
 
-### 3. Learning Visualization
-- Access http://localhost:8000/learning/report to view learning progress
-- Check moderation accuracy trends
-- View confidence scores over time
+### 4. Transparency Features
+- **Approved Content**: Green styling with specific approval reasons based on legal content analysis
+- **Rejected Content**: Red styling with detailed rejection reasons
+- **Dynamic Reasons**: Content-aware analysis of legal terminology, structure, and procedural elements
+- **Score-based Reasoning**: Different explanations based on moderation confidence scores
 
 ## Key Technical Highlights
 
@@ -142,16 +178,38 @@ The system tracks several key metrics:
 - User satisfaction scores
 
 ## Future Enhancements
-1. Enhanced NLP capabilities
-2. Multi-language support
-3. Advanced ML model integration
-4. Distributed processing support
+1. **Enhanced Legal Content Support**
+   - Additional Indian legal codes (IPC, CPC, etc.)
+   - State-specific law integration
+   - Constitutional law sections
+   - Case law integration
+
+2. **Advanced AI/ML Features**
+   - Enhanced NLP capabilities for legal text analysis
+   - Multi-language support for regional languages
+   - Advanced ML model integration
+   - Legal precedent analysis
+
+3. **System Improvements**
+   - Distributed processing support
+   - Real-time collaborative moderation
+   - Advanced analytics dashboard
+   - Mobile application support
+
+4. **Transparency Enhancements**
+   - Detailed audit trails
+   - User feedback analytics
+   - Performance metrics dashboard
+   - Automated compliance reporting
 
 ## Project Statistics
-- Lines of Code: ~2000
-- Core Components: 8
-- API Endpoints: 10+
+- Lines of Code: ~4000+
+- Core Components: 10
+- API Endpoints: 12+
 - Supported Content Types: 5
+- Legal Databases: BNS 2023, CrPC 1973
+- Transparency Features: Complete approval/rejection reasoning
+- Web Routes: 5 (Dashboard, API Docs, BNS, CrPC, API Overview)
 
 ## Testing
 ```bash
