@@ -66,6 +66,7 @@ async def get_api_docs():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>RL Content Moderation API</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <style>
             * {
                 margin: 0;
@@ -249,31 +250,173 @@ async def get_api_docs():
             </div>
 
             <div class="api-section">
-                <h2><i class="fas fa-chart-line"></i> RL Learning Progress</h2>
-                <div class="rl-progress" id="rl-progress">
-                    <div class="progress-header">
-                        <div class="progress-title">Adaptive Learning Progress</div>
-                        <div class="progress-metric" id="learning-confidence">Confidence: 0%</div>
+                <h2><i class="fas fa-chart-line"></i> RL Learning Analytics</h2>
+                <div class="rl-analytics" id="rl-analytics">
+                    <div class="analytics-tabs">
+                        <button class="tab-btn active" onclick="showTab('progress')">Learning Progress</button>
+                        <button class="tab-btn" onclick="showTab('metrics')">Training Metrics</button>
+                        <button class="tab-btn" onclick="showTab('performance')">Performance</button>
+                        <button class="tab-btn" onclick="showTab('accuracy')">Accuracy Trends</button>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+
+                    <div id="progress-tab" class="tab-content active">
+                        <div class="rl-progress">
+                            <div class="progress-header">
+                                <div class="progress-title">Adaptive Learning Progress</div>
+                                <div class="progress-metric" id="learning-confidence">Confidence: 0%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-stats">
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" id="total-learnings">0</div>
+                                    <div>Total Learnings</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" id="accuracy-rate">0%</div>
+                                    <div>Accuracy Rate</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" id="q-table-size">0</div>
+                                    <div>Q-Table Size</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value" id="feedback-count">0</div>
+                                    <div>Feedback Received</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="progress-stats">
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="total-learnings">0</div>
-                            <div>Total Learnings</div>
+
+                    <div id="metrics-tab" class="tab-content">
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <h4><i class="fas fa-brain"></i> Q-Learning Metrics</h4>
+                                <canvas id="q-learning-chart" width="300" height="200"></canvas>
+                            </div>
+                            <div class="metric-card">
+                                <h4><i class="fas fa-chart-area"></i> Reward Distribution</h4>
+                                <canvas id="reward-chart" width="300" height="200"></canvas>
+                            </div>
+                            <div class="metric-card">
+                                <h4><i class="fas fa-cogs"></i> Action Selection</h4>
+                                <canvas id="action-chart" width="300" height="200"></canvas>
+                            </div>
+                            <div class="metric-card">
+                                <h4><i class="fas fa-clock"></i> Learning Rate</h4>
+                                <canvas id="learning-rate-chart" width="300" height="200"></canvas>
+                            </div>
                         </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="accuracy-rate">0%</div>
-                            <div>Accuracy Rate</div>
+                    </div>
+
+                    <div id="performance-tab" class="tab-content">
+                        <div class="performance-dashboard">
+                            <div class="performance-header">
+                                <h4><i class="fas fa-tachometer-alt"></i> Model Performance Over Time</h4>
+                                <div class="performance-controls">
+                                    <select id="time-range">
+                                        <option value="1h">Last Hour</option>
+                                        <option value="24h">Last 24 Hours</option>
+                                        <option value="7d">Last 7 Days</option>
+                                        <option value="30d">Last 30 Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="performance-charts">
+                                <div class="chart-container">
+                                    <canvas id="performance-chart" width="600" height="300"></canvas>
+                                </div>
+                                <div class="performance-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Current Accuracy:</span>
+                                        <span class="stat-value" id="current-accuracy">0%</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Improvement Rate:</span>
+                                        <span class="stat-value" id="improvement-rate">+0%</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Best Performance:</span>
+                                        <span class="stat-value" id="best-performance">0%</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Training Sessions:</span>
+                                        <span class="stat-value" id="training-sessions">0</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="q-table-size">0</div>
-                            <div>Q-Table Size</div>
-                        </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="feedback-count">0</div>
-                            <div>Feedback Received</div>
+                    </div>
+
+                    <div id="accuracy-tab" class="tab-content">
+                        <div class="accuracy-analysis">
+                            <h4><i class="fas fa-target"></i> Moderation Accuracy Trends</h4>
+                            <div class="accuracy-controls">
+                                <div class="filter-group">
+                                    <label>Content Type:</label>
+                                    <select id="content-filter">
+                                        <option value="all">All Types</option>
+                                        <option value="text">Text</option>
+                                        <option value="image">Image</option>
+                                        <option value="video">Video</option>
+                                        <option value="audio">Audio</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label>Time Period:</label>
+                                    <select id="accuracy-time-range">
+                                        <option value="1h">Last Hour</option>
+                                        <option value="6h">Last 6 Hours</option>
+                                        <option value="24h">Last 24 Hours</option>
+                                        <option value="7d">Last 7 Days</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="accuracy-chart-container">
+                                <canvas id="accuracy-trend-chart" width="700" height="350"></canvas>
+                            </div>
+                            <div class="accuracy-insights">
+                                <div class="insight-card">
+                                    <h5>Key Insights</h5>
+                                    <ul id="accuracy-insights-list">
+                                        <li>Loading insights...</li>
+                                    </ul>
+                                </div>
+                                <div class="insight-card">
+                                    <h5>Content Type Performance</h5>
+                                    <div class="content-performance" id="content-performance">
+                                        <div class="performance-item">
+                                            <span>Text:</span>
+                                            <div class="performance-bar">
+                                                <div class="performance-fill" style="width: 0%"></div>
+                                            </div>
+                                            <span class="performance-value">0%</span>
+                                        </div>
+                                        <div class="performance-item">
+                                            <span>Image:</span>
+                                            <div class="performance-bar">
+                                                <div class="performance-fill" style="width: 0%"></div>
+                                            </div>
+                                            <span class="performance-value">0%</span>
+                                        </div>
+                                        <div class="performance-item">
+                                            <span>Video:</span>
+                                            <div class="performance-bar">
+                                                <div class="performance-fill" style="width: 0%"></div>
+                                            </div>
+                                            <span class="performance-value">0%</span>
+                                        </div>
+                                        <div class="performance-item">
+                                            <span>Audio:</span>
+                                            <div class="performance-bar">
+                                                <div class="performance-fill" style="width: 0%"></div>
+                                            </div>
+                                            <span class="performance-value">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -622,8 +765,259 @@ async def get_api_docs():
                 }
             }
 
+            // Tab switching functionality
+            function showTab(tabName) {
+                // Hide all tabs
+                const tabs = document.querySelectorAll('.tab-content');
+                tabs.forEach(tab => tab.classList.remove('active'));
+
+                // Remove active class from all buttons
+                const buttons = document.querySelectorAll('.tab-btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+
+                // Show selected tab
+                document.getElementById(tabName + '-tab').classList.add('active');
+                event.target.classList.add('active');
+
+                // Load data for specific tab
+                if (tabName === 'metrics') {
+                    loadTrainingMetrics();
+                } else if (tabName === 'performance') {
+                    loadPerformanceData();
+                } else if (tabName === 'accuracy') {
+                    loadAccuracyTrends();
+                }
+            }
+
+            // Load training metrics and create charts
+            async function loadTrainingMetrics() {
+                try {
+                    const response = await fetch('/api/rl-metrics');
+                    const metrics = await response.json();
+
+                    // Q-Learning Chart
+                    const qCtx = document.getElementById('q-learning-chart').getContext('2d');
+                    new Chart(qCtx, {
+                        type: 'line',
+                        data: {
+                            labels: metrics.timestamps || [],
+                            datasets: [{
+                                label: 'Q-Value Updates',
+                                data: metrics.q_values || [],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+
+                    // Reward Distribution Chart
+                    const rewardCtx = document.getElementById('reward-chart').getContext('2d');
+                    new Chart(rewardCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Positive', 'Neutral', 'Negative'],
+                            datasets: [{
+                                label: 'Reward Distribution',
+                                data: metrics.reward_distribution || [0, 0, 0],
+                                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false }
+                            }
+                        }
+                    });
+
+                    // Action Selection Chart
+                    const actionCtx = document.getElementById('action-chart').getContext('2d');
+                    new Chart(actionCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Approve', 'Flag', 'Review'],
+                            datasets: [{
+                                data: metrics.action_counts || [0, 0, 0],
+                                backgroundColor: ['#28a745', '#dc3545', '#ffc107']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }
+                    });
+
+                    // Learning Rate Chart
+                    const lrCtx = document.getElementById('learning-rate-chart').getContext('2d');
+                    new Chart(lrCtx, {
+                        type: 'line',
+                        data: {
+                            labels: metrics.timestamps || [],
+                            datasets: [{
+                                label: 'Learning Rate',
+                                data: metrics.learning_rates || [],
+                                borderColor: '#fd7e14',
+                                backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, max: 1 }
+                            }
+                        }
+                    });
+
+                } catch (error) {
+                    console.error('Error loading training metrics:', error);
+                }
+            }
+
+            // Load performance data
+            async function loadPerformanceData() {
+                try {
+                    const timeRange = document.getElementById('time-range').value;
+                    const response = await fetch(`/api/performance?range=${timeRange}`);
+                    const performance = await response.json();
+
+                    // Performance Chart
+                    const perfCtx = document.getElementById('performance-chart').getContext('2d');
+                    new Chart(perfCtx, {
+                        type: 'line',
+                        data: {
+                            labels: performance.timestamps || [],
+                            datasets: [{
+                                label: 'Accuracy',
+                                data: performance.accuracy || [],
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.4
+                            }, {
+                                label: 'Confidence',
+                                data: performance.confidence || [],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top' }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, max: 1 }
+                            }
+                        }
+                    });
+
+                    // Update performance stats
+                    document.getElementById('current-accuracy').textContent = `${(performance.current_accuracy * 100 || 0).toFixed(1)}%`;
+                    document.getElementById('improvement-rate').textContent = `${performance.improvement_rate > 0 ? '+' : ''}${(performance.improvement_rate * 100 || 0).toFixed(1)}%`;
+                    document.getElementById('best-performance').textContent = `${(performance.best_performance * 100 || 0).toFixed(1)}%`;
+                    document.getElementById('training-sessions').textContent = performance.training_sessions || 0;
+
+                } catch (error) {
+                    console.error('Error loading performance data:', error);
+                }
+            }
+
+            // Load accuracy trends
+            async function loadAccuracyTrends() {
+                try {
+                    const contentFilter = document.getElementById('content-filter').value;
+                    const timeRange = document.getElementById('accuracy-time-range').value;
+                    const response = await fetch(`/api/accuracy-trends?content=${contentFilter}&range=${timeRange}`);
+                    const trends = await response.json();
+
+                    // Accuracy Trend Chart
+                    const accuracyCtx = document.getElementById('accuracy-trend-chart').getContext('2d');
+                    new Chart(accuracyCtx, {
+                        type: 'line',
+                        data: {
+                            labels: trends.timestamps || [],
+                            datasets: [{
+                                label: 'Overall Accuracy',
+                                data: trends.overall_accuracy || [],
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.4
+                            }, {
+                                label: 'Text Accuracy',
+                                data: trends.text_accuracy || [],
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                tension: 0.4
+                            }, {
+                                label: 'Media Accuracy',
+                                data: trends.media_accuracy || [],
+                                borderColor: '#fd7e14',
+                                backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'top' }
+                            },
+                            scales: {
+                                y: { beginAtZero: true, max: 1 }
+                            }
+                        }
+                    });
+
+                    // Update insights
+                    const insightsList = document.getElementById('accuracy-insights-list');
+                    insightsList.innerHTML = trends.insights.map(insight =>
+                        `<li><i class="fas fa-lightbulb"></i> ${insight}</li>`
+                    ).join('');
+
+                    // Update content performance bars
+                    const performanceItems = document.querySelectorAll('.performance-item');
+                    const contentTypes = ['text', 'image', 'video', 'audio'];
+
+                    contentTypes.forEach((type, index) => {
+                        const accuracy = trends.content_performance[type] || 0;
+                        const fill = performanceItems[index].querySelector('.performance-fill');
+                        const value = performanceItems[index].querySelector('.performance-value');
+
+                        fill.style.width = `${accuracy * 100}%`;
+                        value.textContent = `${(accuracy * 100).toFixed(1)}%`;
+                    });
+
+                } catch (error) {
+                    console.error('Error loading accuracy trends:', error);
+                }
+            }
+
+            // Event listeners for filters
+            document.getElementById('time-range').addEventListener('change', loadPerformanceData);
+            document.getElementById('content-filter').addEventListener('change', loadAccuracyTrends);
+            document.getElementById('accuracy-time-range').addEventListener('change', loadAccuracyTrends);
+
             // Load stats on page load and refresh every 5 seconds
-            document.addEventListener('DOMContentLoaded', loadStats);
+            document.addEventListener('DOMContentLoaded', function() {
+                loadStats();
+                // Initialize with progress tab
+                showTab('progress');
+            });
             setInterval(loadStats, 5000);
         </script>
     </body>
@@ -1136,6 +1530,275 @@ async def get_bns_content():
                 margin: 2px 2px 2px 0;
                 display: inline-block;
                 font-size: 0.8rem;
+            }}
+
+            .rl-analytics {{
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 20px 0;
+            }}
+
+            .analytics-tabs {{
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #e9ecef;
+                padding-bottom: 10px;
+            }}
+
+            .tab-btn {{
+                padding: 10px 20px;
+                border: none;
+                background: #f8f9fa;
+                color: #6c757d;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }}
+
+            .tab-btn.active {{
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+            }}
+
+            .tab-btn:hover {{
+                background: #e9ecef;
+            }}
+
+            .tab-content {{
+                display: none;
+            }}
+
+            .tab-content.active {{
+                display: block;
+            }}
+
+            .metrics-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }}
+
+            .metric-card {{
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e9ecef;
+            }}
+
+            .metric-card h4 {{
+                margin-bottom: 15px;
+                color: #2c3e50;
+                font-size: 1.1rem;
+            }}
+
+            .metric-card canvas {{
+                width: 100% !important;
+                height: auto !important;
+            }}
+
+            .performance-dashboard {{
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }}
+
+            .performance-header {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }}
+
+            .performance-header h4 {{
+                color: #2c3e50;
+                margin: 0;
+            }}
+
+            .performance-controls select {{
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 0.9rem;
+            }}
+
+            .performance-charts {{
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
+            }}
+
+            .chart-container {{
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+            }}
+
+            .performance-stats {{
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }}
+
+            .stat-item {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background: #f8f9fa;
+                border-radius: 6px;
+            }}
+
+            .stat-label {{
+                font-weight: 600;
+                color: #495057;
+            }}
+
+            .stat-value {{
+                font-weight: bold;
+                color: #28a745;
+                font-size: 1.1rem;
+            }}
+
+            .accuracy-analysis {{
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }}
+
+            .accuracy-analysis h4 {{
+                color: #2c3e50;
+                margin-bottom: 20px;
+            }}
+
+            .accuracy-controls {{
+                display: flex;
+                gap: 20px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }}
+
+            .filter-group {{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }}
+
+            .filter-group label {{
+                font-weight: 600;
+                color: #2c3e50;
+                font-size: 0.9rem;
+            }}
+
+            .filter-group select {{
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 0.9rem;
+                min-width: 120px;
+            }}
+
+            .accuracy-chart-container {{
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+            }}
+
+            .accuracy-insights {{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }}
+
+            .insight-card {{
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 15px;
+            }}
+
+            .insight-card h5 {{
+                color: #2c3e50;
+                margin-bottom: 10px;
+                font-size: 1rem;
+            }}
+
+            .insight-card ul {{
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }}
+
+            .insight-card li {{
+                padding: 5px 0;
+                color: #495057;
+                font-size: 0.9rem;
+            }}
+
+            .content-performance {{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }}
+
+            .performance-item {{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 0.9rem;
+            }}
+
+            .performance-item span:first-child {{
+                min-width: 50px;
+                font-weight: 600;
+                color: #495057;
+            }}
+
+            .performance-bar {{
+                flex: 1;
+                height: 8px;
+                background: #e9ecef;
+                border-radius: 4px;
+                overflow: hidden;
+            }}
+
+            .performance-fill {{
+                height: 100%;
+                background: linear-gradient(90deg, #28a745, #20c997);
+                border-radius: 4px;
+                transition: width 0.3s ease;
+            }}
+
+            .performance-value {{
+                min-width: 40px;
+                text-align: right;
+                font-weight: bold;
+                color: #28a745;
+            }}
+
+            @media (max-width: 768px) {{
+                .analytics-tabs {{
+                    flex-direction: column;
+                }}
+
+                .performance-charts {{
+                    grid-template-columns: 1fr;
+                }}
+
+                .accuracy-insights {{
+                    grid-template-columns: 1fr;
+                }}
+
+                .accuracy-controls {{
+                    flex-direction: column;
+                    gap: 15px;
+                }}
             }}
 
             @media (max-width: 768px) {{
