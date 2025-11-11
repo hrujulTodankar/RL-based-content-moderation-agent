@@ -153,3 +153,6 @@ class EventQueue:
             queue_name: queue.qsize()
             for queue_name, queue in self.queues.items()
         }
+
+# Global instance
+event_queue = EventQueue()

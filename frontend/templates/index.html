@@ -76,10 +76,8 @@
         <div class="submission-section">
             <div class="submission-form">
                 <h3><i class="fas fa-plus-circle"></i> Moderate New Content</h3>
-                <div class="form-group">
-                    <label for="content-input">Content:</label>
-                    <textarea id="content-input" placeholder="Enter text content to moderate..." rows="4"></textarea>
-                </div>
+
+                <!-- Content Type Selection -->
                 <div class="form-group">
                     <label for="content-type-select">Content Type:</label>
                     <select id="content-type-select">
@@ -90,6 +88,32 @@
                         <option value="code">Code</option>
                     </select>
                 </div>
+
+                <!-- Text Input (shown for text/code) -->
+                <div class="form-group" id="text-input-group">
+                    <label for="content-input">Content:</label>
+                    <textarea id="content-input" placeholder="Enter text content to moderate..." rows="4"></textarea>
+                </div>
+
+                <!-- Image Upload (shown for image) -->
+                <div class="form-group" id="image-upload-group" style="display: none;">
+                    <label for="image-input">Upload Image:</label>
+                    <div class="image-upload-area" id="image-upload-area">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload image or drag & drop</p>
+                            <span class="upload-hint">Supported: JPG, PNG, GIF, WebP (Max: 10MB)</span>
+                        </div>
+                        <input type="file" id="image-input" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="image-preview" id="image-preview" style="display: none;">
+                        <img id="preview-image" src="" alt="Preview">
+                        <button type="button" id="remove-image" class="btn-secondary">
+                            <i class="fas fa-times"></i> Remove
+                        </button>
+                    </div>
+                </div>
+
                 <button id="moderate-btn" class="btn-primary">
                     <i class="fas fa-gavel"></i> Moderate Content
                 </button>
@@ -99,6 +123,10 @@
         <!-- Content Grid -->
         <div class="content-grid" id="content-grid">
             <!-- Content cards will be dynamically added here -->
+            <div class="loading-placeholder">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading moderated content...</p>
+            </div>
         </div>
 
         <!-- Pagination -->

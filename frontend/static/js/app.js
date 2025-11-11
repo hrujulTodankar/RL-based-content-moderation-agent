@@ -22,6 +22,14 @@ class ModerationDashboard {
     }
 
     bindEvents() {
+        // Content type change handler
+        document.getElementById('content-type-select').addEventListener('change', (e) => {
+            this.toggleInputFields(e.target.value);
+        });
+
+        // Image upload handlers
+        this.setupImageUpload();
+
         // Filters
         document.getElementById('content-type-filter').addEventListener('change', (e) => {
             this.filters.contentType = e.target.value;
@@ -88,57 +96,51 @@ class ModerationDashboard {
             const response = await fetch('/api/moderated-content?page=1&limit=12');
             if (response.ok) {
                 const data = await response.json();
-                this.moderatedContent = data.content || [];
-                this.totalItems = data.total || 0;
+                // Handle different response formats
+                if (data.content) {
+                    // Old format with 'content' array
+                    this.moderatedContent = data.content || [];
+                    this.totalItems = data.total || 0;
+                } else if (data.items) {
+                    // New enhanced format with 'items' array
+                    this.moderatedContent = data.items.map(item => ({
+                        moderation_id: item.moderation_id,
+                        content_type: item.content_type,
+                        flagged: item.flagged,
+                        score: item.score,
+                        confidence: item.confidence,
+                        reasons: item.reasons || [],
+                        timestamp: item.timestamp,
+                        content: item.content_preview || `Sample ${item.content_type} content`,
+                        nlp_metadata: {
+                            sentiment: 'neutral',
+                            topic: 'general',
+                            toxicity: 0.1
+                        }
+                    }));
+                    this.totalItems = data.pagination?.total || data.items.length;
+                } else {
+                    // No sample data - show empty state
+                    this.moderatedContent = [];
+                    this.totalItems = 0;
+                }
             } else {
-                // Fallback to sample data
-                const statsResponse = await fetch('/api/stats');
-                const stats = statsResponse.ok ? await statsResponse.json() : {};
-                this.moderatedContent = this.generateSampleContent(stats.total_moderations || 10);
+                // No sample data - show empty state
+                this.moderatedContent = [];
+                this.totalItems = 0;
             }
             this.applyFilters();
         } catch (error) {
             console.error('Error loading content:', error);
-            this.moderatedContent = this.generateSampleContent(10);
+            // No sample data - show empty state
+            this.moderatedContent = [];
+            this.totalItems = 0;
             this.applyFilters();
         }
         this.hideLoading();
     }
 
-    generateSampleContent(count) {
-        const contentTypes = ['text', 'image', 'audio', 'video', 'code'];
-        const sampleTexts = [
-            "This is a sample text content for moderation testing.",
-            "Check out this amazing product! Limited time offer!!!",
-            "Beautiful sunset over the mountains. Nature is amazing.",
-            "function calculateSum(a, b) { return a + b; }",
-            "The weather today is perfect for outdoor activities."
-        ];
-
-        const content = [];
-        for (let i = 0; i < count; i++) {
-            const type = contentTypes[Math.floor(Math.random() * contentTypes.length)];
-            const score = Math.random();
-            const confidence = Math.random() * 0.5 + 0.5; // 0.5-1.0
-
-            content.push({
-                moderation_id: `mod_${i + 1}`,
-                content_type: type,
-                content: type === 'text' ? sampleTexts[Math.floor(Math.random() * sampleTexts.length)] : `Sample ${type} content`,
-                flagged: score > 0.7,
-                score: score,
-                confidence: confidence,
-                reasons: score > 0.7 ? ['High spam probability'] : [],
-                timestamp: new Date(Date.now() - Math.random() * 86400000).toISOString(),
-                nlp_metadata: {
-                    sentiment: Math.random() > 0.5 ? 'positive' : 'negative',
-                    topic: ['general', 'spam', 'entertainment', 'technical'][Math.floor(Math.random() * 4)],
-                    toxicity: Math.random() * 0.3
-                }
-            });
-        }
-        return content;
-    }
+    // Removed generateSampleContent method - no longer needed
 
     applyFilters() {
         let filtered = this.moderatedContent.filter(item => {
@@ -167,7 +169,17 @@ class ModerationDashboard {
         const end = start + this.itemsPerPage;
         const pageContent = content.slice(start, end);
 
-        grid.innerHTML = pageContent.map(item => this.createContentCard(item)).join('');
+        if (pageContent.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No Moderated Content Yet</h3>
+                    <p>Use the form above to moderate your first content.</p>
+                </div>
+            `;
+        } else {
+            grid.innerHTML = pageContent.map(item => this.createContentCard(item)).join('');
+        }
     }
 
     createContentCard(item) {
@@ -273,8 +285,17 @@ class ModerationDashboard {
     }
 
     async moderateContent() {
-        const content = document.getElementById('content-input').value.trim();
         const contentType = document.getElementById('content-type-select').value;
+
+        if (contentType === 'image') {
+            await this.moderateImageContent();
+        } else {
+            await this.moderateTextContent();
+        }
+    }
+
+    async moderateTextContent() {
+        const content = document.getElementById('content-input').value.trim();
 
         if (!content) {
             alert('Please enter content to moderate');
@@ -291,7 +312,7 @@ class ModerationDashboard {
                 },
                 body: JSON.stringify({
                     content: content,
-                    content_type: contentType
+                    content_type: 'text'
                 })
             });
 
@@ -315,11 +336,72 @@ class ModerationDashboard {
                 // Show success message
                 this.showNotification('Content moderated successfully!', 'success');
             } else {
-                throw new Error(result.detail || 'Moderation failed');
+                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Moderation failed';
+                throw new Error(errorMessage);
             }
         } catch (error) {
             console.error('Moderation error:', error);
             this.showNotification('Failed to moderate content: ' + error.message, 'error');
+        }
+
+        this.hideLoading();
+    }
+
+    async moderateImageContent() {
+        const imageInput = document.getElementById('image-input');
+        const file = imageInput.files[0];
+
+        if (!file) {
+            alert('Please select an image to moderate');
+            return;
+        }
+
+        // Validate file size (10MB limit)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size must be less than 10MB');
+            return;
+        }
+
+        this.showLoading();
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('content_type', 'image');
+
+            const response = await fetch('/api/moderate/file', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // Add to content list
+                this.moderatedContent.unshift({
+                    ...result,
+                    content: `Image: ${file.name}`,
+                    nlp_metadata: {
+                        sentiment: 'neutral',
+                        topic: 'image',
+                        toxicity: 0.1
+                    }
+                });
+
+                this.applyFilters();
+
+                // Clear image
+                this.clearImage();
+
+                // Show success message
+                this.showNotification('Image moderated successfully!', 'success');
+            } else {
+                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Image moderation failed';
+                throw new Error(errorMessage);
+            }
+        } catch (error) {
+            console.error('Image moderation error:', error);
+            this.showNotification('Failed to moderate image: ' + error.message, 'error');
         }
 
         this.hideLoading();
@@ -399,7 +481,8 @@ class ModerationDashboard {
                 // Refresh stats
                 this.loadStats();
             } else {
-                throw new Error(result.detail || 'Feedback submission failed');
+                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Feedback submission failed';
+                throw new Error(errorMessage);
             }
         } catch (error) {
             console.error('Feedback error:', error);
@@ -418,6 +501,103 @@ class ModerationDashboard {
     showNotification(message, type) {
         // Simple notification - could be enhanced with a proper notification system
         alert(message);
+    }
+
+    toggleInputFields(contentType) {
+        const textGroup = document.getElementById('text-input-group');
+        const imageGroup = document.getElementById('image-upload-group');
+
+        if (contentType === 'image') {
+            textGroup.style.display = 'none';
+            imageGroup.style.display = 'block';
+        } else {
+            textGroup.style.display = 'block';
+            imageGroup.style.display = 'none';
+            this.clearImage();
+        }
+    }
+
+    setupImageUpload() {
+        const uploadArea = document.getElementById('image-upload-area');
+        const imageInput = document.getElementById('image-input');
+        const removeBtn = document.getElementById('remove-image');
+
+        // Click to upload
+        uploadArea.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        // File selection
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                this.handleImageSelect(file);
+            }
+        });
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    this.handleImageSelect(file);
+                    // Update input
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    imageInput.files = dt.files;
+                } else {
+                    alert('Please select an image file');
+                }
+            }
+        });
+
+        // Remove image
+        removeBtn.addEventListener('click', () => {
+            this.clearImage();
+        });
+    }
+
+    handleImageSelect(file) {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file');
+            return;
+        }
+
+        // Validate file size (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            alert('File size must be less than 10MB');
+            return;
+        }
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('preview-image').src = e.target.result;
+            document.getElementById('image-preview').style.display = 'block';
+            document.getElementById('image-upload-area').style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    clearImage() {
+        document.getElementById('image-input').value = '';
+        document.getElementById('preview-image').src = '';
+        document.getElementById('image-preview').style.display = 'none';
+        document.getElementById('image-upload-area').style.display = 'block';
     }
 
     formatTimestamp(timestamp) {

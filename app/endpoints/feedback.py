@@ -7,12 +7,12 @@ from datetime import datetime
 import json
 import uuid
 
-from ..auth_middleware import jwt_auth, get_current_user_optional
+# from ..auth_middleware import jwt_auth, get_current_user_optional
 from ..integration_services import integration_services
 from ..moderation_agent import ModerationAgent
 from ..feedback_handler import FeedbackHandler
 from ..event_queue import EventQueue
-from ..adaptive_learning import visualizer
+# from ..adaptive_learning import visualizer
 
 logger = logging.getLogger(__name__)
 
@@ -63,13 +63,13 @@ async def execute_integration_pipeline(
         })
 
         # Add to learning visualization
-        visualizer.add_iteration(
-            iteration=len(moderation_agent.history),
-            reward=rl_data["reward"],
-            score=feedback_data.get("score", 0.5),
-            confidence=feedback_data.get("confidence", 0.5),
-            is_correct=(rl_data["reward"] > 0)
-        )
+        # visualizer.add_iteration(
+        #     iteration=len(moderation_agent.history),
+        #     reward=rl_data["reward"],
+        #     score=feedback_data.get("score", 0.5),
+        #     confidence=feedback_data.get("confidence", 0.5),
+        #     is_correct=(rl_data["reward"] > 0)
+        # )
 
     except Exception as e:
         logger.error(f"Pipeline execution error: {str(e)}", exc_info=True)
@@ -114,103 +114,8 @@ async def emit_feedback_events(feedback_record: Dict[str, Any]):
 @router.post("/feedback", response_model=FeedbackResponse)
 async def submit_feedback(
     feedback: FeedbackRequest,
-    background_tasks: BackgroundTasks
-):
-    """
-    Accept user feedback and execute full integration pipeline:
-    User Feedback → Moderation Agent → BHIV → RL Core → Analytics
-    """
-    try:
-        feedback_id = str(uuid.uuid4())
-        logger.info(f"Feedback {feedback_id} for moderation {feedback.moderation_id}")
-
-        # Validate feedback type
-        if feedback.feedback_type not in ["thumbs_up", "thumbs_down"]:
-            raise HTTPException(
-                status_code=400,
-                detail="feedback_type must be 'thumbs_up' or 'thumbs_down'"
-            )
-
-        # Normalize feedback to reward value
-        reward_value = feedback_handler.normalize_feedback(
-            feedback_type=feedback.feedback_type,
-            rating=feedback.rating
-        )
-
-        # Store feedback
-        feedback_record = {
-            "feedback_id": feedback_id,
-            "moderation_id": feedback.moderation_id,
-            "user_id": user.get("user_id") if user else feedback.user_id,
-            "feedback_type": feedback.feedback_type,
-            "rating": feedback.rating,
-            "comment": feedback.comment,
-            "reward_value": reward_value,
-            "timestamp": datetime.utcnow().isoformat()
-        }
-
-        await feedback_handler.store_feedback(feedback_record)
-
-        # Update RL agent with reward
-        await moderation_agent.update_with_feedback(
-            moderation_id=feedback.moderation_id,
-            reward=reward_value
-        )
-
-        # Get RL data for pipeline
-        moderation_history = [h for h in moderation_agent.history
-                             if h.get("moderation_id") == feedback.moderation_id]
-
-        if moderation_history:
-            rl_data = {
-                "reward": reward_value,
-                "state": moderation_history[-1]["state"],
-                "action": moderation_history[-1]["action"]
-            }
-
-            # Send to BHIV InsightFlow for analytics
-            background_tasks.add_task(
-                integration_services.send_to_bhiv_feedback,
-                feedback.moderation_id,
-                {
-                    "feedback_type": feedback.feedback_type,
-                    "rating": feedback.rating,
-                    "reward_value": reward_value,
-                    "sentiment": "positive" if reward_value > 0 else "negative",
-                    "engagement_score": abs(reward_value),
-                    "metadata": {
-                        "user_id": user.get("user_id") if user else feedback.user_id,
-                        "comment": feedback.comment
-                    }
-                }
-            )
-
-            # Execute full integration pipeline in background
-            background_tasks.add_task(
-                execute_integration_pipeline,
-                feedback.moderation_id,
-                feedback_record,
-                rl_data
-            )
-
-        return FeedbackResponse(
-            feedback_id=feedback_id,
-            moderation_id=feedback.moderation_id,
-            status="processed",
-            reward_value=reward_value,
-            timestamp=feedback_record["timestamp"]
-        )
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Feedback processing error: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail="Feedback processing error")
-
-@router.post("/feedback", response_model=FeedbackResponse)
-async def submit_feedback(
-    feedback: FeedbackRequest,
-    background_tasks: BackgroundTasks
+    background_tasks: BackgroundTasks,
+    user: Optional[Dict[str, Any]] = None
 ):
     """
     Accept user feedback (thumbs up/down) and update RL agent
@@ -253,11 +158,41 @@ async def submit_feedback(
             reward=reward_value
         )
 
-        # Emit events to integrated services
-        background_tasks.add_task(
-            emit_feedback_events,
-            feedback_record
-        )
+        # Get RL data for pipeline
+        moderation_history = [h for h in moderation_agent.history
+                             if h.get("moderation_id") == feedback.moderation_id]
+
+        if moderation_history:
+            rl_data = {
+                "reward": reward_value,
+                "state": moderation_history[-1]["state"],
+                "action": moderation_history[-1]["action"]
+            }
+
+            # Send to BHIV InsightFlow for analytics
+            background_tasks.add_task(
+                integration_services.send_to_bhiv_feedback,
+                feedback.moderation_id,
+                {
+                    "feedback_type": feedback.feedback_type,
+                    "rating": feedback.rating,
+                    "reward_value": reward_value,
+                    "sentiment": "positive" if reward_value > 0 else "negative",
+                    "engagement_score": abs(reward_value),
+                    "metadata": {
+                        "user_id": feedback.user_id,
+                        "comment": feedback.comment
+                    }
+                }
+            )
+
+            # Execute full integration pipeline in background
+            background_tasks.add_task(
+                execute_integration_pipeline,
+                feedback.moderation_id,
+                feedback_record,
+                rl_data
+            )
 
         return FeedbackResponse(
             feedback_id=feedback_id,
@@ -271,7 +206,7 @@ async def submit_feedback(
         raise
     except Exception as e:
         logger.error(f"Feedback processing error: {str(e)}", exc_info=True)
-        raise HTTPException(status_code=500, detail="Feedback processing error")
+        raise HTTPException(status_code=500, detail=f"Feedback processing error: {str(e)}")
 
 @router.get("/feedback/{moderation_id}")
 async def get_feedback(moderation_id: str):

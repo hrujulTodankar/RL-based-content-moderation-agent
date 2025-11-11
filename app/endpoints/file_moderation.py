@@ -46,13 +46,13 @@ async def moderate_file(
     try:
         moderation_id = str(uuid.uuid4())
 
-        # Validate file size (100MB limit)
-        MAX_SIZE = 100 * 1024 * 1024
+        # Validate file size (10MB limit for images)
+        MAX_SIZE = 10 * 1024 * 1024
         content = await file.read()
         if len(content) > MAX_SIZE:
             raise HTTPException(
                 status_code=413,
-                detail=f"File too large. Max size: {MAX_SIZE} bytes"
+                detail=f"File too large. Max size: {MAX_SIZE} bytes (10MB)"
             )
 
         # Validate content type

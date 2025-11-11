@@ -53,9 +53,8 @@ async def moderate_content(
     Moderate content with RL-powered decision making
     Now integrated with NLP context
     """
-    # For demo purposes, skip authentication
-    if user is None:
-        user = {"user_id": "demo-user"}
+    # For demo purposes, use default user
+    user_id = "demo-user"
     try:
         moderation_id = str(uuid.uuid4())
         logger.info(f"Moderation request {moderation_id} for {request.content_type}")
@@ -119,7 +118,11 @@ async def moderate_content(
             "state": result.get("state")  # Store state for RL learning
         }
 
-        await feedback_handler.store_moderation(moderation_record)
+        # Store moderation result (skip if database not initialized)
+        try:
+            await feedback_handler.store_moderation(moderation_record)
+        except Exception as e:
+            logger.warning(f"Failed to store moderation result: {str(e)}")
 
         # Emit event to queue for analytics
         background_tasks.add_task(

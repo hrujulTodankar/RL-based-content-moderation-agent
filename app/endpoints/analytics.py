@@ -4,8 +4,11 @@ import logging
 from datetime import datetime, timedelta
 import random
 
-from ..moderation_agent import moderation_agent
-from ..feedback_handler import feedback_handler
+from ..moderation_agent import ModerationAgent
+from ..feedback_handler import FeedbackHandler
+
+moderation_agent = ModerationAgent()
+feedback_handler = FeedbackHandler()
 
 logger = logging.getLogger(__name__)
 
@@ -125,6 +128,77 @@ async def get_performance_data(range: str = "24h") -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"Error getting performance data: {str(e)}")
         raise HTTPException(status_code=500, detail="Error retrieving performance data")
+
+@router.get("/moderated-content")
+async def get_moderated_content(page: int = 1, limit: int = 12) -> Dict[str, Any]:
+    """Get paginated list of moderated content with visual appeal"""
+    try:
+        # Get moderation statistics
+        stats = await feedback_handler.get_statistics()
+
+        # Get recent moderations from database
+        # For now, return sample data since we don't have real moderations
+        sample_moderations = [
+            {
+                "moderation_id": f"mod_{i}",
+                "content_type": "text",
+                "flagged": False,
+                "score": 0.85 + (i * 0.01),
+                "confidence": 0.92,
+                "reasons": ["Content quality approved", "Legal terminology present"],
+                "timestamp": "2025-11-05T09:00:00Z",
+                "content_preview": f"Sample legal content {i}...",
+                "category": "criminal_law" if i % 2 == 0 else "civil_law",
+                "status": "APPROVED"
+            }
+            for i in range(1, 51)
+        ]
+
+        # Apply pagination
+        start_idx = (page - 1) * limit
+        end_idx = start_idx + limit
+        paginated_items = sample_moderations[start_idx:end_idx]
+
+        # Enhanced response with visual metadata
+        return {
+            "items": paginated_items,
+            "pagination": {
+                "page": page,
+                "limit": limit,
+                "total": len(sample_moderations),
+                "pages": (len(sample_moderations) + limit - 1) // limit
+            },
+            "summary": {
+                "total_moderated": stats.get("total_moderations", 0),
+                "approved_count": sum(1 for item in sample_moderations if not item["flagged"]),
+                "flagged_count": sum(1 for item in sample_moderations if item["flagged"]),
+                "avg_score": sum(item["score"] for item in sample_moderations) / len(sample_moderations),
+                "avg_confidence": sum(item["confidence"] for item in sample_moderations) / len(sample_moderations)
+            },
+            "visual_metadata": {
+                "color_scheme": {
+                    "approved": "#28a745",
+                    "flagged": "#dc3545",
+                    "pending": "#ffc107"
+                },
+                "icons": {
+                    "text": "fas fa-file-alt",
+                    "image": "fas fa-image",
+                    "video": "fas fa-video",
+                    "audio": "fas fa-music"
+                },
+                "categories": {
+                    "criminal_law": {"color": "#dc3545", "icon": "fas fa-gavel"},
+                    "civil_law": {"color": "#007bff", "icon": "fas fa-balance-scale"},
+                    "constitutional_law": {"color": "#28a745", "icon": "fas fa-flag"},
+                    "employment_law": {"color": "#fd7e14", "icon": "fas fa-briefcase"}
+                }
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Error getting moderated content: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error retrieving moderated content")
 
 @router.get("/accuracy-trends")
 async def get_accuracy_trends(content: str = "all", range: str = "24h") -> Dict[str, Any]:

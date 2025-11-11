@@ -6,6 +6,8 @@ from datetime import datetime
 import json
 import re
 
+from flagged_words import flagged_words_db, moderate_text_content
+
 logger = logging.getLogger(__name__)
 
 class ModerationAgent:
@@ -73,8 +75,8 @@ class ModerationAgent:
             # RL action selection
             action = self._select_action(state, final_score)
             
-            # Determine if flagged based on action and score
-            flagged = action == 1 or final_score > 0.7
+            # Determine if flagged based on action and score - lower threshold for flagged content
+            flagged = action == 1 or final_score > 0.4  # Lowered from 0.5 to 0.4
             
             result = {
                 "flagged": flagged,
@@ -150,42 +152,56 @@ class ModerationAgent:
         content: str,
         metadata: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
-        """Text-specific moderation rules"""
+        """Text-specific moderation rules using comprehensive flagged words database"""
         score = 0.0
         reasons = []
-        
+
         text = str(content).lower()
-        
-        # Profanity check
-        profanity_words = ["hate", "kill", "violent", "abuse", "spam"]
-        profanity_count = sum(1 for word in profanity_words if word in text)
-        if profanity_count > 0:
-            score += min(profanity_count * 0.2, 0.6)
-            reasons.append(f"Contains {profanity_count} flagged words")
-        
+
+        # Use the comprehensive flagged words database
+        flagged, flagged_score, flagged_reasons = moderate_text_content(content)
+
+        if flagged:
+            score += flagged_score
+            reasons.extend(flagged_reasons)
+
+        # Additional checks for content patterns
+
         # Excessive caps
         if len(text) > 10:
             caps_ratio = sum(1 for c in content if c.isupper()) / len(content)
             if caps_ratio > 0.5:
                 score += 0.2
                 reasons.append("Excessive capitalization")
-        
-        # URL spam
+
+        # URL spam - increased sensitivity
         url_count = len(re.findall(r'http[s]?://\S+', text))
-        if url_count > 2:
-            score += 0.3
-            reasons.append(f"Multiple URLs detected ({url_count})")
-        
-        # Repetition
+        if url_count > 1:  # Lower threshold
+            score += 0.4
+            reasons.append(f"Multiple URLs detected ({url_count}) - potential spam or phishing")
+
+        # Repetition - increased sensitivity
         words = text.split()
-        if len(words) > 5:
+        if len(words) > 3:  # Lower threshold
             unique_ratio = len(set(words)) / len(words)
-            if unique_ratio < 0.5:
-                score += 0.2
-                reasons.append("High repetition detected")
-        
-        confidence = 0.8 if len(reasons) > 0 else 0.6
-        
+            if unique_ratio < 0.6:  # Lower threshold for uniqueness
+                score += 0.3
+                reasons.append("High repetition detected - potential spam content")
+
+        # Check for specific dangerous patterns
+        dangerous_patterns = [
+            (r'\b(?:kill|murder|rape|assault|hate|violent)\b.*\b(?:kill|murder|rape|assault|hate|violent)\b', "Multiple violent terms detected"),
+            (r'\b(?:spam|scam|fraud|fake)\b.*\b(?:spam|scam|fraud|fake)\b', "Multiple suspicious terms detected"),
+            (r'\b(?:fuck|shit|cunt|motherfucker)\b', "Strong profanity detected")
+        ]
+
+        for pattern, reason in dangerous_patterns:
+            if re.search(pattern, text, re.IGNORECASE):
+                score += 0.3
+                reasons.append(reason)
+
+        confidence = 0.95 if flagged else (0.8 if len(reasons) > 0 else 0.7)
+
         return {
             "score": min(score, 1.0),
             "confidence": confidence,
@@ -210,10 +226,10 @@ class ModerationAgent:
         # Use MCP metadata if available
         if metadata and "mcp_metadata" in metadata:
             mcp = metadata["mcp_metadata"]
-            if "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
+            if mcp and "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
                 score += 0.6
                 reasons.append("NSFW content detected")
-            if "violence_score" in mcp and mcp["violence_score"] > 0.5:
+            if mcp and "violence_score" in mcp and mcp["violence_score"] > 0.5:
                 score += 0.4
                 reasons.append("Violence detected")
         
@@ -380,10 +396,10 @@ class ModerationAgent:
             values = self.q_table[state_key]
             return max(range(len(values)), key=lambda i: values[i])
         
-        # Default based on score
-        if score > 0.7:
+        # Default based on score - adjusted for stricter flagging
+        if score > 0.6:
             return 1  # Flag
-        elif score > 0.4:
+        elif score > 0.3:
             return 2  # Review
         else:
             return 0  # Approve

@@ -5,8 +5,8 @@ import logging
 from pathlib import Path
 
 from .logger_middleware import LoggerMiddleware
-from .event_queue import EventQueue
-from .feedback_handler import FeedbackHandler
+from .event_queue import event_queue
+from .feedback_handler import feedback_handler
 
 # Import endpoint routers
 from .endpoints import moderation, feedback, analytics, file_moderation, health
@@ -43,9 +43,7 @@ app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 # Add custom logging middleware
 app.add_middleware(LoggerMiddleware)
 
-# Initialize core services
-event_queue = EventQueue()
-feedback_handler = FeedbackHandler()
+# Core services are imported as global instances
 
 # Serve frontend
 from fastapi.responses import HTMLResponse

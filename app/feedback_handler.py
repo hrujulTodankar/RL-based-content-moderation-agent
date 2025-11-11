@@ -415,3 +415,6 @@ class FeedbackHandler:
             return min(base_reward, -0.1)
         
         return 0.0
+
+# Global instance
+feedback_handler = FeedbackHandler()
