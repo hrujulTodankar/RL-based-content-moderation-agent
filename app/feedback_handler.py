@@ -154,9 +154,13 @@ class FeedbackHandler:
     
     async def _store_moderation_sqlite(self, record: Dict[str, Any]):
         """Store moderation in SQLite"""
+        if self.db_conn is None:
+            logger.error("Database connection is None, reinitializing...")
+            await self._init_sqlite()
+
         await self.db_conn.execute("""
-            INSERT INTO moderations 
-            (moderation_id, content_type, flagged, score, confidence, 
+            INSERT INTO moderations
+            (moderation_id, content_type, flagged, score, confidence,
              mcp_weighted_score, reasons, timestamp)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
@@ -205,9 +209,13 @@ class FeedbackHandler:
     
     async def _store_feedback_sqlite(self, record: Dict[str, Any]):
         """Store feedback in SQLite"""
+        if self.db_conn is None:
+            logger.error("Database connection is None, reinitializing...")
+            await self._init_sqlite()
+
         await self.db_conn.execute("""
-            INSERT INTO feedback 
-            (feedback_id, moderation_id, user_id, feedback_type, 
+            INSERT INTO feedback
+            (feedback_id, moderation_id, user_id, feedback_type,
              rating, comment, reward_value, timestamp)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """, (
@@ -256,10 +264,14 @@ class FeedbackHandler:
             return []
     
     async def _get_feedback_sqlite(
-        self, 
+        self,
         moderation_id: str
     ) -> List[Dict[str, Any]]:
         """Get feedback from SQLite"""
+        if self.db_conn is None:
+            logger.error("Database connection is None, reinitializing...")
+            await self._init_sqlite()
+
         cursor = await self.db_conn.execute("""
             SELECT feedback_id, moderation_id, user_id, feedback_type,
                    rating, comment, reward_value, timestamp
@@ -267,9 +279,9 @@ class FeedbackHandler:
             WHERE moderation_id = ?
             ORDER BY timestamp DESC
         """, (moderation_id,))
-        
+
         rows = await cursor.fetchall()
-        
+
         return [
             {
                 "feedback_id": row[0],
@@ -313,8 +325,12 @@ class FeedbackHandler:
     
     async def _get_stats_sqlite(self) -> Dict[str, Any]:
         """Get statistics from SQLite"""
+        if self.db_conn is None:
+            logger.error("Database connection is None, reinitializing...")
+            await self._init_sqlite()
+
         cursor = await self.db_conn.execute("""
-            SELECT 
+            SELECT
                 COUNT(*) as total_moderations,
                 SUM(CASE WHEN flagged = 1 THEN 1 ELSE 0 END) as flagged_count,
                 AVG(score) as avg_score,
@@ -322,9 +338,9 @@ class FeedbackHandler:
             FROM moderations
         """)
         mod_stats = await cursor.fetchone()
-        
+
         cursor = await self.db_conn.execute("""
-            SELECT 
+            SELECT
                 COUNT(*) as total_feedback,
                 SUM(CASE WHEN feedback_type = 'thumbs_up' THEN 1 ELSE 0 END) as positive,
                 SUM(CASE WHEN feedback_type = 'thumbs_down' THEN 1 ELSE 0 END) as negative,
@@ -332,14 +348,14 @@ class FeedbackHandler:
             FROM feedback
         """)
         fb_stats = await cursor.fetchone()
-        
+
         cursor = await self.db_conn.execute("""
             SELECT content_type, COUNT(*) as count
             FROM moderations
             GROUP BY content_type
         """)
         content_type_stats = await cursor.fetchall()
-        
+
         return {
             "total_moderations": mod_stats[0] or 0,
             "flagged_count": mod_stats[1] or 0,

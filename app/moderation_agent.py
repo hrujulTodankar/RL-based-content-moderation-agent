@@ -213,31 +213,145 @@ class ModerationAgent:
         content: bytes,
         metadata: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
-        """Image-specific moderation (placeholder for ML model)"""
+        """Enhanced image-specific moderation with detailed reasoning"""
+        logger.debug(f"Image moderation metadata: {metadata}")
         score = 0.0
         reasons = []
-        
-        # Check file size
+        approval_reasons = []
+
+        # File size analysis with detailed thresholds
         size_mb = len(content) / (1024 * 1024)
-        if size_mb > 50:
-            score += 0.3
-            reasons.append(f"Large file size: {size_mb:.2f}MB")
-        
-        # Use MCP metadata if available
+        if size_mb > 100:
+            score += 0.8
+            reasons.append(f"Extremely large file size ({size_mb:.2f}MB) - potential abuse or bandwidth waste")
+        elif size_mb > 50:
+            score += 0.5
+            reasons.append(f"Very large file size ({size_mb:.2f}MB) - may cause performance issues")
+        elif size_mb > 20:
+            score += 0.2
+            reasons.append(f"Large file size ({size_mb:.2f}MB) - consider optimization")
+        else:
+            approval_reasons.append(f"Appropriate file size ({size_mb:.2f}MB)")
+
+        # File format validation and analysis
+        if metadata and "filename" in metadata:
+            filename = metadata["filename"].lower()
+            # Check for suspicious file extensions
+            suspicious_extensions = ['.exe', '.bat', '.cmd', '.scr', '.pif', '.com']
+            if any(filename.endswith(ext) for ext in suspicious_extensions):
+                score += 1.0
+                reasons.append("Dangerous file extension disguised as image - potential malware")
+
+            # Check for double extensions (attempted bypass)
+            if filename.count('.') > 1:
+                parts = filename.split('.')
+                if len(parts) > 2:
+                    score += 0.7
+                    reasons.append("Multiple file extensions detected - potential security bypass attempt")
+
+        # Image dimension analysis (if available)
+        if metadata and "width" in metadata and "height" in metadata:
+            width = metadata["width"]
+            height = metadata["height"]
+
+            # Check for extremely large dimensions
+            if width > 10000 or height > 10000:
+                score += 0.6
+                reasons.append(f"Unusually large image dimensions ({width}x{height}) - potential abuse")
+
+            # Check for extremely small dimensions (suspicious)
+            if width < 10 or height < 10:
+                score += 0.4
+                reasons.append(f"Suspiciously small image dimensions ({width}x{height}) - may be corrupted or malicious")
+
+            # Check aspect ratio (extremely unusual ratios)
+            if width > 0 and height > 0:
+                aspect_ratio = max(width, height) / min(width, height)
+                if aspect_ratio > 50:
+                    score += 0.3
+                    reasons.append(f"Extreme aspect ratio ({aspect_ratio:.1f}:1) - unusual image format")
+
+        # Content analysis using MCP metadata
         if metadata and "mcp_metadata" in metadata:
             mcp = metadata["mcp_metadata"]
-            if mcp and "nsfw_score" in mcp and mcp["nsfw_score"] > 0.7:
-                score += 0.6
-                reasons.append("NSFW content detected")
-            if mcp and "violence_score" in mcp and mcp["violence_score"] > 0.5:
-                score += 0.4
-                reasons.append("Violence detected")
-        
-        confidence = 0.7
+            logger.debug(f"MCP metadata type: {type(mcp)}, value: {mcp}")
+
+            # NSFW content detection
+            if mcp is not None and isinstance(mcp, dict) and "nsfw_score" in mcp:
+                nsfw_score = mcp["nsfw_score"]
+                if nsfw_score > 0.9:
+                    score += 0.9
+                    reasons.append(f"High NSFW content detected (confidence: {nsfw_score:.2f}) - explicit material")
+                elif nsfw_score > 0.7:
+                    score += 0.6
+                    reasons.append(f"Moderate NSFW content detected (confidence: {nsfw_score:.2f}) - adult content")
+                elif nsfw_score > 0.5:
+                    score += 0.3
+                    reasons.append(f"Low NSFW content detected (confidence: {nsfw_score:.2f}) - borderline content")
+                else:
+                    approval_reasons.append("No NSFW content detected")
+
+            # Violence detection
+            if mcp is not None and isinstance(mcp, dict) and "violence_score" in mcp:
+                violence_score = mcp["violence_score"]
+                if violence_score > 0.8:
+                    score += 0.8
+                    reasons.append(f"High violence content detected (confidence: {violence_score:.2f}) - graphic violence")
+                elif violence_score > 0.5:
+                    score += 0.5
+                    reasons.append(f"Moderate violence content detected (confidence: {violence_score:.2f}) - violent themes")
+                else:
+                    approval_reasons.append("No violence detected")
+
+            # Hate speech detection
+            if mcp is not None and isinstance(mcp, dict) and "hate_score" in mcp:
+                hate_score = mcp["hate_score"]
+                if hate_score > 0.7:
+                    score += 0.7
+                    reasons.append(f"Hate speech detected (confidence: {hate_score:.2f}) - discriminatory content")
+                elif hate_score > 0.4:
+                    score += 0.4
+                    reasons.append(f"Potentially hateful content detected (confidence: {hate_score:.2f})")
+
+            # Spam detection
+            if mcp is not None and isinstance(mcp, dict) and "spam_score" in mcp:
+                spam_score = mcp["spam_score"]
+                if spam_score > 0.8:
+                    score += 0.6
+                    reasons.append(f"High spam content detected (confidence: {spam_score:.2f}) - promotional material")
+                elif spam_score > 0.5:
+                    score += 0.3
+                    reasons.append(f"Moderate spam content detected (confidence: {spam_score:.2f})")
+
+            # Quality assessment
+            if mcp is not None and isinstance(mcp, dict) and "quality_score" in mcp:
+                quality_score = mcp["quality_score"]
+                if quality_score < 0.2:
+                    score += 0.2
+                    reasons.append(f"Very low quality image (score: {quality_score:.2f}) - potentially corrupted")
+                elif quality_score > 0.8:
+                    approval_reasons.append("High quality image content")
+
+        # Determine final reasons based on score
+        if score == 0.0:
+            # Image was approved - provide positive reasons
+            final_reasons = approval_reasons if approval_reasons else ["Image appears clean and appropriate"]
+        else:
+            # Image was flagged - provide detailed flagging reasons
+            final_reasons = reasons
+
+        # Adjust confidence based on available analysis
+        if metadata and "mcp_metadata" in metadata:
+            confidence = 0.85  # High confidence with MCP data
+        elif size_mb > 0:
+            confidence = 0.75  # Medium confidence with basic analysis
+        else:
+            confidence = 0.6   # Lower confidence with minimal analysis
+
         return {
             "score": min(score, 1.0),
             "confidence": confidence,
-            "reasons": reasons if reasons else ["Image appears clean"]
+            "reasons": final_reasons
         }
     
     async def _moderate_audio(

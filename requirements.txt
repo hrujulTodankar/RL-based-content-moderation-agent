@@ -27,6 +27,11 @@ python-json-logger==2.0.7
 
 # Environment variables
 python-dotenv==1.0.0
+
+# Image processing
+Pillow==10.1.0
+
+# Data science
 numpy
 matplotlib
 pytest-cov
