@@ -8,6 +8,7 @@ import json
 import uuid
 
 from ..auth_middleware import jwt_auth, get_current_user_optional
+from ..observability import track_performance, structured_logger, set_user_context
 
 # For demo purposes, disable authentication
 async def demo_user():
@@ -45,19 +46,25 @@ class ModerationResponse(BaseModel):
     timestamp: str
 
 @router.post("/moderate", response_model=ModerationResponse)
+@track_performance("content_moderation")
 async def moderate_content(
     request: ModerationRequest,
     background_tasks: BackgroundTasks
 ):
     """
     Moderate content with RL-powered decision making
-    Now integrated with NLP context
+    Now integrated with NLP context and observability
     """
     # For demo purposes, use default user
     user_id = "demo-user"
+    start_time = datetime.utcnow()
+
     try:
         moderation_id = str(uuid.uuid4())
         logger.info(f"Moderation request {moderation_id} for {request.content_type}")
+
+        # Set user context for observability
+        set_user_context(user_id, "demo-user")
 
         # Get NLP context if text or code
         nlp_context = None
@@ -114,7 +121,7 @@ async def moderate_content(
             "mcp_weighted_score": result.get("mcp_weighted_score"),
             "reasons": result["reasons"],
             "timestamp": datetime.utcnow().isoformat(),
-            "user_id": "demo-user",
+            "user_id": user_id,
             "state": result.get("state")  # Store state for RL learning
         }
 
@@ -129,6 +136,16 @@ async def moderate_content(
             event_queue.emit,
             "moderation_completed",
             moderation_record
+        )
+
+        # Log structured moderation event
+        duration_ms = (datetime.utcnow() - start_time).total_seconds() * 1000
+        structured_logger.log_moderation_event(
+            content_type=request.content_type,
+            flagged=result["flagged"],
+            score=result["score"],
+            user_id=user_id,
+            duration_ms=duration_ms
         )
 
         return ModerationResponse(**moderation_record)

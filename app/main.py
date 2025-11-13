@@ -7,9 +7,15 @@ from pathlib import Path
 from .logger_middleware import LoggerMiddleware
 from .event_queue import event_queue
 from .feedback_handler import feedback_handler
+from .task_queue import task_queue
+from .security import security_middleware
+from .observability import (
+    sentry_manager, posthog_manager, performance_monitor,
+    structured_logger, get_observability_health, track_performance
+)
 
 # Import endpoint routers
-from .endpoints import moderation, feedback, analytics, file_moderation, health
+from .endpoints import moderation, feedback, analytics, file_moderation, health, auth, gdpr, storage, tasks
 
 # Create logs directory if it doesn't exist
 log_dir = Path(__file__).parent.parent / 'logs'
@@ -42,6 +48,9 @@ app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
 # Add custom logging middleware
 app.add_middleware(LoggerMiddleware)
+
+# Add security middleware
+app.middleware("http")(security_middleware)
 
 # Core services are imported as global instances
 
@@ -1029,6 +1038,10 @@ app.include_router(moderation.router, prefix="/api")
 app.include_router(feedback.router, prefix="/api")
 app.include_router(analytics.router, prefix="/api")
 app.include_router(file_moderation.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
+app.include_router(gdpr.router, prefix="/api")
+app.include_router(storage.router, prefix="/api")
+app.include_router(tasks.router, prefix="/api")
 
 # Add BNS content endpoint
 from fastapi.responses import HTMLResponse
@@ -2758,6 +2771,7 @@ async def startup_event():
     logger.info("Starting RL-Powered Content Moderation API")
     await event_queue.initialize()
     await feedback_handler.initialize()
+    await task_queue.start_workers()
     logger.info("All services initialized successfully")
 
 @app.on_event("shutdown")

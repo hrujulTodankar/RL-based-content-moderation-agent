@@ -5,27 +5,42 @@ from typing import Dict, Any, List, Optional
 from datetime import datetime
 import json
 import re
+import os
+import html
+import time
+from pathlib import Path
 
 from flagged_words import flagged_words_db, moderate_text_content
 
 logger = logging.getLogger(__name__)
 
 class ModerationAgent:
-    """RL-powered content moderation agent with MCP awareness"""
-    
-    def __init__(self):
+    """Advanced RL-powered content moderation agent with MCP awareness and persistent learning"""
+
+    def __init__(self, state_path: str = "agent_state.json"):
+        self.state_path = state_path
         self.state_dim = 15  # Enhanced state space
         self.action_dim = 3  # Actions: approve, flag, review
         self.learning_rate = 0.01
         self.gamma = 0.99
         self.epsilon = 0.1
-        
-        # Q-table for RL
+
+        # Enhanced Q-table: { state_key: { action: value } }
         self.q_table = {}
-        
+
         # Moderation history for learning
         self.history = []
-        
+
+        # Content registry for state generation
+        self.contents: Dict[str, Dict] = {}
+
+        # Replay buffer for batch learning
+        self.replay_buffer: List[Dict] = []
+        self.max_replay = 2000
+
+        # Recent rewards for metrics
+        self.recent_rewards: List[float] = []
+
         # Content type specific rules
         self.rules = {
             "text": self._moderate_text,
@@ -34,7 +49,7 @@ class ModerationAgent:
             "video": self._moderate_video,
             "code": self._moderate_code
         }
-        
+
         # MCP confidence weights
         self.mcp_weights = {
             "nlp_confidence": 0.3,
@@ -42,8 +57,14 @@ class ModerationAgent:
             "analytics_score": 0.25,
             "origin_service_trust": 0.2
         }
-        
-        logger.info("ModerationAgent initialized")
+
+        # Load persistent state
+        self._load_state()
+
+        # Sync with database if available
+        self._sync_with_database()
+
+        logger.info("ModerationAgent initialized with persistent learning")
     
     async def moderate(
         self,
@@ -52,15 +73,24 @@ class ModerationAgent:
         metadata: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
-        Main moderation method with RL decision-making
+        Main moderation method with enhanced RL decision-making and persistence
         """
         try:
+            # Generate or get content ID for state tracking
+            content_id = metadata.get("content_id") if metadata else None
+            if not content_id:
+                content_id = f"temp_{int(time.time() * 1000000)}"
+
+            # Register content for enhanced learning
+            self.register_content(content_id, content_type, metadata)
+
             # Extract state from content and metadata
             state = self._extract_state(content, content_type, metadata)
-            
+            state_key = self._generate_state_key(content_id)
+
             # Apply content-specific rules
             rule_result = await self.rules[content_type](content, metadata)
-            
+
             # Apply MCP weighting if available
             mcp_weighted_score = None
             if metadata and "mcp" in metadata:
@@ -71,13 +101,13 @@ class ModerationAgent:
                 final_score = mcp_weighted_score
             else:
                 final_score = rule_result["score"]
-            
-            # RL action selection
-            action = self._select_action(state, final_score)
-            
+
+            # RL action selection using enhanced Q-table
+            action = self._select_action_enhanced(state_key, final_score)
+
             # Determine if flagged based on action and score - lower threshold for flagged content
             flagged = action == 1 or final_score > 0.4  # Lowered from 0.5 to 0.4
-            
+
             result = {
                 "flagged": flagged,
                 "score": final_score,
@@ -85,19 +115,38 @@ class ModerationAgent:
                 "reasons": rule_result["reasons"],
                 "action": ["approve", "flag", "review"][action],
                 "mcp_weighted_score": mcp_weighted_score,
-                "state": state
-            }
-            
-            # Store for learning
-            self.history.append({
                 "state": state,
+                "content_id": content_id,
+                "state_key": state_key
+            }
+
+            # Store for learning with enhanced tracking
+            experience = {
+                "content_id": content_id,
+                "state": state,
+                "state_key": state_key,
                 "action": action,
                 "result": result,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.utcnow().isoformat(),
+                "next_state": state_key  # For replay buffer
+            }
+            self.history.append(experience)
+
+            # Add to replay buffer for batch learning
+            self.replay_buffer.append({
+                "state": state_key,
+                "action": action,
+                "reward": 0.0,  # Will be updated with feedback
+                "next_state": state_key,
+                "timestamp": time.time()
             })
-            
+
+            # Keep replay buffer size manageable
+            if len(self.replay_buffer) > self.max_replay:
+                self.replay_buffer.pop(0)
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Moderation error: {str(e)}", exc_info=True)
             raise
@@ -393,39 +442,143 @@ class ModerationAgent:
         content: bytes,
         metadata: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
-        """Video-specific moderation"""
+        """Enhanced video-specific moderation with comprehensive analysis"""
         score = 0.0
         reasons = []
-        
-        # Size and duration checks
+        approval_reasons = []
+
+        # File size analysis with detailed thresholds
         size_mb = len(content) / (1024 * 1024)
-        if size_mb > 500:
-            score += 0.2
-            reasons.append(f"Very large video: {size_mb:.2f}MB")
-        
-        # Use TTV (Text-to-Video) summary if available
+        if size_mb > 1000:  # 1GB
+            score += 0.9
+            reasons.append(f"Extremely large video file ({size_mb:.2f}MB) - potential abuse or bandwidth waste")
+        elif size_mb > 500:  # 500MB
+            score += 0.6
+            reasons.append(f"Very large video file ({size_mb:.2f}MB) - may cause performance issues")
+        elif size_mb > 200:  # 200MB
+            score += 0.3
+            reasons.append(f"Large video file ({size_mb:.2f}MB) - consider compression")
+        else:
+            approval_reasons.append(f"Appropriate video file size ({size_mb:.2f}MB)")
+
+        # Duration analysis
+        duration_seconds = 0
+        if metadata and "duration" in metadata:
+            duration_seconds = metadata["duration"]
+            if duration_seconds > 3600:  # 1 hour
+                score += 0.7
+                reasons.append(f"Extremely long video ({duration_seconds/3600:.1f} hours) - potential spam")
+            elif duration_seconds > 1800:  # 30 minutes
+                score += 0.4
+                reasons.append(f"Very long video ({duration_seconds/60:.1f} minutes) - may need review")
+            elif duration_seconds > 600:  # 10 minutes
+                score += 0.2
+                reasons.append(f"Long video ({duration_seconds/60:.1f} minutes)")
+            elif duration_seconds < 3:  # Too short
+                score += 0.3
+                reasons.append(f"Suspiciously short video ({duration_seconds:.1f}s) - may be corrupted or test content")
+
+        # Video format validation
+        if metadata and "filename" in metadata:
+            filename = metadata["filename"].lower()
+            # Check for suspicious extensions
+            suspicious_extensions = ['.exe', '.bat', '.cmd', '.scr', '.pif', '.com']
+            if any(filename.endswith(ext) for ext in suspicious_extensions):
+                score += 1.0
+                reasons.append("Dangerous file extension disguised as video - potential malware")
+
+            # Check for double extensions
+            if filename.count('.') > 1:
+                parts = filename.split('.')
+                if len(parts) > 2:
+                    score += 0.7
+                    reasons.append("Multiple file extensions detected - potential security bypass")
+
+        # Advanced MCP metadata analysis
         if metadata and "mcp_metadata" in metadata:
             mcp = metadata["mcp_metadata"]
-            
-            # Check video summary
-            if "summary" in mcp:
-                summary_result = await self._moderate_text(mcp["summary"], metadata)
-                score = max(score, summary_result["score"] * 0.8)
-                reasons.extend([f"Summary: {r}" for r in summary_result["reasons"]])
-            
-            # Check frame analysis
+
+            # Video summary analysis (transcript/summary)
+            if "summary" in mcp or "transcript" in mcp:
+                text_content = mcp.get("summary") or mcp.get("transcript", "")
+                if text_content:
+                    summary_result = await self._moderate_text(text_content, metadata)
+                    score = max(score, summary_result["score"] * 0.9)  # Higher weight for video content
+                    reasons.extend([f"Content analysis: {r}" for r in summary_result["reasons"]])
+
+            # Frame-by-frame analysis
             if "frame_scores" in mcp:
                 frame_scores = mcp.get("frame_scores", [])
-                avg_frame_score = (sum(frame_scores) / len(frame_scores)) if frame_scores else 0.0
-                if avg_frame_score > 0.7:
+                if frame_scores:
+                    avg_frame_score = sum(frame_scores) / len(frame_scores)
+                    max_frame_score = max(frame_scores)
+
+                    if max_frame_score > 0.9:
+                        score += 0.8
+                        reasons.append(f"Highly flagged content in video frames (max score: {max_frame_score:.2f})")
+                    elif max_frame_score > 0.7:
+                        score += 0.5
+                        reasons.append(f"Moderately flagged content in video frames (max score: {max_frame_score:.2f})")
+                    elif avg_frame_score > 0.5:
+                        score += 0.3
+                        reasons.append(f"Some flagged content in video frames (avg score: {avg_frame_score:.2f})")
+                    else:
+                        approval_reasons.append("Video frames appear clean")
+
+            # Audio track analysis
+            if "audio_score" in mcp:
+                audio_score = mcp["audio_score"]
+                if audio_score > 0.8:
+                    score += 0.7
+                    reasons.append(f"Flagged audio content detected (confidence: {audio_score:.2f})")
+                elif audio_score > 0.5:
                     score += 0.4
-                    reasons.append("Flagged content in frames")
-        
-        confidence = 0.6
+                    reasons.append(f"Moderate audio concerns detected (confidence: {audio_score:.2f})")
+
+            # Scene detection and analysis
+            if "scene_scores" in mcp:
+                scene_scores = mcp.get("scene_scores", [])
+                if scene_scores:
+                    high_scene_count = sum(1 for s in scene_scores if s > 0.7)
+                    if high_scene_count > len(scene_scores) * 0.5:  # More than 50% flagged scenes
+                        score += 0.6
+                        reasons.append(f"Multiple problematic scenes detected ({high_scene_count}/{len(scene_scores)})")
+
+            # Quality and technical analysis
+            if "quality_score" in mcp:
+                quality_score = mcp["quality_score"]
+                if quality_score < 0.2:
+                    score += 0.2
+                    reasons.append(f"Very low video quality (score: {quality_score:.2f}) - potentially corrupted")
+                elif quality_score > 0.8:
+                    approval_reasons.append("High quality video content")
+
+            # Motion and content analysis
+            if "motion_score" in mcp:
+                motion_score = mcp["motion_score"]
+                # Unusual motion patterns might indicate problematic content
+                if motion_score > 0.9:  # Extremely high motion
+                    score += 0.1
+                    reasons.append("Unusually high motion content detected")
+
+        # Determine final reasons based on score
+        if score == 0.0:
+            final_reasons = approval_reasons if approval_reasons else ["Video content appears appropriate and clean"]
+        else:
+            final_reasons = reasons
+
+        # Adjust confidence based on analysis depth
+        if metadata and "mcp_metadata" in metadata:
+            confidence = 0.85  # High confidence with comprehensive analysis
+        elif duration_seconds > 0:
+            confidence = 0.7   # Medium confidence with basic metadata
+        else:
+            confidence = 0.5   # Lower confidence with minimal analysis
+
         return {
             "score": min(score, 1.0),
             "confidence": confidence,
-            "reasons": reasons if reasons else ["Video appears clean"]
+            "reasons": final_reasons
         }
     
     async def _moderate_code(
@@ -497,19 +650,17 @@ class ModerationAgent:
         
         return min(weighted_score, 1.0)
     
-    def _select_action(self, state: List[float], score: float) -> int:
-        """Select action using epsilon-greedy policy"""
-        state_key = tuple(round(x, 2) for x in state)
-        
+    def _select_action_enhanced(self, state_key: str, score: float) -> int:
+        """Select action using enhanced epsilon-greedy policy with persistent Q-table"""
         # Epsilon-greedy exploration
         if random.random() < self.epsilon:
             return random.randint(0, self.action_dim - 1)
-        
-        # Exploit: choose best action from Q-table
+
+        # Exploit: choose best action from enhanced Q-table
         if state_key in self.q_table:
-            values = self.q_table[state_key]
-            return max(range(len(values)), key=lambda i: values[i])
-        
+            q_values = self.q_table[state_key]
+            return max(range(len(q_values)), key=lambda i: q_values[str(i)])
+
         # Default based on score - adjusted for stricter flagging
         if score > 0.6:
             return 1  # Flag
@@ -523,35 +674,61 @@ class ModerationAgent:
         moderation_id: str,
         reward: float
     ):
-        """Update Q-table with user feedback reward and send to RL Core"""
+        """Update Q-table with user feedback reward using enhanced learning"""
         try:
-            # Find corresponding history entry
-            for entry in reversed(self.history[-100:]):
-                if "moderation_id" in entry and entry["moderation_id"] == moderation_id:
-                    state = entry["state"]
-                    action = entry["action"]
+            # Clamp reward to reasonable bounds
+            reward = max(-2.0, min(2.0, float(reward)))
 
-                    state_key = tuple(round(x, 2) for x in state)
+            # Track recent rewards for metrics
+            self.recent_rewards.append(reward)
+            if len(self.recent_rewards) > 1000:
+                self.recent_rewards.pop(0)
+
+            # Find corresponding history entry
+            for entry in reversed(self.history[-200:]):  # Look further back
+                if entry.get("content_id") == moderation_id or entry.get("moderation_id") == moderation_id:
+                    state_key = entry["state_key"]
+                    action = entry["action"]
 
                     # Initialize Q-values if not exists
                     if state_key not in self.q_table:
-                        self.q_table[state_key] = [0.0] * self.action_dim
+                        self.q_table[state_key] = {str(i): 0.0 for i in range(self.action_dim)}
 
-                    # Q-learning update
-                    old_q = self.q_table[state_key][action]
+                    # Q-learning update with next state
+                    old_q = self.q_table[state_key][str(action)]
 
-                    # No next state in this simplified version
-                    new_q = old_q + self.learning_rate * (reward - old_q)
+                    # Use same state as next state for simplicity (could be enhanced)
+                    next_state_key = state_key
+                    if next_state_key in self.q_table:
+                        max_q_next = max(self.q_table[next_state_key].values())
+                    else:
+                        max_q_next = 0.0
 
-                    self.q_table[state_key][action] = new_q
+                    new_q = old_q + self.learning_rate * (reward + self.gamma * max_q_next - old_q)
+                    self.q_table[state_key][str(action)] = max(-100.0, min(100.0, new_q))
 
                     logger.info(
-                        f"Updated Q-value for action {action}: "
+                        f"Updated Q-value for state {state_key}, action {action}: "
                         f"{old_q:.3f} -> {new_q:.3f} (reward: {reward:.3f})"
                     )
 
+                    # Update replay buffer with actual reward
+                    for replay_entry in reversed(self.replay_buffer[-100:]):
+                        if (replay_entry.get("content_id") == moderation_id or
+                            replay_entry.get("moderation_id") == moderation_id):
+                            replay_entry["reward"] = reward
+                            break
+
+                    # Perform batch learning occasionally
+                    if random.random() < 0.3:  # 30% chance
+                        self.batch_update_from_replay(batches=1, batch_size=32)
+
+                    # Save state occasionally
+                    if random.random() < 0.1:  # 10% chance
+                        self._save_state()
+
                     # Send to RL Core for distributed learning
-                    await self._send_to_rl_core(moderation_id, reward, state, action)
+                    await self._send_to_rl_core(moderation_id, reward, entry["state"], action)
                     break
 
         except Exception as e:
@@ -581,10 +758,254 @@ class ModerationAgent:
             logger.error(f"Error sending to RL Core: {str(e)}")
     
     def get_statistics(self) -> Dict[str, Any]:
-        """Get agent statistics"""
+        """Get comprehensive agent statistics"""
         return {
             "total_moderations": len(self.history),
             "q_table_size": len(self.q_table),
             "epsilon": self.epsilon,
-            "learning_rate": self.learning_rate
+            "learning_rate": self.learning_rate,
+            "replay_buffer_size": len(self.replay_buffer),
+            "registered_contents": len(self.contents),
+            "avg_recent_reward": round(sum(self.recent_rewards) / len(self.recent_rewards), 3) if self.recent_rewards else 0.0,
+            "discount_factor": self.gamma
         }
+
+    def register_content(self, content_id: str, content_type: str, metadata: Optional[Dict[str, Any]] = None):
+        """Register content for enhanced state generation and learning"""
+        safe_content_id = html.escape(str(content_id))
+        safe_content_type = html.escape(str(content_type))
+
+        # Extract features for state generation
+        features = {
+            "content_type": safe_content_type,
+            "length": 0,
+            "toxicity_score": 0.0,
+            "authenticity_score": 0.5,
+            "tags": []
+        }
+
+        if metadata:
+            if "length" in metadata:
+                features["length"] = max(0, min(10000, int(metadata["length"])))
+            if "toxicity_score" in metadata:
+                features["toxicity_score"] = max(0.0, min(1.0, float(metadata.get("toxicity_score", 0.0))))
+            if "authenticity_score" in metadata:
+                features["authenticity_score"] = max(0.0, min(1.0, float(metadata.get("authenticity_score", 0.5))))
+            if "tags" in metadata:
+                features["tags"] = [html.escape(str(tag)) for tag in metadata.get("tags", [])]
+
+        self.contents[safe_content_id] = features
+
+        # Initialize Q-value for this content's state
+        state_key = self._generate_state_key(safe_content_id)
+        if state_key not in self.q_table:
+            self.q_table[state_key] = {str(i): 0.0 for i in range(self.action_dim)}
+
+        logger.debug(f"Registered content {safe_content_id} with state key {state_key}")
+
+    def _generate_state_key(self, content_id: str) -> str:
+        """Generate enhanced state key from content features"""
+        if content_id not in self.contents:
+            return "unknown_0_0_0"
+
+        info = self.contents[content_id]
+        content_type_map = {"text": 0, "image": 1, "audio": 2, "video": 3, "code": 4}
+        type_code = content_type_map.get(info["content_type"], 0)
+
+        # Bucketize features
+        length_bucket = max(0, min(5, int(info["length"] / 2000)))  # 0-5 buckets
+        toxicity_bucket = max(0, min(5, int(info["toxicity_score"] * 5)))  # 0-5 buckets
+        authenticity_bucket = max(0, min(5, int(info["authenticity_score"] * 5)))  # 0-5 buckets
+
+        return f"type_{type_code}_len_{length_bucket}_tox_{toxicity_bucket}_auth_{authenticity_bucket}"
+
+    def _load_state(self):
+        """Load persistent agent state from file"""
+        if not os.path.exists(self.state_path):
+            logger.info("No existing agent state found, starting fresh")
+            return
+
+        try:
+            # Validate state path to prevent path traversal
+            safe_path = Path(self.state_path).resolve()
+            current_dir = Path.cwd().resolve()
+            if not str(safe_path).startswith(str(current_dir)):
+                raise ValueError("State file must be within the application's working directory.")
+
+            if not str(safe_path).endswith('.json'):
+                raise ValueError("State file must have .json extension")
+
+            with open(safe_path, "r", encoding="utf-8") as f:
+                state = json.load(f)
+
+            self.q_table = state.get("q_table", {})
+            self.epsilon = state.get("epsilon", self.epsilon)
+            self.recent_rewards = state.get("recent_rewards", [])
+
+            logger.info(f"Loaded agent state with {len(self.q_table)} Q-states")
+
+        except (json.JSONDecodeError, IOError, KeyError, ValueError) as e:
+            logger.warning(f"Could not load agent state: {e}")
+            self.q_table = {}
+
+    def _save_state(self):
+        """Persist agent state to file with backup"""
+        try:
+            # Validate state path
+            safe_path = Path(self.state_path).resolve()
+            current_dir = Path.cwd().resolve()
+            if not str(safe_path).startswith(str(current_dir)):
+                raise ValueError("State file must be within the application's working directory.")
+
+            if not str(safe_path).endswith('.json'):
+                raise ValueError("State file must have .json extension")
+
+            # Create backup
+            if safe_path.exists():
+                backup_path = safe_path.with_suffix('.json.bak')
+                try:
+                    if backup_path.exists():
+                        backup_path.unlink()
+                    safe_path.rename(backup_path)
+                except (OSError, PermissionError):
+                    pass  # Skip backup if file operations fail
+
+            # Save new state
+            state = {
+                "q_table": self.q_table,
+                "epsilon": self.epsilon,
+                "recent_rewards": self.recent_rewards[-100:],  # Keep last 100 rewards
+                "timestamp": datetime.utcnow().isoformat()
+            }
+
+            with open(safe_path, "w", encoding="utf-8") as f:
+                json.dump(state, f, indent=2)
+
+            logger.debug("Agent state saved successfully")
+
+        except (IOError, OSError, ValueError) as e:
+            logger.error(f"Could not save agent state: {e}")
+
+    def _sync_with_database(self):
+        """Sync agent with existing moderation database"""
+        try:
+            # Try to connect to the moderation database
+            import sqlite3
+            db_path = "logs/moderation.db"  # Based on the project structure
+
+            if os.path.exists(db_path):
+                conn = sqlite3.connect(db_path)
+                cur = conn.cursor()
+
+                # Get recent moderations to register content
+                cur.execute("""
+                    SELECT moderation_id, content_type, score, timestamp
+                    FROM moderations
+                    ORDER BY timestamp DESC
+                    LIMIT 100
+                """)
+                rows = cur.fetchall()
+                conn.close()
+
+                for row in rows:
+                    moderation_id, content_type, score, timestamp = row
+                    # Register content with basic metadata
+                    self.register_content(
+                        moderation_id,
+                        content_type,
+                        {"toxicity_score": score, "length": 100}  # Basic defaults
+                    )
+
+                logger.info(f"Synced {len(rows)} moderations from database")
+
+        except Exception as e:
+            logger.debug(f"Could not sync with database: {e}")
+
+    def pretrain_from_examples(self, examples: List[Dict[str, Any]]):
+        """Pretrain agent with labeled examples to seed Q-values"""
+        if not isinstance(examples, list):
+            raise ValueError("Examples must be a list")
+
+        if len(examples) > 1000:
+            raise ValueError("Too many examples for pretraining (max 1000)")
+
+        logger.info(f"Pretraining agent with {len(examples)} examples")
+
+        for i, example in enumerate(examples):
+            try:
+                if not isinstance(example, dict):
+                    continue
+
+                # Validate required fields
+                required_fields = ['content_type', 'score', 'reward']
+                for field in required_fields:
+                    if field not in example:
+                        raise ValueError(f"Missing required field: {field}")
+
+                content_type = html.escape(str(example.get("content_type", "text")))
+                score = max(0.0, min(1.0, float(example.get("score", 0.0))))
+                reward = max(-2.0, min(2.0, float(example.get("reward", 0.0))))
+
+                # Create synthetic content for state generation
+                temp_id = f"pretrain_{i}_{int(score*100)}"
+                metadata = {
+                    "toxicity_score": score,
+                    "length": example.get("length", 100),
+                    "authenticity_score": example.get("authenticity", 0.5)
+                }
+
+                self.register_content(temp_id, content_type, metadata)
+                state_key = self._generate_state_key(temp_id)
+
+                # Seed Q-values based on reward
+                if state_key not in self.q_table:
+                    self.q_table[state_key] = {str(i): 0.0 for i in range(self.action_dim)}
+
+                # Favor actions that would lead to correct moderation
+                if reward > 0:  # Good moderation
+                    if score > 0.5:  # High toxicity - should flag
+                        self.q_table[state_key]["1"] += min(10.0, reward * 0.5)  # Flag action
+                    else:  # Low toxicity - should approve
+                        self.q_table[state_key]["0"] += min(10.0, reward * 0.5)  # Approve action
+                else:  # Bad moderation
+                    if score > 0.5:  # Should have flagged but didn't
+                        self.q_table[state_key]["0"] -= min(10.0, abs(reward) * 0.3)  # Penalize approve
+                    else:  # Should have approved but didn't
+                        self.q_table[state_key]["1"] -= min(10.0, abs(reward) * 0.3)  # Penalize flag
+
+            except (ValueError, TypeError, KeyError) as e:
+                logger.warning(f"Skipping invalid pretraining example {i}: {e}")
+                continue
+
+        # Save updated state
+        self._save_state()
+        logger.info("Pretraining completed and state saved")
+
+    def batch_update_from_replay(self, batches: int = 1, batch_size: int = 64):
+        """Perform batch Q-learning updates from replay buffer"""
+        if not self.replay_buffer:
+            return
+
+        for _ in range(batches):
+            sample = random.sample(self.replay_buffer, min(batch_size, len(self.replay_buffer)))
+
+            for experience in sample:
+                state_key = experience["state"]
+                action = str(experience["action"])
+                reward = experience["reward"]
+                next_state_key = experience["next_state"]
+
+                if state_key not in self.q_table:
+                    self.q_table[state_key] = {str(i): 0.0 for i in range(self.action_dim)}
+                if next_state_key not in self.q_table:
+                    self.q_table[next_state_key] = {str(i): 0.0 for i in range(self.action_dim)}
+
+                # Q-learning update
+                max_q_next = max(self.q_table[next_state_key].values())
+                old_q = self.q_table[state_key][action]
+                new_q = old_q + self.learning_rate * (reward + self.gamma * max_q_next - old_q)
+                self.q_table[state_key][action] = max(-100.0, min(100.0, new_q))  # Bounds checking
+
+        # Occasionally save state
+        if random.random() < 0.1:
+            self._save_state()

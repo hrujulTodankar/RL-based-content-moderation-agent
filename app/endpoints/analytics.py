@@ -6,6 +6,8 @@ import random
 
 from ..moderation_agent import ModerationAgent
 from ..feedback_handler import FeedbackHandler
+from ..sentiment_analyzer import sentiment_analyzer
+from ..observability import track_performance
 
 moderation_agent = ModerationAgent()
 feedback_handler = FeedbackHandler()
@@ -275,3 +277,165 @@ async def get_accuracy_trends(content: str = "all", range: str = "24h") -> Dict[
     except Exception as e:
         logger.error(f"Error getting accuracy trends: {str(e)}")
         raise HTTPException(status_code=500, detail="Error retrieving accuracy trends")
+
+@router.post("/sentiment/analyze")
+@track_performance("sentiment_analysis")
+async def analyze_sentiment(text: str, rating: int = None, context: str = "general"):
+    """Analyze sentiment of text content"""
+    try:
+        if not text or not text.strip():
+            raise HTTPException(status_code=400, detail="Text content is required")
+
+        if rating is not None and not (1 <= rating <= 5):
+            raise HTTPException(status_code=400, detail="Rating must be between 1 and 5")
+
+        result = sentiment_analyzer.analyze_sentiment(text, rating, context)
+
+        return {
+            "text_preview": text[:100] + "..." if len(text) > 100 else text,
+            "analysis": result,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error analyzing sentiment: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error analyzing sentiment")
+
+@router.post("/sentiment/batch-analyze")
+@track_performance("batch_sentiment_analysis")
+async def batch_analyze_sentiment(texts: List[str], ratings: List[int] = None, context: str = "general"):
+    """Analyze sentiment for multiple texts"""
+    try:
+        if not texts:
+            raise HTTPException(status_code=400, detail="Texts list cannot be empty")
+
+        if ratings and len(ratings) != len(texts):
+            raise HTTPException(status_code=400, detail="Ratings list must match texts list length")
+
+        results = sentiment_analyzer.analyze_batch(texts, ratings, context)
+        summary = sentiment_analyzer.get_sentiment_summary(results)
+
+        return {
+            "results": results,
+            "summary": summary,
+            "total_analyzed": len(texts),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in batch sentiment analysis: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error in batch sentiment analysis")
+
+@router.get("/sentiment/feedback-analysis")
+@track_performance("feedback_sentiment_analysis")
+async def analyze_feedback_sentiment(limit: int = 100):
+    """Analyze sentiment of recent user feedback"""
+    try:
+        # Mock feedback data - in real implementation, get from database
+        mock_feedbacks = [
+            {
+                "id": f"fb_{i}",
+                "text": f"This moderation was {'excellent' if i % 3 == 0 else 'good' if i % 3 == 1 else 'poor'}",
+                "rating": 5 if i % 3 == 0 else 3 if i % 3 == 1 else 1,
+                "timestamp": (datetime.utcnow() - timedelta(hours=i)).isoformat()
+            }
+            for i in range(min(limit, 50))
+        ]
+
+        texts = [fb["text"] for fb in mock_feedbacks]
+        ratings = [fb["rating"] for fb in mock_feedbacks]
+
+        results = sentiment_analyzer.analyze_batch(texts, ratings, "moderation_feedback")
+        summary = sentiment_analyzer.get_sentiment_summary(results)
+
+        # Add feedback IDs to results
+        for i, result in enumerate(results):
+            result["feedback_id"] = mock_feedbacks[i]["id"]
+            result["timestamp"] = mock_feedbacks[i]["timestamp"]
+
+        return {
+            "feedback_analyses": results,
+            "summary": summary,
+            "time_range": "Last 50 hours",
+            "total_feedbacks": len(mock_feedbacks),
+            "insights": [
+                f"Overall sentiment is {summary['dominant_sentiment']}",
+                f"Average engagement score: {summary['average_scores']['engagement']:.2f}",
+                f"Toxicity levels are {'high' if summary['average_scores']['toxicity'] > 0.3 else 'low'}",
+                f"Most feedbacks show {'high' if summary['average_scores']['confidence'] > 0.7 else 'moderate'} confidence"
+            ]
+        }
+
+    except Exception as e:
+        logger.error(f"Error analyzing feedback sentiment: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error analyzing feedback sentiment")
+
+@router.get("/sentiment/trends")
+@track_performance("sentiment_trends")
+async def get_sentiment_trends(hours: int = 24):
+    """Get sentiment trends over time"""
+    try:
+        # Generate mock trend data
+        data_points = min(hours * 2, 48)  # 2 points per hour, max 48
+        timestamps = []
+        avg_sentiment = []
+        positive_ratio = []
+        engagement_scores = []
+
+        base_time = datetime.utcnow()
+
+        for i in range(data_points):
+            timestamp = base_time - timedelta(minutes=i*30)  # Every 30 minutes
+            timestamps.append(timestamp.strftime('%m/%d %H:%M'))
+
+            # Generate realistic sentiment trends
+            base_sentiment = 0.1 + (i * 0.005)  # Gradual improvement
+            sentiment_variation = random.uniform(-0.3, 0.3)
+            current_sentiment = max(-1, min(1, base_sentiment + sentiment_variation))
+            avg_sentiment.append(current_sentiment)
+
+            # Positive ratio (derived from sentiment)
+            pos_ratio = (current_sentiment + 1) / 2  # Convert -1,1 to 0,1
+            positive_ratio.append(pos_ratio + random.uniform(-0.1, 0.1))
+
+            # Engagement scores
+            engagement = 0.4 + (i * 0.002) + random.uniform(-0.1, 0.2)
+            engagement_scores.append(max(0, min(1, engagement)))
+
+        # Reverse for chronological order
+        timestamps.reverse()
+        avg_sentiment.reverse()
+        positive_ratio.reverse()
+        engagement_scores.reverse()
+
+        # Calculate trend metrics
+        recent_avg = sum(avg_sentiment[-6:]) / len(avg_sentiment[-6:]) if avg_sentiment else 0
+        overall_avg = sum(avg_sentiment) / len(avg_sentiment) if avg_sentiment else 0
+        trend_direction = "improving" if recent_avg > overall_avg else "declining"
+
+        return {
+            "timestamps": timestamps,
+            "avg_sentiment": avg_sentiment,
+            "positive_ratio": positive_ratio,
+            "engagement_scores": engagement_scores,
+            "trend_analysis": {
+                "direction": trend_direction,
+                "recent_average": round(recent_avg, 3),
+                "overall_average": round(overall_avg, 3),
+                "volatility": round(sum(abs(avg_sentiment[i] - avg_sentiment[i-1]) for i in range(1, len(avg_sentiment))) / len(avg_sentiment), 3) if len(avg_sentiment) > 1 else 0
+            },
+            "insights": [
+                f"User sentiment is {trend_direction} over the last {hours} hours",
+                f"Positive feedback ratio: {round(sum(positive_ratio[-6:]) / len(positive_ratio[-6:]) * 100, 1)}% (recent)",
+                f"Average engagement: {round(sum(engagement_scores[-6:]) / len(engagement_scores[-6:]), 2)} (recent)",
+                "Sentiment analysis shows stable user satisfaction trends"
+            ]
+        }
+
+    except Exception as e:
+        logger.error(f"Error getting sentiment trends: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error retrieving sentiment trends")

@@ -22,6 +22,21 @@ coverage
 requests
 PyJWT
 
+# Enhanced Authentication
+passlib[bcrypt]==1.7.4
+python-jose[cryptography]==3.3.0
+
+# Observability & Monitoring
+sentry-sdk[fastapi]==1.40.0
+posthog-python==3.5.0
+
+# Storage Backends
+boto3==1.34.0
+supabase==2.3.0
+
+# Sentiment Analysis
+vaderSentiment==3.3.2
+
 # Logging
 python-json-logger==2.0.7
 

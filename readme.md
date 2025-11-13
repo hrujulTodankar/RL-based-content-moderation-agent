@@ -6,76 +6,152 @@ This project implements an advanced content moderation system powered by Reinfor
 The system can moderate various types of content including text, images, audio, video, and code snippets, with special focus on Indian legal documents like Bharatiya Nyaya Sanhita (BNS) and Code of Criminal Procedure (CrPC).
 
 ### Key Features
-1. **Indian Legal Content Moderation**
-   - Bharatiya Nyaya Sanhita (BNS) 2023 content moderation
-   - Code of Criminal Procedure (CrPC) 1973 content moderation
-   - Dynamic approval/rejection reasons based on legal content analysis
-   - Complete transparency with visual distinction between approved/rejected content
+1. **Advanced Indian Legal Content Moderation**
+    - Bharatiya Nyaya Sanhita (BNS) 2023 content moderation
+    - Code of Criminal Procedure (CrPC) 1973 content moderation
+    - Dynamic approval/rejection reasons based on legal content analysis
+    - Complete transparency with visual distinction between approved/rejected content
 
-2. **Multi-Modal Content Support**
-   - Text moderation with NLP context understanding
-   - Image content analysis
-   - Audio content processing
-   - Video content analysis
-   - Code snippet evaluation
+2. **Enhanced Multi-Modal Content Support**
+    - Text moderation with NLP context understanding
+    - Image content analysis with NSFW detection
+    - Audio content processing with transcription analysis
+    - Advanced video content analysis with frame-by-frame evaluation
+    - Code snippet evaluation with security pattern detection
 
-3. **Adaptive Learning**
-   - Real-time learning from user feedback
-   - Confidence-based decision making
-   - Historical performance tracking
-   - Automated improvement over time
+3. **Advanced RL-Powered Adaptive Learning**
+    - Enhanced Q-Learning algorithm with persistent state
+    - Replay buffer for batch learning from past experiences
+    - Pretraining capabilities for seeding Q-values
+    - Real-time learning from user feedback with reward normalization
+    - Confidence-based decision making with bounds checking
+    - Historical performance tracking and metrics
+    - Automated improvement over time with state persistence
 
 4. **Complete Transparency Features**
-   - Approved content (green) with specific approval reasons
-   - Rejected content (red) with detailed rejection reasons
-   - Content-aware analysis for legal terminology, structure, and procedural elements
-   - Score-based dynamic reasoning
+    - Approved content (green) with specific approval reasons
+    - Rejected content (red) with detailed rejection reasons
+    - Content-aware analysis for legal terminology, structure, and procedural elements
+    - Score-based dynamic reasoning with MCP weighting
+    - Enhanced state key generation for better learning
 
-5. **Integration Capabilities**
-   - Model Context Protocol (MCP) integration
-   - Event-driven architecture
-   - Scalable feedback handling
-   - Real-time analytics
+5. **Advanced Security & Authentication**
+    - JWT authentication with refresh tokens
+    - Rate limiting (per endpoint, per user, per IP)
+    - Input sanitization and validation
+    - Security headers and middleware
+    - Authentication rate limiting with lockout protection
+    - Comprehensive audit logging
+
+6. **Observability & Monitoring**
+    - Sentry error tracking integration
+    - PostHog user analytics
+    - Performance monitoring and metrics
+    - Structured logging with correlation IDs
+    - Health checks and system monitoring
+    - Real-time performance tracking
+
+7. **GDPR Compliance & Privacy**
+    - Complete data export functionality
+    - User data deletion with cascade
+    - Privacy policy and data summary endpoints
+    - Audit trails for all data operations
+    - Automated data retention policies
+
+8. **Multi-Storage Backend Support**
+    - Supabase Storage integration
+    - AWS S3 compatibility
+    - MinIO support
+    - Local file system fallback
+    - Presigned URL generation
+
+9. **Enhanced Analytics & Sentiment Analysis**
+    - Advanced sentiment analysis integration
+    - Content performance metrics
+    - User engagement tracking
+    - RL agent performance analytics
+    - Comprehensive statistics dashboard
+
+10. **Task Queue & Background Processing**
+    - Asynchronous task processing
+    - Background workers with retry logic
+    - Task status tracking and management
+    - Queue statistics and monitoring
+    - Scalable background job processing
+
+11. **Integration Capabilities**
+    - Model Context Protocol (MCP) integration
+    - Event-driven architecture with async queues
+    - Scalable feedback handling with database persistence
+    - Real-time analytics with WebSocket support
+    - Comprehensive API with 15+ endpoints
 
 ## Technical Architecture
 
 ### Core Components
-1. **Moderation Agent** (`moderation_agent.py`)
-   - Implements RL-based decision making
-   - Manages state and action spaces
-   - Handles reward processing
-   - Maintains moderation history
+1. **Advanced Moderation Agent** (`app/moderation_agent.py`)
+    - Enhanced Q-Learning RL implementation with persistent state
+    - Replay buffer for batch learning from past experiences
+    - Pretraining capabilities for seeding Q-values
+    - Advanced state key generation from content features
+    - Multi-modal content moderation (text, image, audio, video, code)
+    - MCP confidence weighting and cross-service integration
 
-2. **Feedback Handler** (`feedback_handler.py`)
-   - Processes user feedback
-   - Normalizes feedback scores
-   - Maintains feedback database
-   - Generates performance metrics
+2. **Security & Authentication System** (`app/security.py`, `app/auth_middleware.py`)
+    - JWT authentication with refresh token support
+    - Rate limiting (per endpoint, per user, per IP)
+    - Input sanitization and validation middleware
+    - Security headers and comprehensive audit logging
+    - Authentication rate limiting with lockout protection
 
-3. **Event Queue** (`event_queue.py`)
-   - Manages asynchronous events
-   - Handles background tasks
-   - Provides event logging
-   - Ensures system responsiveness
+3. **Observability & Monitoring** (`app/observability.py`, `app/logger_middleware.py`)
+    - Sentry error tracking integration
+    - PostHog user analytics and event tracking
+    - Performance monitoring and structured logging
+    - Health checks and system metrics
+    - Correlation ID tracking for request tracing
 
-4. **Integration Services** (`integration_services.py`)
-   - Connects with external services
-   - Handles NLP processing
-   - Manages MCP integration
-   - Processes analytics data
+4. **Feedback Handler** (`app/feedback_handler.py`)
+    - Processes user feedback with reward normalization
+    - Maintains feedback database with multiple backends
+    - Generates comprehensive performance metrics
+    - RL agent integration for continuous learning
 
-5. **Legal Content Repository** (`indian_laws_data.py`)
-   - Centralized repository for Indian legal content
-   - BNS and CrPC data management
-   - Content categorization and metadata
-   - Easy extensibility for additional legal content
+5. **Task Queue System** (`app/task_queue.py`)
+    - Asynchronous task processing with background workers
+    - Retry logic and error handling
+    - Task status tracking and queue statistics
+    - Scalable background job processing
 
-6. **Web Interface** (`app/main.py`)
-   - BNS content moderation display (`/bns`)
-   - CrPC content moderation display (`/crpc`)
-   - Dynamic approval/rejection reasons
-   - Visual distinction with color coding
-   - Real-time statistics and analytics
+6. **Event Queue** (`app/event_queue.py`)
+    - Manages asynchronous events and background tasks
+    - Event logging and system responsiveness
+    - Integration with task queue for complex workflows
+
+7. **Integration Services** (`app/integration_services.py`)
+    - Multi-storage backend support (Supabase, S3, MinIO, local)
+    - MCP integration with external AI services
+    - Analytics and sentiment analysis processing
+    - Webhook support and external service connectivity
+
+8. **GDPR Compliance System** (`app/endpoints/gdpr.py`)
+    - Complete data export functionality
+    - User data deletion with cascade operations
+    - Privacy policy and data summary endpoints
+    - Audit trails for all data operations
+
+9. **Legal Content Repository** (`indian_laws_data.py`)
+    - Centralized repository for Indian legal content
+    - BNS and CrPC data management with advanced moderation
+    - Content categorization and metadata
+    - Easy extensibility for additional legal content
+
+10. **Web Interface & API** (`app/main.py`, `app/endpoints/`)
+    - FastAPI-based REST API with 15+ endpoints
+    - BNS and CrPC content moderation displays
+    - Dynamic approval/rejection reasons with transparency
+    - Real-time statistics and analytics dashboard
+    - Comprehensive API documentation and testing interface
 
 ## Setup Instructions
 
@@ -203,18 +279,38 @@ The system tracks several key metrics:
    - Automated compliance reporting
 
 ## Project Statistics
-- Lines of Code: ~4000+
-- Core Components: 10
-- API Endpoints: 12+
-- Supported Content Types: 5
+- Lines of Code: ~8000+
+- Core Components: 15+
+- API Endpoints: 20+
+- Supported Content Types: 5 (text, image, audio, video, code)
 - Legal Databases: BNS 2023, CrPC 1973
-- Transparency Features: Complete approval/rejection reasoning
-- Web Routes: 5 (Dashboard, API Docs, BNS, CrPC, API Overview)
+- Transparency Features: Complete approval/rejection reasoning with dynamic analysis
+- Web Routes: 8+ (Dashboard, API Docs, BNS, CrPC, API Overview, Auth, GDPR, Storage)
+- Security Features: JWT auth, rate limiting, input sanitization, audit logging
+- Monitoring: Sentry error tracking, PostHog analytics, performance metrics
+- Compliance: GDPR compliant with data export/deletion, privacy controls
 
 ## Testing
 ```bash
-# Run the test suite
-pytest testing_files/
+# Run comprehensive test suite
+python run_tests.py
+
+# Run specific test categories
+python run_tests.py --unit          # Unit tests only
+python run_tests.py --integration   # Integration tests only
+python run_tests.py --security      # Security tests only
+
+# Run with coverage report
+python run_tests.py --coverage
+
+# Run individual test files
+pytest tests/test_moderation_agent.py -v
+pytest tests/test_security.py -v
+
+# Run tests with different markers
+pytest -m "security"     # Security-related tests
+pytest -m "integration"  # Integration tests
+pytest -m "performance"  # Performance tests
 ```
 
 ## Monitoring
