@@ -3,7 +3,7 @@ import asyncio
 from httpx import AsyncClient
 from app.main import app
 from app.moderation_agent import ModerationAgent
-from feedback_handler import FeedbackHandler
+from app.feedback_handler import FeedbackHandler
 import json
 
 # Test fixtures

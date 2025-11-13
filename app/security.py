@@ -19,11 +19,26 @@ logger = logging.getLogger(__name__)
 
 # Security Configuration
 class SecurityConfig:
-    # Rate Limiting Configuration
-    MAX_REQUESTS_PER_HOUR = int(os.getenv("MAX_REQUESTS_PER_HOUR", "1000"))
-    MAX_REQUESTS_PER_MINUTE = int(os.getenv("MAX_REQUESTS_PER_MINUTE", "100"))
-    AUTH_MAX_ATTEMPTS = int(os.getenv("AUTH_MAX_ATTEMPTS", "5"))
-    AUTH_LOCKOUT_DURATION = int(os.getenv("AUTH_LOCKOUT_DURATION", "900"))  # 15 minutes
+    # Rate Limiting Configuration with safe parsing
+    try:
+        MAX_REQUESTS_PER_HOUR = int(os.getenv("MAX_REQUESTS_PER_HOUR", "1000"))
+    except (ValueError, TypeError):
+        MAX_REQUESTS_PER_HOUR = 1000
+
+    try:
+        MAX_REQUESTS_PER_MINUTE = int(os.getenv("MAX_REQUESTS_PER_MINUTE", "100"))
+    except (ValueError, TypeError):
+        MAX_REQUESTS_PER_MINUTE = 100
+
+    try:
+        AUTH_MAX_ATTEMPTS = int(os.getenv("AUTH_MAX_ATTEMPTS", "5"))
+    except (ValueError, TypeError):
+        AUTH_MAX_ATTEMPTS = 5
+
+    try:
+        AUTH_LOCKOUT_DURATION = int(os.getenv("AUTH_LOCKOUT_DURATION", "900"))
+    except (ValueError, TypeError):
+        AUTH_LOCKOUT_DURATION = 900  # 15 minutes
 
     # Security Headers
     SECURITY_HEADERS = {
@@ -70,17 +85,44 @@ class RateLimiter:
         return True
 
     def _cleanup_old_entries(self):
-        """Remove old rate limiting entries"""
+        """Remove old rate limiting entries with memory-efficient cleanup"""
         now = time.time()
         if now - self.last_cleanup > self.cleanup_interval:
+            keys_to_remove = []
+
             for key in list(self.requests.keys()):
                 # Keep only entries within the maximum window (1 hour)
+                original_count = len(self.requests[key])
                 self.requests[key] = [
                     timestamp for timestamp in self.requests[key]
                     if now - timestamp < 3600
                 ]
+
+                # Remove empty entries
                 if not self.requests[key]:
+                    keys_to_remove.append(key)
+                # Log significant cleanup for monitoring
+                elif len(self.requests[key]) < original_count * 0.5:  # More than 50% cleaned
+                    logger.debug(f"Cleaned up {original_count - len(self.requests[key])} old entries for key {key}")
+
+            # Remove empty keys
+            for key in keys_to_remove:
+                del self.requests[key]
+
+            # Periodic deep cleanup: remove very old keys entirely
+            if len(self.requests) > 10000:  # If we have too many keys
+                cutoff_time = now - 7200  # 2 hours ago
+                old_keys = []
+                for key, timestamps in self.requests.items():
+                    if timestamps and max(timestamps) < cutoff_time:
+                        old_keys.append(key)
+
+                for key in old_keys[:1000]:  # Clean up to 1000 keys at a time
                     del self.requests[key]
+
+                if old_keys:
+                    logger.info(f"Deep cleanup removed {len(old_keys[:1000])} stale rate limit keys")
+
             self.last_cleanup = now
 
 class AuthRateLimiter:
@@ -367,10 +409,12 @@ async def security_middleware(request: Request, call_next):
             try:
                 body = await request.json()
                 sanitized_body = security_manager.validate_input(body)
-                # Replace request body (this is a simplified approach)
-                request._body = str(sanitized_body).encode()
+                # Note: In FastAPI, we can't directly modify the request body
+                # Validation is performed but original body is preserved
+                # Individual endpoints should use validated data from dependencies
             except Exception:
                 # If body parsing fails, continue without sanitization
+                # This prevents breaking requests with invalid JSON
                 pass
 
         # Process request

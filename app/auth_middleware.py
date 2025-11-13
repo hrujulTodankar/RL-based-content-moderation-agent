@@ -179,14 +179,14 @@ class EnhancedJWTAuth:
             return payload
 
         except jwt.ExpiredSignatureError:
-            logger.warning("JWT token expired")
+            logger.warning("JWT token expired", exc_info=True)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Token has expired",
                 headers={"WWW-Authenticate": "Bearer"}
             )
         except jwt.JWTError as e:
-            logger.warning(f"JWT verification failed: {e}")
+            logger.warning(f"JWT verification failed: {e}", exc_info=True)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid token",

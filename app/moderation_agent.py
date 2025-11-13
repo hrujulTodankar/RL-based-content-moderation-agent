@@ -27,6 +27,7 @@ class ModerationAgent:
 
         # Enhanced Q-table: { state_key: { action: value } }
         self.q_table = {}
+        self.max_q_table_size = 10000  # Limit Q-table size to prevent memory issues
 
         # Moderation history for learning
         self.history = []
@@ -802,6 +803,35 @@ class ModerationAgent:
             self.q_table[state_key] = {str(i): 0.0 for i in range(self.action_dim)}
 
         logger.debug(f"Registered content {safe_content_id} with state key {state_key}")
+
+    def _enforce_q_table_size_limit(self):
+        """Enforce Q-table size limit to prevent memory issues"""
+        if len(self.q_table) > self.max_q_table_size:
+            # Remove oldest entries (least recently used)
+            # Sort by access time if available, otherwise remove randomly
+            entries_to_remove = len(self.q_table) - self.max_q_table_size
+
+            # Simple approach: remove entries that have all zero Q-values (unused states)
+            unused_states = []
+            for state_key, q_values in self.q_table.items():
+                if all(abs(v) < 0.001 for v in q_values.values()):  # Very small values
+                    unused_states.append(state_key)
+
+            # Remove unused states first
+            for state_key in unused_states[:entries_to_remove]:
+                del self.q_table[state_key]
+                entries_to_remove -= 1
+
+            # If still need to remove more, remove oldest entries
+            if entries_to_remove > 0:
+                # Remove entries that haven't been updated recently
+                # For simplicity, remove random entries (in production, track access times)
+                all_keys = list(self.q_table.keys())
+                keys_to_remove = all_keys[:entries_to_remove]
+                for key in keys_to_remove:
+                    del self.q_table[key]
+
+            logger.warning(f"Q-table size limit enforced. Removed {len(unused_states[:entries_to_remove]) + entries_to_remove} entries. Current size: {len(self.q_table)}")
 
     def _generate_state_key(self, content_id: str) -> str:
         """Generate enhanced state key from content features"""

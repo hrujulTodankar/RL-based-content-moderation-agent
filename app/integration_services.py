@@ -4,6 +4,8 @@ from typing import Dict, Any, Optional
 import os
 from datetime import datetime
 import json
+import asyncio
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -31,10 +33,16 @@ class IntegrationServices:
             "rl_core_calls": 0,
             "nlp_calls": 0,
             "total_latency": 0.0,
-            "errors": 0
+            "errors": 0,
+            "retries": 0
         }
-        
-        logger.info("IntegrationServices initialized")
+
+        # Retry configuration
+        self.max_retries = 3
+        self.retry_backoff_base = 1.0  # Base delay in seconds
+        self.retry_jitter = 0.1  # Jitter factor
+
+        logger.info("IntegrationServices initialized with retry logic")
     
     def _get_headers(self) -> Dict[str, str]:
         """Get headers with JWT token"""
@@ -44,64 +52,106 @@ class IntegrationServices:
         if self.service_token:
             headers["Authorization"] = f"Bearer {self.service_token}"
         return headers
+
+    async def _retry_request(self, request_func, *args, **kwargs) -> Dict[str, Any]:
+        """Execute request with retry logic and exponential backoff"""
+        last_exception = None
+
+        for attempt in range(self.max_retries + 1):  # +1 for initial attempt
+            try:
+                return await request_func(*args, **kwargs)
+            except (httpx.TimeoutException, httpx.ConnectError, httpx.NetworkError) as e:
+                last_exception = e
+                if attempt < self.max_retries:
+                    # Exponential backoff with jitter
+                    delay = self.retry_backoff_base * (2 ** attempt)
+                    jitter = random.uniform(-self.retry_jitter, self.retry_jitter) * delay
+                    delay += jitter
+                    delay = max(0.1, min(delay, 30.0))  # Clamp between 0.1s and 30s
+
+                    self.metrics["retries"] += 1
+                    logger.warning(f"Request failed (attempt {attempt + 1}/{self.max_retries + 1}), retrying in {delay:.2f}s: {e}")
+                    await asyncio.sleep(delay)
+                else:
+                    logger.error(f"Request failed after {self.max_retries + 1} attempts: {e}")
+            except Exception as e:
+                # Don't retry for non-network errors
+                logger.error(f"Non-retryable error: {e}")
+                raise e
+
+        # If we get here, all retries failed
+        raise last_exception
     
+    async def _send_bhiv_request(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        """Internal method to send request to BHIV with error recovery"""
+        async with httpx.AsyncClient(timeout=self.timeout) as client:
+            response = await client.post(
+                f"{self.bhiv_url}/bhiv/feedback",
+                json=payload,
+                headers=self._get_headers()
+            )
+
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code >= 500:
+                # Server errors - retryable
+                raise httpx.HTTPStatusError(
+                    f"Server error: {response.status_code}",
+                    request=response.request,
+                    response=response
+                )
+            else:
+                # Client errors - not retryable
+                return {
+                    "success": False,
+                    "error": f"HTTP {response.status_code}",
+                    "response": response.text
+                }
+
     async def send_to_bhiv_feedback(
         self,
         moderation_id: str,
         feedback_data: Dict[str, Any]
     ) -> Dict[str, Any]:
         """
-        Send feedback to Ashmit's BHIV Analytics
+        Send feedback to Ashmit's BHIV Analytics with retry logic
         POST /bhiv/feedback
         """
         start_time = datetime.utcnow()
         self.metrics["bhiv_calls"] += 1
-        
+
         try:
-            async with httpx.AsyncClient(timeout=self.timeout) as client:
-                payload = {
-                    "moderation_id": moderation_id,
-                    "feedback_type": feedback_data.get("feedback_type"),
-                    "rating": feedback_data.get("rating"),
-                    "sentiment": feedback_data.get("sentiment", "neutral"),
-                    "engagement_score": feedback_data.get("engagement_score", 0.5),
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "metadata": feedback_data.get("metadata", {})
-                }
-                
-                response = await client.post(
-                    f"{self.bhiv_url}/bhiv/feedback",
-                    json=payload,
-                    headers=self._get_headers()
-                )
-                
-                latency = (datetime.utcnow() - start_time).total_seconds()
-                self.metrics["total_latency"] += latency
-                
-                if response.status_code == 200:
-                    result = response.json()
-                    logger.info(f"BHIV feedback sent successfully (latency: {latency:.3f}s)")
-                    return {
-                        "success": True,
-                        "data": result,
-                        "latency": latency
-                    }
-                else:
-                    logger.warning(f"BHIV feedback failed: {response.status_code}")
-                    self.metrics["errors"] += 1
-                    return {
-                        "success": False,
-                        "error": f"HTTP {response.status_code}",
-                        "latency": latency
-                    }
-                    
+            payload = {
+                "moderation_id": moderation_id,
+                "feedback_type": feedback_data.get("feedback_type"),
+                "rating": feedback_data.get("rating"),
+                "sentiment": feedback_data.get("sentiment", "neutral"),
+                "engagement_score": feedback_data.get("engagement_score", 0.5),
+                "timestamp": datetime.utcnow().isoformat(),
+                "metadata": feedback_data.get("metadata", {})
+            }
+
+            # Use retry mechanism for network/server errors
+            result = await self._retry_request(self._send_bhiv_request, payload)
+
+            latency = (datetime.utcnow() - start_time).total_seconds()
+            self.metrics["total_latency"] += latency
+
+            logger.info(f"BHIV feedback sent successfully (latency: {latency:.3f}s)")
+            return {
+                "success": True,
+                "data": result,
+                "latency": latency
+            }
+
         except Exception as e:
-            logger.error(f"Error sending to BHIV: {str(e)}")
+            latency = (datetime.utcnow() - start_time).total_seconds()
+            logger.error(f"Error sending to BHIV after retries: {str(e)}")
             self.metrics["errors"] += 1
             return {
                 "success": False,
                 "error": str(e),
-                "latency": (datetime.utcnow() - start_time).total_seconds()
+                "latency": latency
             }
     
     async def send_to_rl_core_update(
