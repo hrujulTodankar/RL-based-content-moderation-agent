@@ -15,7 +15,10 @@ from .observability import (
 )
 
 # Import endpoint routers
-from .endpoints import moderation, feedback, analytics, file_moderation, health, auth, gdpr, storage, tasks
+from .endpoints import (
+    moderation, feedback, analytics, file_moderation, health, auth, gdpr, storage, tasks,
+    classify, legal_route, constitution, timeline, success_rate, jurisdiction
+)
 
 # Create logs directory if it doesn't exist
 log_dir = Path(__file__).parent.parent / 'logs'
@@ -47,10 +50,10 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
 # Add custom logging middleware
-app.add_middleware(LoggerMiddleware)
+# app.add_middleware(LoggerMiddleware)  # Disabled for demo
 
 # Add security middleware
-app.middleware("http")(security_middleware)
+# app.middleware("http")(security_middleware)  # Disabled for demo
 
 # Core services are imported as global instances
 
@@ -1042,6 +1045,14 @@ app.include_router(auth.router, prefix="/api")
 app.include_router(gdpr.router, prefix="/api")
 app.include_router(storage.router, prefix="/api")
 app.include_router(tasks.router, prefix="/api")
+
+# Legal system endpoints
+app.include_router(classify.router, prefix="/api")
+app.include_router(legal_route.router, prefix="/api")
+app.include_router(constitution.router, prefix="/api")
+app.include_router(timeline.router, prefix="/api")
+app.include_router(success_rate.router, prefix="/api")
+app.include_router(jurisdiction.router, prefix="/api")
 
 # Add BNS content endpoint
 from fastapi.responses import HTMLResponse
@@ -2769,9 +2780,9 @@ async def get_crpc_content():
 async def startup_event():
     """Initialize services on startup"""
     logger.info("Starting RL-Powered Content Moderation API")
-    await event_queue.initialize()
-    await feedback_handler.initialize()
-    await task_queue.start_workers()
+    # await event_queue.initialize()  # Disabled for demo
+    # await feedback_handler.initialize()  # Disabled for demo
+    # await task_queue.start_workers()  # Disabled for demo
     logger.info("All services initialized successfully")
 
 @app.on_event("shutdown")
