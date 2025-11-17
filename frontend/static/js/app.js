@@ -98,11 +98,11 @@ class LegalAnalysisDashboard {
         try {
             // Make parallel API calls
             const promises = [
-                this.fetchJurisdiction(jurisdiction),
-                this.fetchLegalRoute(query, caseType, jurisdiction),
-                this.fetchTimeline(query, caseType, jurisdiction),
-                this.fetchSuccessRate(caseType, jurisdiction),
-                this.fetchConstitution(query, jurisdiction)
+                this.fetchJurisdiction(this.currentJurisdiction),
+                this.fetchLegalRoute(query, caseType, this.currentJurisdiction),
+                this.fetchTimeline(query, caseType, this.currentJurisdiction),
+                this.fetchSuccessRate(caseType, this.currentJurisdiction),
+                this.fetchConstitution(query, this.currentJurisdiction)
             ];
 
             const results = await Promise.allSettled(promises);
