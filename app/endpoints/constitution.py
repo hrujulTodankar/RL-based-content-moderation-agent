@@ -90,13 +90,48 @@ async def search_constitution(request: ConstitutionRequest):
                             amendments=[]
                         )
 
-        # Search by content/query
+        # Search by content/query with improved matching
         matching_articles = []
+        
+        # Enhanced keyword mapping for different legal areas
+        legal_keywords = {
+            "criminal": ["14", "20", "21", "22"],
+            "property": ["14", "19", "31", "300"],
+            "contract": ["14", "19", "301"],
+            "family": ["14", "21", "25", "39"],
+            "tax": ["14", "19", "265", "276"],
+            "speech": ["19"],
+            "equality": ["14", "15", "16", "17", "18"],
+            "liberty": ["21", "22"],
+            "religion": ["25", "26", "27", "28"],
+            "education": ["21A", "41"],
+            "employment": ["16", "19", "43"],
+            "women": ["14", "15", "39", "42"]
+        }
+        
+        query_lower = request.query.lower()
+        
+        # First check for specific legal area keywords
+        found_articles = set()
+        for area, article_numbers in legal_keywords.items():
+            if any(keyword in query_lower for keyword in area.split()):
+                for category, data in INDIAN_CONSTITUTION.items():
+                    for article in data["articles"]:
+                        if str(article["number"]) in article_numbers:
+                            found_articles.add(article["number"])
+        
+        # Then check for direct matches in articles
         for category, data in INDIAN_CONSTITUTION.items():
             for article in data["articles"]:
                 if (str(article["number"]) in request.query or
                     any(word in article["title"].lower() for word in query_lower.split()) or
                     any(word in article["content"].lower() for word in query_lower.split())):
+                    found_articles.add(article["number"])
+
+        # Add all found articles to matching_articles
+        for category, data in INDIAN_CONSTITUTION.items():
+            for article in data["articles"]:
+                if article["number"] in found_articles:
                     matching_articles.append(article)
 
         if not matching_articles:

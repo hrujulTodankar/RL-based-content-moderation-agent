@@ -5029,3 +5029,39 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-11-17 17:18:27,794 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
 2025-11-17 17:19:06,511 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
 2025-11-17 17:19:20,218 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:21:25,099 - app.main - INFO - Shutting down services
+2025-11-17 17:21:25,099 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:21:26,700 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:21:26,700 - app.main - INFO - All services initialized successfully
+2025-11-17 17:21:26,787 - app.main - INFO - Shutting down services
+2025-11-17 17:21:26,788 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:21:29,045 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:21:29,045 - app.main - INFO - All services initialized successfully
+2025-11-17 17:23:10,101 - app.main - INFO - Shutting down services
+2025-11-17 17:23:10,102 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:23:11,538 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:23:11,539 - app.main - INFO - All services initialized successfully
+2025-11-17 17:23:11,682 - app.main - INFO - Shutting down services
+2025-11-17 17:23:11,683 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:23:13,190 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:23:13,191 - app.main - INFO - All services initialized successfully
+2025-11-17 17:23:13,309 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:23:13,314 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:23:22,246 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:23:22,247 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:23:22,250 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-17 17:23:25,034 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:23:25,037 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:23:25,039 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-17 17:23:32,518 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:23:32,520 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:23:33,583 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:23:33,585 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:26:27,155 - app.main - INFO - Shutting down services
+2025-11-17 17:26:27,156 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:26:28,689 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:26:28,690 - app.main - INFO - All services initialized successfully
+2025-11-17 17:26:28,690 - app.main - INFO - Shutting down services
+2025-11-17 17:26:28,690 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:26:30,127 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:26:30,128 - app.main - INFO - All services initialized successfully
