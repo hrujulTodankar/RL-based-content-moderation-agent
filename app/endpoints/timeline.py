@@ -70,6 +70,9 @@ async def generate_timeline(request: TimelineRequest):
         if request.start_date:
             try:
                 start_date = datetime.fromisoformat(request.start_date.replace('Z', '+00:00'))
+                # Convert to timezone-naive if it's timezone-aware
+                if start_date.tzinfo is not None:
+                    start_date = start_date.replace(tzinfo=None)
             except:
                 start_date = datetime.now()
         else:

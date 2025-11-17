@@ -411,8 +411,7 @@ class LegalAnalysisDashboard {
                 body: JSON.stringify({
                     moderation_id: `analysis_${Date.now()}`,
                     feedback_type: feedbackType,
-                    comment: `Legal analysis feedback: ${feedbackType}`,
-                    analysis_data: this.currentAnalysis
+                    comment: `Legal analysis feedback: ${feedbackType}`
                 })
             });
 
