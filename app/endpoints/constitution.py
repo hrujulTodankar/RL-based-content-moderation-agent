@@ -56,7 +56,7 @@ INDIAN_CONSTITUTION = {
     "fundamental_duties": {
         "articles": [
             {
-                "number": 51A,
+                "number": "51A",
                 "title": "Fundamental Duties",
                 "content": "It shall be the duty of every citizen of India to abide by the Constitution and respect its ideals and institutions.",
                 "key_cases": ["AIIMS Students Union v. AIIMS", "Navneet Kumar Gupta v. Union of India"]

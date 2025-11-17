@@ -1,492 +1,386 @@
-// RL Content Moderation Dashboard JavaScript
-class ModerationDashboard {
+// RL Legal Content Moderation Agent JavaScript
+class LegalAnalysisDashboard {
     constructor() {
-        this.currentPage = 1;
-        this.itemsPerPage = 12;
-        this.moderatedContent = [];
-        this.filters = {
-            contentType: 'all',
-            scoreMin: 0,
-            scoreMax: 1,
-            status: 'all'
-        };
-
+        this.currentAnalysis = null;
         this.init();
     }
 
     init() {
         this.bindEvents();
-        this.loadStats();
-        this.loadModeratedContent();
-        this.setupRealTimeUpdates();
     }
 
     bindEvents() {
-        // Content type change handler
-        document.getElementById('content-type-select').addEventListener('change', (e) => {
-            this.toggleInputFields(e.target.value);
+        // Analyze button
+        document.getElementById('analyze-btn').addEventListener('click', () => {
+            this.analyzeContent();
         });
 
-        // Image upload handlers
-        this.setupImageUpload();
-
-        // Filters
-        document.getElementById('content-type-filter').addEventListener('change', (e) => {
-            this.filters.contentType = e.target.value;
-            this.applyFilters();
+        // Feedback buttons
+        document.getElementById('feedback-thumbs-up').addEventListener('click', () => {
+            this.submitFeedback('thumbs_up');
         });
 
-        document.getElementById('score-min').addEventListener('input', (e) => {
-            this.filters.scoreMin = parseFloat(e.target.value);
-            document.getElementById('score-min-value').textContent = e.target.value;
-            this.applyFilters();
+        document.getElementById('feedback-thumbs-down').addEventListener('click', () => {
+            this.submitFeedback('thumbs_down');
         });
 
-        document.getElementById('score-max').addEventListener('input', (e) => {
-            this.filters.scoreMax = parseFloat(e.target.value);
-            document.getElementById('score-max-value').textContent = e.target.value;
-            this.applyFilters();
-        });
-
-        document.getElementById('status-filter').addEventListener('change', (e) => {
-            this.filters.status = e.target.value;
-            this.applyFilters();
-        });
-
-        // Refresh button
-        document.getElementById('refresh-btn').addEventListener('click', () => {
-            this.loadStats();
-            this.loadModeratedContent();
-        });
-
-        // Content submission
-        document.getElementById('moderate-btn').addEventListener('click', () => {
-            this.moderateContent();
-        });
-
-        // Modal
-        document.querySelector('.close-modal').addEventListener('click', () => {
-            this.closeModal();
-        });
-
-        document.getElementById('feedback-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('feedback-modal')) {
-                this.closeModal();
+        // Enter key for query input
+        document.getElementById('query-input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                this.analyzeContent();
             }
         });
     }
 
-    async loadStats() {
-        try {
-            const response = await fetch('/api/stats');
-            const stats = await response.json();
+    async analyzeContent() {
+        const query = document.getElementById('query-input').value.trim();
+        const jurisdiction = document.getElementById('jurisdiction-select').value;
+        const caseType = document.getElementById('case-type-select').value;
 
-            document.getElementById('total-moderated').textContent = stats.total_moderations || 0;
-            document.getElementById('flagged-count').textContent = stats.flagged_count || 0;
-            document.getElementById('avg-confidence').textContent = `${(stats.avg_confidence * 100 || 0).toFixed(1)}%`;
-        } catch (error) {
-            console.error('Error loading stats:', error);
+        if (!query) {
+            alert('Please enter a legal content query');
+            return;
         }
-    }
 
-    async loadModeratedContent() {
         this.showLoading();
+        this.currentAnalysis = { query, jurisdiction, caseType };
+
         try {
-            // Try to get real data from backend
-            const response = await fetch('/api/moderated-content?page=1&limit=12');
-            if (response.ok) {
-                const data = await response.json();
-                // Handle different response formats
-                if (data.content) {
-                    // Old format with 'content' array
-                    this.moderatedContent = data.content || [];
-                    this.totalItems = data.total || 0;
-                } else if (data.items) {
-                    // New enhanced format with 'items' array
-                    this.moderatedContent = data.items.map(item => ({
-                        moderation_id: item.moderation_id,
-                        content_type: item.content_type,
-                        flagged: item.flagged,
-                        score: item.score,
-                        confidence: item.confidence,
-                        reasons: item.reasons || [],
-                        timestamp: item.timestamp,
-                        content: item.content_preview || `Sample ${item.content_type} content`,
-                        nlp_metadata: {
-                            sentiment: 'neutral',
-                            topic: 'general',
-                            toxicity: 0.1
-                        }
-                    }));
-                    this.totalItems = data.pagination?.total || data.items.length;
-                } else {
-                    // No sample data - show empty state
-                    this.moderatedContent = [];
-                    this.totalItems = 0;
-                }
-            } else {
-                // No sample data - show empty state
-                this.moderatedContent = [];
-                this.totalItems = 0;
-            }
-            this.applyFilters();
+            // Make parallel API calls
+            const promises = [
+                this.fetchJurisdiction(jurisdiction),
+                this.fetchLegalRoute(query, caseType, jurisdiction),
+                this.fetchTimeline(query, caseType, jurisdiction),
+                this.fetchSuccessRate(caseType, jurisdiction),
+                this.fetchConstitution(query, jurisdiction)
+            ];
+
+            const results = await Promise.allSettled(promises);
+
+            // Process results
+            const [jurisdictionData, legalRouteData, timelineData, successRateData, constitutionData] = results.map(result =>
+                result.status === 'fulfilled' ? result.value : null
+            );
+
+            // Render all blocks
+            this.renderDomainBlock(jurisdictionData);
+            this.renderLegalRouteBlock(legalRouteData);
+            this.renderTimelineBlock(timelineData);
+            this.renderSuccessRateBlock(successRateData);
+            this.renderLawsBlock(jurisdictionData);
+            this.renderConstitutionBlock(constitutionData);
+
+            // Show response blocks and feedback section
+            document.getElementById('response-blocks').style.display = 'grid';
+            document.getElementById('feedback-section').style.display = 'block';
+
         } catch (error) {
-            console.error('Error loading content:', error);
-            // No sample data - show empty state
-            this.moderatedContent = [];
-            this.totalItems = 0;
-            this.applyFilters();
+            console.error('Analysis error:', error);
+            this.showNotification('Failed to analyze content: ' + error.message, 'error');
         }
+
         this.hideLoading();
     }
 
-    // Removed generateSampleContent method - no longer needed
+    async fetchJurisdiction(jurisdiction) {
+        const response = await fetch(`/api/jurisdiction/${jurisdiction}`);
+        if (!response.ok) throw new Error('Failed to fetch jurisdiction data');
+        return await response.json();
+    }
 
-    applyFilters() {
-        let filtered = this.moderatedContent.filter(item => {
-            if (this.filters.contentType !== 'all' && item.content_type !== this.filters.contentType) {
-                return false;
-            }
-            if (item.score < this.filters.scoreMin || item.score > this.filters.scoreMax) {
-                return false;
-            }
-            if (this.filters.status === 'flagged' && !item.flagged) {
-                return false;
-            }
-            if (this.filters.status === 'approved' && item.flagged) {
-                return false;
-            }
-            return true;
+    async fetchLegalRoute(query, caseType, jurisdiction) {
+        const response = await fetch('/api/legal-route', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                case_description: query,
+                case_type: caseType,
+                jurisdiction: jurisdiction
+            })
         });
-
-        this.renderContent(filtered);
-        this.renderPagination(filtered.length);
+        if (!response.ok) throw new Error('Failed to fetch legal route');
+        return await response.json();
     }
 
-    renderContent(content) {
-        const grid = document.getElementById('content-grid');
-        const start = (this.currentPage - 1) * this.itemsPerPage;
-        const end = start + this.itemsPerPage;
-        const pageContent = content.slice(start, end);
+    async fetchTimeline(query, caseType, jurisdiction) {
+        const response = await fetch('/api/timeline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                case_id: `case_${Date.now()}`,
+                case_type: caseType,
+                jurisdiction: jurisdiction,
+                start_date: new Date().toISOString()
+            })
+        });
+        if (!response.ok) throw new Error('Failed to fetch timeline');
+        return await response.json();
+    }
 
-        if (pageContent.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-inbox"></i>
-                    <h3>No Moderated Content Yet</h3>
-                    <p>Use the form above to moderate your first content.</p>
-                </div>
-            `;
-        } else {
-            grid.innerHTML = pageContent.map(item => this.createContentCard(item)).join('');
+    async fetchSuccessRate(caseType, jurisdiction) {
+        const response = await fetch('/api/success-rate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                case_type: caseType,
+                jurisdiction: jurisdiction,
+                court_level: 'district',
+                case_complexity: 'medium',
+                lawyer_experience: 'medium'
+            })
+        });
+        if (!response.ok) throw new Error('Failed to fetch success rate');
+        return await response.json();
+    }
+
+    async fetchConstitution(query, jurisdiction) {
+        const response = await fetch('/api/constitution', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                query: query,
+                jurisdiction: jurisdiction
+            })
+        });
+        if (!response.ok) throw new Error('Failed to fetch constitution data');
+        return await response.json();
+    }
+
+    renderDomainBlock(data) {
+        const container = document.getElementById('domain-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load jurisdiction data</div>';
+            return;
         }
+
+        // Mock confidence for domain - in real implementation this would come from the API
+        const confidence = 0.85;
+        document.getElementById('domain-confidence-fill').style.width = `${confidence * 100}%`;
+        document.getElementById('domain-confidence-text').textContent = `${(confidence * 100).toFixed(0)}%`;
+
+        container.innerHTML = `
+            <div class="jurisdiction-info">
+                <div class="jurisdiction-header">
+                    <h5>${data.country_name}</h5>
+                    <span class="legal-system">${data.legal_system}</span>
+                </div>
+                <div class="key-laws">
+                    <h6>Key Laws:</h6>
+                    <div class="laws-list">
+                        ${data.key_laws.slice(0, 3).map(law => `
+                            <div class="law-item">
+                                <strong>${law.name}</strong> (${law.year})
+                                <p>${law.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
     }
 
-    createContentCard(item) {
-        const decisionClass = item.flagged ? 'flagged' : 'approved';
-        const decisionText = item.flagged ? 'Flagged' : 'Approved';
+    renderLegalRouteBlock(data) {
+        const container = document.getElementById('legal-route-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load legal route</div>';
+            return;
+        }
 
-        return `
-            <div class="content-card ${decisionClass}" data-id="${item.moderation_id}">
-                <div class="card-header">
-                    <span class="content-type">${item.content_type}</span>
-                    <span class="content-timestamp">${this.formatTimestamp(item.timestamp)}</span>
+        container.innerHTML = `
+            <div class="legal-route-info">
+                <div class="recommended-route">
+                    <div class="route-badge recommended">
+                        <i class="fas fa-route"></i> ${data.recommended_route}
+                    </div>
+                    <div class="route-details">
+                        <div class="timeline-pill">${data.estimated_timeline}</div>
+                        <div class="success-chip">${(data.success_probability * 100).toFixed(0)}% Success</div>
+                    </div>
                 </div>
-
-                <div class="content-preview">
-                    ${this.renderContentPreview(item)}
+                <div class="court-hierarchy">
+                    <h6>Court Hierarchy:</h6>
+                    <div class="hierarchy-list">
+                        ${data.court_hierarchy.map(court => `
+                            <div class="hierarchy-item ${court.recommended ? 'recommended' : ''}">
+                                <span class="court-level">${court.level}</span>
+                                <span class="court-name">${court.court}</span>
+                                <span class="court-success">${(court.success_rate * 100).toFixed(0)}%</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
+            </div>
+        `;
+    }
 
-                <div class="moderation-result">
-                    <span class="decision-badge ${decisionClass}">${decisionText}</span>
-                    <div class="score-display">
-                        <div class="score-value">${item.score.toFixed(2)}</div>
-                        <div class="confidence-bar">
-                            <div class="confidence-fill" style="width: ${item.confidence * 100}%"></div>
+    renderTimelineBlock(data) {
+        const container = document.getElementById('timeline-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load timeline</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="timeline-info">
+                <div class="timeline-header">
+                    <div class="completion-date">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Estimated Completion: ${data.estimated_completion}</span>
+                    </div>
+                </div>
+                <div class="timeline-events">
+                    ${data.timeline_events.map(event => `
+                        <div class="timeline-pill">
+                            <div class="timeline-stage">${event.stage}</div>
+                            <div class="timeline-date">${event.date}</div>
                         </div>
-                        <div style="font-size: 0.8rem; color: #7f8c8d;">${(item.confidence * 100).toFixed(1)}% confident</div>
+                    `).join('')}
+                </div>
+                ${data.critical_deadlines.length > 0 ? `
+                    <div class="critical-deadlines">
+                        <h6>Critical Deadlines:</h6>
+                        ${data.critical_deadlines.map(deadline => `
+                            <div class="deadline-item ${deadline.importance}">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>${deadline.event}</span>
+                                <span class="deadline-date">${deadline.date}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    renderSuccessRateBlock(data) {
+        const container = document.getElementById('success-rate-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load success rate</div>';
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="success-rate-info">
+                <div class="success-main">
+                    <div class="success-percentage">
+                        <div class="success-value">${(data.overall_success_rate * 100).toFixed(1)}%</div>
+                        <div class="success-label">Success Rate</div>
+                    </div>
+                    <div class="confidence-interval">
+                        <span>Confidence: ${(data.confidence_interval.lower * 100).toFixed(1)}% - ${(data.confidence_interval.upper * 100).toFixed(1)}%</span>
                     </div>
                 </div>
+                <div class="success-factors">
+                    <h6>Influencing Factors:</h6>
+                    <div class="factors-list">
+                        ${data.factors_influencing.map(factor => `
+                            <div class="factor-item">
+                                <span class="factor-name">${factor.factor}</span>
+                                <span class="factor-impact ${factor.impact}">${factor.impact}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="recommendations">
+                    <h6>Recommendations:</h6>
+                    <ul>
+                        ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
 
-                ${this.renderNLPMetadata(item.nlp_metadata)}
+    renderLawsBlock(data) {
+        const container = document.getElementById('laws-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load applicable laws</div>';
+            return;
+        }
 
-                <div class="feedback-section">
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn thumbs-up" data-id="${item.moderation_id}" data-feedback="thumbs_up">
-                            <i class="fas fa-thumbs-up"></i> Good
-                        </button>
-                        <button class="feedback-btn thumbs-down" data-id="${item.moderation_id}" data-feedback="thumbs_down">
-                            <i class="fas fa-thumbs-down"></i> Poor
-                        </button>
+        container.innerHTML = `
+            <div class="laws-info">
+                <div class="jurisdiction-laws">
+                    <h6>Applicable Laws (${data.country_name}):</h6>
+                    <div class="laws-grid">
+                        ${data.key_laws.map(law => `
+                            <div class="law-chip">
+                                <div class="law-name">${law.name}</div>
+                                <div class="law-year">${law.year}</div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             </div>
         `;
     }
 
-    renderContentPreview(item) {
-        if (item.content_type === 'text') {
-            return `<div class="content-text">${item.content}</div>`;
-        } else if (item.content_type === 'image') {
-            return `<img src="/static/images/placeholder.jpg" alt="Content thumbnail" class="content-thumbnail">`;
-        } else {
-            return `<div class="content-text">${item.content_type.toUpperCase()} CONTENT</div>`;
+    renderConstitutionBlock(data) {
+        const container = document.getElementById('constitution-content');
+        if (!data) {
+            container.innerHTML = '<div class="error-state">Failed to load constitutional articles</div>';
+            return;
         }
-    }
 
-    renderNLPMetadata(metadata) {
-        if (!metadata) return '';
-
-        return `
-            <div class="nlp-metadata">
-                <div class="metadata-item">
-                    <span class="metadata-label">Sentiment:</span>
-                    <span class="metadata-value">${metadata.sentiment}</span>
-                </div>
-                <div class="metadata-item">
-                    <span class="metadata-label">Topic:</span>
-                    <span class="metadata-value">${metadata.topic}</span>
-                </div>
-                <div class="metadata-item">
-                    <span class="metadata-label">Toxicity:</span>
-                    <span class="metadata-value">${(metadata.toxicity * 100).toFixed(1)}%</span>
-                </div>
+        container.innerHTML = `
+            <div class="constitution-info">
+                ${data.articles.map(article => `
+                    <div class="constitution-article">
+                        <div class="article-header">
+                            <span class="article-number">Article ${article.number}</span>
+                            <span class="article-title">${article.title}</span>
+                        </div>
+                        <div class="article-content">${article.content}</div>
+                        ${article.key_cases ? `
+                            <div class="article-cases">
+                                <strong>Key Cases:</strong> ${article.key_cases.join(', ')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+                ${data.interpretation ? `
+                    <div class="constitutional-interpretation">
+                        <h6>Interpretation:</h6>
+                        <p>${data.interpretation}</p>
+                    </div>
+                ` : ''}
             </div>
         `;
     }
 
-    renderPagination(totalItems) {
-        const totalPages = Math.ceil(totalItems / this.itemsPerPage);
-        const pagination = document.getElementById('pagination');
+    async submitFeedback(feedbackType) {
+        if (!this.currentAnalysis) return;
 
-        if (totalPages <= 1) {
-            pagination.innerHTML = '';
-            return;
-        }
-
-        let buttons = [];
-        for (let i = 1; i <= totalPages; i++) {
-            buttons.push(`
-                <button class="page-btn ${i === this.currentPage ? 'active' : ''}" data-page="${i}">
-                    ${i}
-                </button>
-            `);
-        }
-
-        pagination.innerHTML = buttons.join('');
-
-        // Bind pagination events
-        pagination.querySelectorAll('.page-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.currentPage = parseInt(e.target.dataset.page);
-                this.applyFilters();
-            });
-        });
-    }
-
-    async moderateContent() {
-        const contentType = document.getElementById('content-type-select').value;
-
-        if (contentType === 'image') {
-            await this.moderateImageContent();
-        } else {
-            await this.moderateTextContent();
-        }
-    }
-
-    async moderateTextContent() {
-        const content = document.getElementById('content-input').value.trim();
-
-        if (!content) {
-            alert('Please enter content to moderate');
-            return;
-        }
-
-        this.showLoading();
-
-        try {
-            const response = await fetch('/api/moderate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    content: content,
-                    content_type: 'text'
-                })
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // Add to content list
-                this.moderatedContent.unshift({
-                    ...result,
-                    content: content,
-                    nlp_metadata: {
-                        sentiment: 'neutral',
-                        topic: 'general',
-                        toxicity: 0.1
-                    }
-                });
-
-                this.applyFilters();
-                document.getElementById('content-input').value = '';
-
-                // Show success message
-                this.showNotification('Content moderated successfully!', 'success');
-            } else {
-                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Moderation failed';
-                throw new Error(errorMessage);
-            }
-        } catch (error) {
-            console.error('Moderation error:', error);
-            this.showNotification('Failed to moderate content: ' + error.message, 'error');
-        }
-
-        this.hideLoading();
-    }
-
-    async moderateImageContent() {
-        const imageInput = document.getElementById('image-input');
-        const file = imageInput.files[0];
-
-        if (!file) {
-            alert('Please select an image to moderate');
-            return;
-        }
-
-        // Validate file size (10MB limit)
-        if (file.size > 10 * 1024 * 1024) {
-            alert('File size must be less than 10MB');
-            return;
-        }
-
-        this.showLoading();
-
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('content_type', 'image');
-
-            const response = await fetch('/api/moderate/file', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // Add to content list
-                this.moderatedContent.unshift({
-                    ...result,
-                    content: `Image: ${file.name}`,
-                    nlp_metadata: {
-                        sentiment: 'neutral',
-                        topic: 'image',
-                        toxicity: 0.1
-                    }
-                });
-
-                this.applyFilters();
-
-                // Clear image
-                this.clearImage();
-
-                // Show success message
-                this.showNotification('Image moderated successfully!', 'success');
-            } else {
-                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Image moderation failed';
-                throw new Error(errorMessage);
-            }
-        } catch (error) {
-            console.error('Image moderation error:', error);
-            this.showNotification('Failed to moderate image: ' + error.message, 'error');
-        }
-
-        this.hideLoading();
-    }
-
-    setupRealTimeUpdates() {
-        // Listen for feedback button clicks
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.feedback-btn')) {
-                const btn = e.target.closest('.feedback-btn');
-                const moderationId = btn.dataset.id;
-                const feedbackType = btn.dataset.feedback;
-
-                this.showFeedbackModal(moderationId, feedbackType);
-            }
-        });
-    }
-
-    showFeedbackModal(moderationId, feedbackType) {
-        const item = this.moderatedContent.find(c => c.moderation_id === moderationId);
-        if (!item) return;
-
-        document.getElementById('feedback-content-preview').innerHTML = `
-            <strong>Type:</strong> ${item.content_type}<br>
-            <strong>Decision:</strong> ${item.flagged ? 'Flagged' : 'Approved'}<br>
-            <strong>Score:</strong> ${item.score.toFixed(2)}<br>
-            <strong>Confidence:</strong> ${(item.confidence * 100).toFixed(1)}%<br><br>
-            <strong>Content:</strong><br>${item.content}
-        `;
-
-        // Pre-select feedback button
-        document.querySelectorAll('.feedback-btn').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-        document.querySelector(`.feedback-btn[data-feedback="${feedbackType}"]`).classList.add('selected');
-
-        document.getElementById('feedback-modal').classList.add('show');
-
-        // Store current feedback info
-        this.currentFeedback = { moderationId, feedbackType };
-    }
-
-    closeModal() {
-        document.getElementById('feedback-modal').classList.remove('show');
-        document.getElementById('feedback-comment').value = '';
-    }
-
-    async submitFeedback() {
-        const comment = document.getElementById('feedback-comment').value.trim();
+        // Show learning indicator
+        document.getElementById('learning-indicator').style.display = 'flex';
 
         try {
             const response = await fetch('/api/feedback', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    moderation_id: this.currentFeedback.moderationId,
-                    feedback_type: this.currentFeedback.feedbackType,
-                    comment: comment || null
+                    moderation_id: `analysis_${Date.now()}`,
+                    feedback_type: feedbackType,
+                    comment: `Legal analysis feedback: ${feedbackType}`,
+                    analysis_data: this.currentAnalysis
                 })
             });
 
-            const result = await response.json();
-
             if (response.ok) {
-                this.showNotification('Feedback submitted successfully!', 'success');
-                this.closeModal();
+                this.showNotification('Feedback submitted successfully! The system will learn from this.', 'success');
 
-                // Highlight the updated card
-                const card = document.querySelector(`[data-id="${this.currentFeedback.moderationId}"]`);
-                if (card) {
-                    card.classList.add('updated');
-                    setTimeout(() => card.classList.remove('updated'), 2000);
-                }
-
-                // Refresh stats
-                this.loadStats();
+                // Hide learning indicator after a delay
+                setTimeout(() => {
+                    document.getElementById('learning-indicator').style.display = 'none';
+                }, 3000);
             } else {
-                const errorMessage = result.detail || result.message || JSON.stringify(result) || 'Feedback submission failed';
-                throw new Error(errorMessage);
+                throw new Error('Feedback submission failed');
             }
         } catch (error) {
             console.error('Feedback error:', error);
             this.showNotification('Failed to submit feedback: ' + error.message, 'error');
+            document.getElementById('learning-indicator').style.display = 'none';
         }
     }
 
@@ -502,150 +396,9 @@ class ModerationDashboard {
         // Simple notification - could be enhanced with a proper notification system
         alert(message);
     }
-
-    toggleInputFields(contentType) {
-        const textGroup = document.getElementById('text-input-group');
-        const imageGroup = document.getElementById('image-upload-group');
-
-        if (contentType === 'image') {
-            textGroup.style.display = 'none';
-            imageGroup.style.display = 'block';
-        } else {
-            textGroup.style.display = 'block';
-            imageGroup.style.display = 'none';
-            this.clearImage();
-        }
-    }
-
-    setupImageUpload() {
-        const uploadArea = document.getElementById('image-upload-area');
-        const imageInput = document.getElementById('image-input');
-        const removeBtn = document.getElementById('remove-image');
-
-        // Click to upload
-        uploadArea.addEventListener('click', () => {
-            imageInput.click();
-        });
-
-        // File selection
-        imageInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                this.handleImageSelect(file);
-            }
-        });
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.type.startsWith('image/')) {
-                    this.handleImageSelect(file);
-                    // Update input
-                    const dt = new DataTransfer();
-                    dt.items.add(file);
-                    imageInput.files = dt.files;
-                } else {
-                    alert('Please select an image file');
-                }
-            }
-        });
-
-        // Remove image
-        removeBtn.addEventListener('click', () => {
-            this.clearImage();
-        });
-    }
-
-    handleImageSelect(file) {
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-            alert('Please select a valid image file');
-            return;
-        }
-
-        // Validate file size (10MB)
-        if (file.size > 10 * 1024 * 1024) {
-            alert('File size must be less than 10MB');
-            return;
-        }
-
-        // Show preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            document.getElementById('preview-image').src = e.target.result;
-            document.getElementById('image-preview').style.display = 'block';
-            document.getElementById('image-upload-area').style.display = 'none';
-        };
-        reader.readAsDataURL(file);
-    }
-
-    clearImage() {
-        document.getElementById('image-input').value = '';
-        document.getElementById('preview-image').src = '';
-        document.getElementById('image-preview').style.display = 'none';
-        document.getElementById('image-upload-area').style.display = 'block';
-    }
-
-    formatTimestamp(timestamp) {
-        const date = new Date(timestamp);
-        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }
 }
 
 // Initialize dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.dashboard = new ModerationDashboard();
-});
-
-// Add submit feedback functionality to modal
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('feedback-btn') && e.target.closest('#feedback-modal')) {
-        const feedbackType = e.target.dataset.feedback;
-        if (window.dashboard) {
-            window.dashboard.currentFeedback.feedbackType = feedbackType;
-            document.querySelectorAll('#feedback-modal .feedback-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            e.target.classList.add('selected');
-        }
-    }
-});
-
-// Submit feedback when Enter is pressed in comment field
-document.getElementById('feedback-comment').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        if (window.dashboard) {
-            window.dashboard.submitFeedback();
-        }
-    }
-});
-
-// Add submit button to modal
-document.addEventListener('DOMContentLoaded', () => {
-    const modalBody = document.querySelector('.modal-body');
-    const submitBtn = document.createElement('button');
-    submitBtn.textContent = 'Submit Feedback';
-    submitBtn.className = 'btn-primary';
-    submitBtn.style.marginTop = '15px';
-    submitBtn.addEventListener('click', () => {
-        if (window.dashboard) {
-            window.dashboard.submitFeedback();
-        }
-    });
-    modalBody.appendChild(submitBtn);
+    window.dashboard = new LegalAnalysisDashboard();
 });

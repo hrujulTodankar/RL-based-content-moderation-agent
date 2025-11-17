@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RL Content Moderation Dashboard</title>
+    <title>RL Legal Content Moderation Agent</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -12,157 +12,156 @@
         <!-- Header -->
         <header class="dashboard-header">
             <div class="header-content">
-                <h1><i class="fas fa-shield-alt"></i> RL Content Moderation</h1>
+                <h1><i class="fas fa-scale-balanced"></i> RL Legal Content Moderation Agent</h1>
                 <div class="header-actions">
                     <a href="/api" class="btn-api-docs">
                         <i class="fas fa-code"></i> API Docs
                     </a>
                 </div>
-                <div class="header-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Total Moderated</span>
-                        <span class="stat-value" id="total-moderated">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Flagged</span>
-                        <span class="stat-value flagged" id="flagged-count">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Avg Confidence</span>
-                        <span class="stat-value" id="avg-confidence">0%</span>
-                    </div>
-                </div>
             </div>
         </header>
 
-        <!-- Filters -->
-        <div class="filters-section">
-            <div class="filter-group">
-                <label for="content-type-filter">Content Type:</label>
-                <select id="content-type-filter">
-                    <option value="all">All Types</option>
-                    <option value="text">Text</option>
-                    <option value="image">Image</option>
-                    <option value="audio">Audio</option>
-                    <option value="video">Video</option>
-                    <option value="code">Code</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="score-filter">Score Range:</label>
-                <input type="range" id="score-min" min="0" max="1" step="0.1" value="0">
-                <span id="score-min-value">0.0</span>
-                <span>-</span>
-                <input type="range" id="score-max" min="0" max="1" step="0.1" value="1">
-                <span id="score-max-value">1.0</span>
-            </div>
-
-            <div class="filter-group">
-                <label for="status-filter">Status:</label>
-                <select id="status-filter">
-                    <option value="all">All</option>
-                    <option value="flagged">Flagged</option>
-                    <option value="approved">Approved</option>
-                </select>
-            </div>
-
-            <button id="refresh-btn" class="btn-primary">
-                <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-        </div>
-
-        <!-- Content Submission -->
-        <div class="submission-section">
-            <div class="submission-form">
-                <h3><i class="fas fa-plus-circle"></i> Moderate New Content</h3>
-
-                <!-- Content Type Selection -->
+        <!-- Query Input Section -->
+        <div class="query-section">
+            <div class="query-form">
+                <h3><i class="fas fa-search"></i> Legal Content Query</h3>
                 <div class="form-group">
-                    <label for="content-type-select">Content Type:</label>
-                    <select id="content-type-select">
-                        <option value="text">Text</option>
-                        <option value="image">Image</option>
-                        <option value="audio">Audio</option>
-                        <option value="video">Video</option>
-                        <option value="code">Code</option>
-                    </select>
+                    <label for="query-input">Enter your legal content query:</label>
+                    <textarea id="query-input" placeholder="Describe the legal content or case you want to analyze..." rows="4"></textarea>
                 </div>
-
-                <!-- Text Input (shown for text/code) -->
-                <div class="form-group" id="text-input-group">
-                    <label for="content-input">Content:</label>
-                    <textarea id="content-input" placeholder="Enter text content to moderate..." rows="4"></textarea>
-                </div>
-
-                <!-- Image Upload (shown for image) -->
-                <div class="form-group" id="image-upload-group" style="display: none;">
-                    <label for="image-input">Upload Image:</label>
-                    <div class="image-upload-area" id="image-upload-area">
-                        <div class="upload-placeholder">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Click to upload image or drag & drop</p>
-                            <span class="upload-hint">Supported: JPG, PNG, GIF, WebP (Max: 10MB)</span>
-                        </div>
-                        <input type="file" id="image-input" accept="image/*" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jurisdiction-select">Jurisdiction:</label>
+                        <select id="jurisdiction-select">
+                            <option value="IN">India</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="UAE">UAE</option>
+                        </select>
                     </div>
-                    <div class="image-preview" id="image-preview" style="display: none;">
-                        <img id="preview-image" src="" alt="Preview">
-                        <button type="button" id="remove-image" class="btn-secondary">
-                            <i class="fas fa-times"></i> Remove
-                        </button>
+                    <div class="form-group">
+                        <label for="case-type-select">Case Type:</label>
+                        <select id="case-type-select">
+                            <option value="civil">Civil</option>
+                            <option value="criminal">Criminal</option>
+                        </select>
                     </div>
                 </div>
-
-                <button id="moderate-btn" class="btn-primary">
-                    <i class="fas fa-gavel"></i> Moderate Content
+                <button id="analyze-btn" class="btn-primary">
+                    <i class="fas fa-magnifying-glass"></i> Analyze Content
                 </button>
             </div>
         </div>
 
-        <!-- Content Grid -->
-        <div class="content-grid" id="content-grid">
-            <!-- Content cards will be dynamically added here -->
-            <div class="loading-placeholder">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Loading moderated content...</p>
+        <!-- Response Display Blocks -->
+        <div class="response-blocks" id="response-blocks" style="display: none;">
+            <!-- Domain/Jurisdiction Block -->
+            <div class="response-block" id="domain-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-globe"></i> Domain</h4>
+                    <div class="confidence-indicator">
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="domain-confidence-fill"></div>
+                        </div>
+                        <span class="confidence-text" id="domain-confidence-text">0%</span>
+                    </div>
+                </div>
+                <div class="block-content" id="domain-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading jurisdiction data...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Route Block -->
+            <div class="response-block" id="legal-route-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-route"></i> Legal Route</h4>
+                </div>
+                <div class="block-content" id="legal-route-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading legal route...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Block -->
+            <div class="response-block" id="timeline-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-calendar-days"></i> Timeline</h4>
+                </div>
+                <div class="block-content" id="timeline-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading timeline...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Rate Block -->
+            <div class="response-block" id="success-rate-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-chart-line"></i> Success Rate</h4>
+                </div>
+                <div class="block-content" id="success-rate-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading success rate...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applicable Laws Block -->
+            <div class="response-block" id="laws-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-book"></i> Applicable Laws</h4>
+                </div>
+                <div class="block-content" id="laws-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading applicable laws...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constitutional Articles Block -->
+            <div class="response-block" id="constitution-block">
+                <div class="block-header">
+                    <h4><i class="fas fa-scroll"></i> Constitutional Articles</h4>
+                </div>
+                <div class="block-content" id="constitution-content">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading constitutional articles...</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Pagination -->
-        <div class="pagination" id="pagination">
-            <!-- Pagination controls will be added here -->
+        <!-- Feedback Section -->
+        <div class="feedback-section-main" id="feedback-section" style="display: none;">
+            <div class="feedback-container">
+                <h4><i class="fas fa-comments"></i> Provide Feedback</h4>
+                <div class="feedback-buttons-main">
+                    <button class="feedback-btn-main thumbs-up" id="feedback-thumbs-up">
+                        <i class="fas fa-thumbs-up"></i> Good Analysis
+                    </button>
+                    <button class="feedback-btn-main thumbs-down" id="feedback-thumbs-down">
+                        <i class="fas fa-thumbs-down"></i> Needs Improvement
+                    </button>
+                </div>
+                <div class="learning-indicator" id="learning-indicator" style="display: none;">
+                    <i class="fas fa-brain"></i>
+                    <span>Re-evaluating after learning from feedback...</span>
+                </div>
+            </div>
         </div>
 
         <!-- Loading Overlay -->
         <div class="loading-overlay" id="loading-overlay">
             <div class="spinner"></div>
-            <p>Processing...</p>
-        </div>
-
-        <!-- Feedback Modal -->
-        <div class="modal" id="feedback-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Provide Feedback</h3>
-                    <span class="close-modal">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div class="content-preview" id="feedback-content-preview"></div>
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn thumbs-up" data-feedback="thumbs_up">
-                            <i class="fas fa-thumbs-up"></i> Good Decision
-                        </button>
-                        <button class="feedback-btn thumbs-down" data-feedback="thumbs_down">
-                            <i class="fas fa-thumbs-down"></i> Poor Decision
-                        </button>
-                    </div>
-                    <div class="comment-section">
-                        <label for="feedback-comment">Optional Comment:</label>
-                        <textarea id="feedback-comment" placeholder="Add your thoughts..." rows="3"></textarea>
-                    </div>
-                </div>
-            </div>
+            <p>Analyzing content...</p>
         </div>
     </div>
 
