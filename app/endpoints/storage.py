@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 from datetime import datetime
 import logging
 
-from app.auth_middleware import get_current_user_required
+from app.auth_middleware import get_current_user
 from app.storage import storage_manager
 from app.observability import track_performance, structured_logger, set_user_context
 
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/storage", tags=["Storage Management"])
 
 @router.get("/info")
 @track_performance("storage_info")
-async def get_storage_info(current_user: Dict = Depends(get_current_user_required)):
+async def get_storage_info(current_user: Dict = Depends(get_current_user)):
     """Get storage backend information"""
     user_id = current_user["user_id"]
 
@@ -33,7 +33,7 @@ async def get_storage_info(current_user: Dict = Depends(get_current_user_require
 @track_performance("list_storage_files")
 async def list_storage_files(
     segment: str,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """List files in a storage segment"""
     user_id = current_user["user_id"]
@@ -77,7 +77,7 @@ async def list_storage_files(
 async def upload_file(
     segment: str,
     file: UploadFile = File(...),
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Upload a file to storage"""
     user_id = current_user["user_id"]
@@ -150,7 +150,7 @@ async def upload_file(
 async def download_file(
     segment: str,
     filename: str,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Download a file from storage"""
     user_id = current_user["user_id"]
@@ -224,7 +224,7 @@ async def download_file(
 async def delete_file(
     segment: str,
     filename: str,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Delete a file from storage"""
     user_id = current_user["user_id"]
@@ -282,7 +282,7 @@ async def delete_file(
 async def cleanup_old_files(
     segment: str,
     max_age_days: int = 30,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Clean up old files in a storage segment (admin only)"""
     user_id = current_user["user_id"]

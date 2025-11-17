@@ -4,7 +4,10 @@ from app.observability import (
     performance_monitor, get_observability_health,
     sentry_manager, posthog_manager
 )
-from app.moderation_agent import moderation_agent
+from app.moderation_agent import ModerationAgent
+
+# Create moderation agent instance
+moderation_agent = ModerationAgent()
 
 router = APIRouter()
 

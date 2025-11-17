@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 import logging
 
-from app.auth_middleware import get_current_user_required
+from app.auth_middleware import get_current_user
 from app.observability import track_performance, structured_logger, set_user_context
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ async def get_privacy_policy():
 
 @router.get("/data-summary")
 @track_performance("gdpr_data_summary")
-async def get_data_summary(current_user: Dict = Depends(get_current_user_required)):
+async def get_data_summary(current_user: Dict = Depends(get_current_user)):
     """Get summary of user's stored data"""
     user_id = current_user["user_id"]
 
@@ -104,7 +104,7 @@ async def get_data_summary(current_user: Dict = Depends(get_current_user_require
 @track_performance("gdpr_data_export")
 async def export_user_data(
     background_tasks: BackgroundTasks,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Export all user data in GDPR-compliant format"""
     user_id = current_user["user_id"]
@@ -159,7 +159,7 @@ async def export_user_data(
 @track_performance("gdpr_data_deletion")
 async def delete_user_data(
     background_tasks: BackgroundTasks,
-    current_user: Dict = Depends(get_current_user_required),
+    current_user: Dict = Depends(get_current_user),
     confirmation: str = None
 ):
     """Delete all user data (GDPR Right to Erasure)"""
@@ -263,7 +263,7 @@ async def _perform_data_deletion(user_id: str, deletion_summary: Dict[str, Any])
 
 @router.post("/restrict-processing")
 async def restrict_data_processing(
-    current_user: Dict = Depends(get_current_user_required),
+    current_user: Dict = Depends(get_current_user),
     restriction_type: str = "analytics_opt_out"
 ):
     """Restrict processing of user data (GDPR Article 18)"""

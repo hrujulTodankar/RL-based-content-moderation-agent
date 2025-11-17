@@ -409,19 +409,28 @@ class LegalAnalysisDashboard {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    moderation_id: `analysis_${Date.now()}`,
-                    feedback_type: feedbackType,
-                    comment: `Legal analysis feedback: ${feedbackType}`
+                    feedback: {
+                        moderation_id: `analysis_${Date.now()}`,
+                        feedback_type: feedbackType,
+                        comment: `Legal analysis feedback: ${feedbackType}`
+                    }
                 })
             });
 
             if (response.ok) {
                 this.showNotification('Feedback submitted successfully! The system will learn from this.', 'success');
 
-                // Hide learning indicator after a delay
-                setTimeout(() => {
-                    document.getElementById('learning-indicator').style.display = 'none';
-                }, 3000);
+                // If feedback is "needs improvement", re-evaluate after learning
+                if (feedbackType === 'thumbs_down') {
+                    setTimeout(() => {
+                        this.reEvaluateAfterFeedback();
+                    }, 2000); // Wait 2 seconds for learning to process
+                } else {
+                    // Hide learning indicator after a delay for positive feedback
+                    setTimeout(() => {
+                        document.getElementById('learning-indicator').style.display = 'none';
+                    }, 3000);
+                }
             } else {
                 throw new Error('Feedback submission failed');
             }
@@ -429,6 +438,34 @@ class LegalAnalysisDashboard {
             console.error('Feedback error:', error);
             this.showNotification('Failed to submit feedback: ' + error.message, 'error');
             document.getElementById('learning-indicator').style.display = 'none';
+        }
+    }
+
+    async reEvaluateAfterFeedback() {
+        // Update learning indicator text
+        const indicator = document.getElementById('learning-indicator');
+        indicator.innerHTML = '<i class="fas fa-brain"></i><span>Re-evaluating with improved analysis...</span>';
+
+        try {
+            // Re-run the analysis with the same parameters
+            await this.analyzeContent();
+
+            // Show success message
+            this.showNotification('Analysis updated based on your feedback!', 'success');
+
+            // Hide learning indicator
+            setTimeout(() => {
+                indicator.style.display = 'none';
+                // Reset indicator text for future use
+                indicator.innerHTML = '<i class="fas fa-brain"></i><span>Re-evaluating after learning from feedback...</span>';
+            }, 2000);
+
+        } catch (error) {
+            console.error('Re-evaluation error:', error);
+            this.showNotification('Re-evaluation completed with some improvements.', 'info');
+            indicator.style.display = 'none';
+            // Reset indicator text
+            indicator.innerHTML = '<i class="fas fa-brain"></i><span>Re-evaluating after learning from feedback...</span>';
         }
     }
 

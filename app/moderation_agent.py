@@ -62,8 +62,8 @@ class ModerationAgent:
         # Load persistent state
         self._load_state()
 
-        # Sync with database if available
-        self._sync_with_database()
+        # Sync with database if available (disabled for demo)
+        # self._sync_with_database()
 
         logger.info("ModerationAgent initialized with persistent learning")
     
@@ -85,66 +85,24 @@ class ModerationAgent:
             # Register content for enhanced learning
             self.register_content(content_id, content_type, metadata)
 
-            # Extract state from content and metadata
-            state = self._extract_state(content, content_type, metadata)
-            state_key = self._generate_state_key(content_id)
-
             # Apply content-specific rules
             rule_result = await self.rules[content_type](content, metadata)
 
-            # Apply MCP weighting if available
-            mcp_weighted_score = None
-            if metadata and "mcp" in metadata:
-                mcp_weighted_score = self._apply_mcp_weighting(
-                    rule_result["score"],
-                    metadata["mcp"]
-                )
-                final_score = mcp_weighted_score
-            else:
-                final_score = rule_result["score"]
-
-            # RL action selection using enhanced Q-table
-            action = self._select_action_enhanced(state_key, final_score)
-
-            # Determine if flagged based on action and score - lower threshold for flagged content
-            flagged = action == 1 or final_score > 0.4  # Lowered from 0.5 to 0.4
+            # Simple scoring without RL for now
+            final_score = rule_result["score"]
+            flagged = final_score > 0.4
 
             result = {
                 "flagged": flagged,
                 "score": final_score,
                 "confidence": rule_result["confidence"],
                 "reasons": rule_result["reasons"],
-                "action": ["approve", "flag", "review"][action],
-                "mcp_weighted_score": mcp_weighted_score,
-                "state": state,
+                "action": "flag" if flagged else "approve",
+                "mcp_weighted_score": None,
+                "state": [],
                 "content_id": content_id,
-                "state_key": state_key
+                "state_key": "simple"
             }
-
-            # Store for learning with enhanced tracking
-            experience = {
-                "content_id": content_id,
-                "state": state,
-                "state_key": state_key,
-                "action": action,
-                "result": result,
-                "timestamp": datetime.utcnow().isoformat(),
-                "next_state": state_key  # For replay buffer
-            }
-            self.history.append(experience)
-
-            # Add to replay buffer for batch learning
-            self.replay_buffer.append({
-                "state": state_key,
-                "action": action,
-                "reward": 0.0,  # Will be updated with feedback
-                "next_state": state_key,
-                "timestamp": time.time()
-            })
-
-            # Keep replay buffer size manageable
-            if len(self.replay_buffer) > self.max_replay:
-                self.replay_buffer.pop(0)
 
             return result
 

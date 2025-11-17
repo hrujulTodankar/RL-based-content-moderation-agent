@@ -52,6 +52,14 @@ async def predict_success_rate(request: SuccessRateRequest):
         case_type = request.case_type.lower()
         court_level = request.court_level.lower()
 
+        # Map court level values to match data structure
+        court_level_mapping = {
+            "district": "district_court",
+            "high": "high_court",
+            "supreme": "supreme_court"
+        }
+        court_level = court_level_mapping.get(court_level, court_level)
+
         if case_type not in SUCCESS_RATES:
             raise HTTPException(status_code=400, detail=f"Unsupported case type: {case_type}")
 
@@ -141,5 +149,5 @@ async def predict_success_rate(request: SuccessRateRequest):
         )
 
     except Exception as e:
-        logger.error(f"Success rate prediction error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Success rate prediction failed")
+        logger.error(f"Success rate prediction error: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Success rate prediction failed: {str(e)}")

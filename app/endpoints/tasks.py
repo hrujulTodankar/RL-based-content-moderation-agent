@@ -3,7 +3,7 @@ from typing import Dict, Any, List
 from datetime import datetime
 import logging
 
-from app.auth_middleware import get_current_user_required
+from app.auth_middleware import get_current_user
 from app.task_queue import task_queue
 from app.observability import track_performance, structured_logger, set_user_context
 
@@ -17,7 +17,7 @@ async def submit_batch_moderation(
     contents: List[str],
     content_type: str = "text",
     metadata: Dict[str, Any] = None,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Submit batch content moderation task"""
     user_id = current_user["user_id"]
@@ -83,7 +83,7 @@ async def submit_batch_moderation(
 async def submit_analytics_generation(
     analytics_type: str = "comprehensive",
     time_range: str = "24h",
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Submit analytics generation task"""
     user_id = current_user["user_id"]
@@ -130,7 +130,7 @@ async def submit_analytics_generation(
 async def submit_cleanup_operation(
     operation_type: str = "temp_files",
     max_age_days: int = 30,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Submit cleanup operation task"""
     user_id = current_user["user_id"]
@@ -183,7 +183,7 @@ async def submit_cleanup_operation(
 @track_performance("task_status_check")
 async def get_task_status(
     task_id: str,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Get task status and result"""
     user_id = current_user["user_id"]
@@ -214,7 +214,7 @@ async def get_task_status(
 @track_performance("task_cancellation")
 async def cancel_task(
     task_id: str,
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Cancel a pending task"""
     user_id = current_user["user_id"]
@@ -262,7 +262,7 @@ async def cancel_task(
 
 @router.get("/queue/stats")
 @track_performance("queue_stats")
-async def get_queue_stats(current_user: Dict = Depends(get_current_user_required)):
+async def get_queue_stats(current_user: Dict = Depends(get_current_user)):
     """Get task queue statistics"""
     user_id = current_user["user_id"]
 
@@ -294,7 +294,7 @@ async def get_queue_stats(current_user: Dict = Depends(get_current_user_required
 @track_performance("test_task_creation")
 async def create_test_task(
     task_type: str = "batch_moderation",
-    current_user: Dict = Depends(get_current_user_required)
+    current_user: Dict = Depends(get_current_user)
 ):
     """Create a test task for demonstration"""
     user_id = current_user["user_id"]

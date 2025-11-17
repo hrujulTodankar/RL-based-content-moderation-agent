@@ -4631,3 +4631,401 @@ AttributeError: 'NoneType' object has no attribute 'execute'
 2025-11-11 16:01:07,182 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
 2025-11-11 16:01:07,183 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
 2025-11-11 16:01:07,185 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.001s
+2025-11-12 09:08:38,520 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:08:38,521 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:08:38,537 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:08:38,538 - app.main - INFO - All services initialized successfully
+2025-11-12 09:12:28,482 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:12:28,483 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:12:28,491 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:12:28,491 - app.main - INFO - All services initialized successfully
+2025-11-12 09:17:37,226 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:17:37,232 - app.logger_middleware - INFO - Response: 200 for / in 0.004s
+2025-11-12 09:17:37,261 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-12 09:17:37,379 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-12 09:17:37,380 - app.logger_middleware - INFO - Response: 200 for /static/css/styles.css in 0.119s
+2025-11-12 09:17:37,384 - app.logger_middleware - INFO - Response: 200 for /static/js/app.js in 0.005s
+2025-11-12 09:17:37,446 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:17:37,447 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:17:37,448 - app.feedback_handler - ERROR - Error retrieving statistics: 'NoneType' object has no attribute 'execute'
+2025-11-12 09:17:37,450 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.003s
+2025-11-12 09:17:37,452 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.004s
+2025-11-12 09:17:37,485 - app.logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-11-12 09:17:37,492 - app.logger_middleware - INFO - Response: 404 for /favicon.ico in 0.002s
+2025-11-12 09:17:55,794 - app.logger_middleware - INFO - Request: POST /api/moderate/file from 127.0.0.1
+2025-11-12 09:17:55,800 - app.feedback_handler - ERROR - Error storing moderation: 'NoneType' object has no attribute 'execute'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 148, in store_moderation
+    await self._store_moderation_sqlite(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 157, in _store_moderation_sqlite
+    await self.db_conn.execute("""
+          ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2025-11-12 09:17:55,806 - app.endpoints.file_moderation - ERROR - File moderation error: 'NoneType' object has no attribute 'execute'
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\file_moderation.py", line 96, in moderate_file
+    await feedback_handler.store_moderation(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 148, in store_moderation
+    await self._store_moderation_sqlite(moderation_record)
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\feedback_handler.py", line 157, in _store_moderation_sqlite
+    await self.db_conn.execute("""
+          ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'execute'
+2025-11-12 09:17:55,810 - app.logger_middleware - INFO - Response: 500 for /api/moderate/file in 0.014s
+2025-11-12 09:20:34,631 - app.main - INFO - Shutting down services
+2025-11-12 09:20:34,631 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-12 09:20:34,631 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-12 09:20:34,631 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-12 09:20:34,631 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-12 09:20:34,631 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-12 09:20:34,631 - app.event_queue - INFO - EventQueue closed
+2025-11-12 09:20:35,890 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:20:35,890 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:20:35,896 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:20:35,896 - app.main - INFO - All services initialized successfully
+2025-11-12 09:20:35,962 - app.main - INFO - Shutting down services
+2025-11-12 09:20:35,962 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-12 09:20:35,962 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-12 09:20:35,962 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-12 09:20:35,962 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-12 09:20:35,962 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-12 09:20:35,962 - app.event_queue - INFO - EventQueue closed
+2025-11-12 09:20:37,250 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:20:37,250 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:20:37,255 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:20:37,255 - app.main - INFO - All services initialized successfully
+2025-11-12 09:21:02,774 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:21:02,781 - app.logger_middleware - INFO - Response: 200 for / in 0.005s
+2025-11-12 09:21:02,871 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:21:02,872 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:21:02,874 - app.feedback_handler - ERROR - Database connection is None, reinitializing...
+2025-11-12 09:21:02,879 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.007s
+2025-11-12 09:21:02,887 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.013s
+2025-11-12 09:21:12,481 - app.logger_middleware - INFO - Request: POST /api/moderate/file from 127.0.0.1
+2025-11-12 09:21:12,485 - app.feedback_handler - ERROR - Database connection is None, reinitializing...
+2025-11-12 09:21:12,512 - app.feedback_handler - INFO - Stored moderation 87608b5f-7018-4612-937d-ab67b878de68
+2025-11-12 09:21:12,516 - app.logger_middleware - INFO - Response: 200 for /api/moderate/file in 0.032s
+2025-11-12 09:21:12,520 - app.event_queue - INFO - Event emitted: file_moderation_completed (id: file_moderation_completed_0)
+2025-11-12 09:21:14,404 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-12 09:21:14,411 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.003s
+2025-11-12 09:23:28,032 - app.logger_middleware - INFO - Request: GET /static/images/placeholder.jpg from 127.0.0.1
+2025-11-12 09:23:28,038 - app.logger_middleware - INFO - Response: 404 for /static/images/placeholder.jpg in 0.005s
+2025-11-12 09:23:46,290 - app.main - INFO - Shutting down services
+2025-11-12 09:23:46,291 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-12 09:23:46,291 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-12 09:23:46,291 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-12 09:23:46,292 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-12 09:23:46,292 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-12 09:23:46,292 - app.event_queue - INFO - EventQueue closed
+2025-11-12 09:27:01,541 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:27:01,542 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:27:01,546 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:27:01,547 - app.main - INFO - All services initialized successfully
+2025-11-12 09:28:31,171 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:28:31,172 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:28:31,176 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:28:31,176 - app.main - INFO - All services initialized successfully
+2025-11-12 09:28:31,444 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:28:31,446 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-12 09:28:31,523 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:28:31,524 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:28:31,525 - app.feedback_handler - ERROR - Database connection is None, reinitializing...
+2025-11-12 09:28:31,528 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.004s
+2025-11-12 09:28:31,538 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.013s
+2025-11-12 09:28:49,456 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:28:49,461 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-12 09:28:49,571 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:28:49,574 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.002s
+2025-11-12 09:28:49,577 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:28:49,583 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.003s
+2025-11-12 09:28:59,048 - app.logger_middleware - INFO - Request: POST /api/moderate/file from 127.0.0.1
+2025-11-12 09:28:59,148 - app.moderation_agent - ERROR - Moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    if "nsfw_score" in mcp:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:28:59,151 - app.endpoints.file_moderation - ERROR - File moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\file_moderation.py", line 166, in moderate_file
+    result = await moderation_agent.moderate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    if "nsfw_score" in mcp:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:28:59,155 - app.logger_middleware - INFO - Response: 500 for /api/moderate/file in 0.106s
+2025-11-12 09:30:11,655 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:30:11,659 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-12 09:30:11,758 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:30:11,759 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:30:11,761 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.001s
+2025-11-12 09:30:11,768 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.006s
+2025-11-12 09:30:23,070 - app.logger_middleware - INFO - Request: POST /api/moderate/file from 127.0.0.1
+2025-11-12 09:30:23,076 - app.moderation_agent - ERROR - Moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    if mcp and "nsfw_score" in mcp:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:30:23,078 - app.endpoints.file_moderation - ERROR - File moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\file_moderation.py", line 166, in moderate_file
+    result = await moderation_agent.moderate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    if mcp and "nsfw_score" in mcp:
+       ^^^^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:30:23,081 - app.logger_middleware - INFO - Response: 500 for /api/moderate/file in 0.010s
+2025-11-12 09:31:45,311 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-12 09:31:45,315 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-12 09:31:45,412 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-12 09:31:45,413 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-12 09:31:45,415 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.002s
+2025-11-12 09:31:45,424 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.010s
+2025-11-12 09:31:55,939 - app.logger_middleware - INFO - Request: POST /api/moderate/file from 127.0.0.1
+2025-11-12 09:31:55,955 - app.moderation_agent - ERROR - Moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    # NSFW content detection
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:31:55,956 - app.endpoints.file_moderation - ERROR - File moderation error: argument of type 'NoneType' is not iterable
+Traceback (most recent call last):
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\endpoints\file_moderation.py", line 166, in moderate_file
+    result = await moderation_agent.moderate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 62, in moderate
+    rule_result = await self.rules[content_type](content, metadata)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Asus\OneDrive\Desktop\RL-based-content-moderation-agent-1\app\moderation_agent.py", line 278, in _moderate_image
+    # NSFW content detection
+TypeError: argument of type 'NoneType' is not iterable
+2025-11-12 09:31:55,958 - app.logger_middleware - INFO - Response: 500 for /api/moderate/file in 0.019s
+2025-11-12 09:33:29,737 - app.main - INFO - Shutting down services
+2025-11-12 09:33:29,737 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-12 09:33:29,738 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-12 09:33:29,738 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-12 09:33:29,738 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-12 09:33:29,738 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-12 09:33:29,738 - app.event_queue - INFO - EventQueue closed
+2025-11-12 09:35:18,591 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:35:18,591 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:35:18,595 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:35:18,595 - app.main - INFO - All services initialized successfully
+2025-11-12 09:38:52,511 - app.main - INFO - Shutting down services
+2025-11-12 09:38:52,513 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-12 09:38:52,514 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-12 09:38:52,515 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-12 09:38:52,515 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-12 09:38:52,516 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-12 09:38:52,516 - app.event_queue - INFO - EventQueue closed
+2025-11-12 09:38:53,932 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-12 09:38:53,932 - app.event_queue - INFO - Started 5 queue processors
+2025-11-12 09:38:53,936 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-12 09:38:53,936 - app.main - INFO - All services initialized successfully
+2025-11-15 10:23:55,914 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:23:55,915 - app.event_queue - INFO - Started 5 queue processors
+2025-11-15 10:23:55,919 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-15 10:23:55,919 - app.main - INFO - All services initialized successfully
+2025-11-15 10:24:16,732 - app.logger_middleware - INFO - Request: GET /health from 127.0.0.1
+2025-11-15 10:24:16,738 - app.logger_middleware - INFO - Response: 404 for /health in 0.003s
+2025-11-15 10:24:27,260 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-15 10:24:27,262 - app.logger_middleware - INFO - Response: 200 for / in 0.001s
+2025-11-15 10:25:27,654 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-15 10:25:27,659 - app.logger_middleware - INFO - Response: 200 for / in 0.002s
+2025-11-15 10:25:27,689 - app.logger_middleware - INFO - Request: GET /static/css/styles.css from 127.0.0.1
+2025-11-15 10:25:27,693 - app.logger_middleware - INFO - Request: GET /static/js/app.js from 127.0.0.1
+2025-11-15 10:25:27,803 - app.logger_middleware - INFO - Response: 200 for /static/css/styles.css in 0.113s
+2025-11-15 10:25:27,805 - app.logger_middleware - INFO - Response: 304 for /static/js/app.js in 0.111s
+2025-11-15 10:25:27,917 - app.main - INFO - Shutting down services
+2025-11-15 10:25:27,918 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-15 10:25:27,918 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-15 10:25:27,918 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-15 10:25:27,918 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-15 10:25:27,919 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-15 10:25:27,919 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:25:29,652 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:25:29,653 - app.event_queue - INFO - Started 5 queue processors
+2025-11-15 10:25:29,658 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-15 10:25:29,658 - app.main - INFO - All services initialized successfully
+2025-11-15 10:25:29,763 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-15 10:25:29,764 - app.logger_middleware - INFO - Request: GET /favicon.ico from 127.0.0.1
+2025-11-15 10:25:29,765 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-15 10:25:29,766 - app.feedback_handler - ERROR - Database connection is None, reinitializing...
+2025-11-15 10:25:29,770 - app.logger_middleware - INFO - Response: 404 for /favicon.ico in 0.005s
+2025-11-15 10:25:29,772 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.006s
+2025-11-15 10:25:29,779 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.015s
+2025-11-15 10:25:46,172 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-15 10:27:10,489 - app.logger_middleware - INFO - Request: GET / from 127.0.0.1
+2025-11-15 10:27:10,495 - app.logger_middleware - INFO - Response: 200 for / in 0.004s
+2025-11-15 10:27:10,511 - app.logger_middleware - INFO - Response: 400 for /api/moderate in 84.337s
+2025-11-15 10:27:10,546 - app.logger_middleware - INFO - Request: GET /api/stats from 127.0.0.1
+2025-11-15 10:27:10,548 - app.logger_middleware - INFO - Response: 404 for /api/stats in 0.001s
+2025-11-15 10:27:10,551 - app.logger_middleware - INFO - Request: GET /api/moderated-content from 127.0.0.1
+2025-11-15 10:27:10,557 - app.logger_middleware - INFO - Response: 200 for /api/moderated-content in 0.005s
+2025-11-15 10:28:14,254 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-15 10:28:44,055 - app.logger_middleware - INFO - Response: 400 for /api/moderate in 29.798s
+2025-11-15 10:28:55,503 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-15 10:29:25,296 - app.logger_middleware - INFO - Response: 400 for /api/moderate in 29.791s
+2025-11-15 10:29:49,534 - app.logger_middleware - INFO - Request: POST /api/moderate from 127.0.0.1
+2025-11-15 10:29:59,336 - app.logger_middleware - INFO - Response: 400 for /api/moderate in 9.799s
+2025-11-15 10:30:28,422 - app.main - INFO - Shutting down services
+2025-11-15 10:30:28,422 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-15 10:30:28,423 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-15 10:30:28,423 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-15 10:30:28,423 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-15 10:30:28,423 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-15 10:30:28,423 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:31:11,541 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:31:11,541 - app.event_queue - INFO - Started 5 queue processors
+2025-11-15 10:31:11,546 - app.feedback_handler - INFO - FeedbackHandler database initialized
+2025-11-15 10:31:11,546 - app.main - INFO - All services initialized successfully
+2025-11-15 10:36:10,033 - app.main - INFO - Shutting down services
+2025-11-15 10:36:10,033 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-15 10:36:10,034 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-15 10:36:10,034 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-15 10:36:10,034 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-15 10:36:10,034 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-15 10:36:10,035 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:36:11,945 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:36:11,945 - app.event_queue - INFO - Started 5 queue processors
+2025-11-15 10:36:11,947 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-15 10:36:11,947 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-15 10:36:11,968 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-15 10:36:11,968 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-15 10:36:11,968 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-15 10:47:15,634 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:47:15,635 - app.event_queue - INFO - Started 5 queue processors
+2025-11-15 10:47:15,636 - app.main - INFO - All services initialized successfully
+2025-11-15 10:52:14,055 - app.main - INFO - Shutting down services
+2025-11-15 10:52:14,057 - app.event_queue - INFO - Queue processor moderation_completed cancelled
+2025-11-15 10:52:14,057 - app.event_queue - INFO - Queue processor feedback_omkar_rl cancelled
+2025-11-15 10:52:14,058 - app.event_queue - INFO - Queue processor feedback_bhiv_analytics cancelled
+2025-11-15 10:52:14,058 - app.event_queue - INFO - Queue processor feedback_nlp_confidence cancelled
+2025-11-15 10:52:14,059 - app.event_queue - INFO - Queue processor file_moderation_completed cancelled
+2025-11-15 10:52:14,059 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:52:15,444 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:52:15,444 - app.main - INFO - All services initialized successfully
+2025-11-15 10:52:15,590 - app.main - INFO - Shutting down services
+2025-11-15 10:52:15,590 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:52:16,905 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:52:16,906 - app.main - INFO - All services initialized successfully
+2025-11-15 10:57:14,098 - app.main - INFO - Shutting down services
+2025-11-15 10:57:14,099 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:57:15,639 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:57:15,640 - app.main - INFO - All services initialized successfully
+2025-11-15 10:57:15,793 - app.main - INFO - Shutting down services
+2025-11-15 10:57:15,793 - app.event_queue - INFO - EventQueue closed
+2025-11-15 10:57:17,342 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-15 10:57:17,342 - app.main - INFO - All services initialized successfully
+2025-11-15 14:13:51,650 - app.main - INFO - Shutting down services
+2025-11-15 14:13:51,655 - app.event_queue - INFO - EventQueue closed
+2025-11-17 15:17:35,597 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 15:17:35,598 - app.main - INFO - All services initialized successfully
+2025-11-17 15:21:07,224 - app.main - INFO - Shutting down services
+2025-11-17 15:21:07,225 - app.event_queue - INFO - EventQueue closed
+2025-11-17 15:21:08,710 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 15:21:08,711 - app.main - INFO - All services initialized successfully
+2025-11-17 16:39:58,240 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 16:39:58,240 - app.main - INFO - All services initialized successfully
+2025-11-17 16:43:44,869 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 16:43:44,869 - app.main - INFO - All services initialized successfully
+2025-11-17 16:47:07,187 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 16:47:07,188 - app.main - INFO - All services initialized successfully
+2025-11-17 16:48:08,615 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 16:48:08,618 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 16:50:54,342 - app.endpoints.feedback - INFO - Feedback cc3cc0ab-b9c3-40bb-86fb-cbfbb1765f8f for moderation test123
+2025-11-17 16:50:54,344 - app.feedback_handler - ERROR - Database connection is None, reinitializing...
+2025-11-17 16:50:54,384 - app.feedback_handler - INFO - Stored feedback cc3cc0ab-b9c3-40bb-86fb-cbfbb1765f8f
+2025-11-17 16:52:05,646 - app.main - INFO - Shutting down services
+2025-11-17 16:52:05,648 - app.event_queue - INFO - EventQueue closed
+2025-11-17 16:52:07,817 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 16:52:07,818 - app.main - INFO - All services initialized successfully
+2025-11-17 17:02:02,570 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:02:02,571 - app.main - INFO - All services initialized successfully
+2025-11-17 17:02:51,769 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:02:51,771 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:03:35,522 - app.endpoints.feedback - INFO - Feedback c4864c97-fcb1-4b1e-a3fa-329c00820b18 for moderation analysis_1763379215517
+2025-11-17 17:03:35,537 - app.feedback_handler - INFO - Stored feedback c4864c97-fcb1-4b1e-a3fa-329c00820b18
+2025-11-17 17:03:51,850 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:03:51,852 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:04:18,960 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:04:18,962 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:04:24,751 - app.endpoints.feedback - INFO - Feedback d7ee5309-a0b5-4c72-b86f-5e3e274f0181 for moderation analysis_1763379264748
+2025-11-17 17:04:24,765 - app.feedback_handler - INFO - Stored feedback d7ee5309-a0b5-4c72-b86f-5e3e274f0181
+2025-11-17 17:05:56,386 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:27,389 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:27,970 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:27,971 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:06:27,975 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-17 17:06:41,884 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:41,885 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:06:41,890 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-17 17:06:45,657 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:45,663 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:06:54,014 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:06:54,019 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:07:01,101 - app.main - INFO - Shutting down services
+2025-11-17 17:07:01,102 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:07:02,399 - app.endpoints.feedback - INFO - Feedback 773ccb06-4c10-40f1-937f-385927a0add3 for moderation analysis_1763379422397
+2025-11-17 17:07:02,411 - app.feedback_handler - INFO - Stored feedback 773ccb06-4c10-40f1-937f-385927a0add3
+2025-11-17 17:07:03,568 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:07:03,568 - app.main - INFO - All services initialized successfully
+2025-11-17 17:07:06,204 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:07:06,207 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:07:17,578 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:07:17,579 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:08:08,551 - app.main - INFO - Shutting down services
+2025-11-17 17:08:08,552 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:08:11,403 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:08:11,404 - app.main - INFO - All services initialized successfully
+2025-11-17 17:14:11,392 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:14:11,395 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:14:16,724 - app.endpoints.feedback - INFO - Feedback 8b2304de-e9e9-4837-8f0e-9b3f796a0478 for moderation analysis_1763379856720
+2025-11-17 17:14:16,738 - app.feedback_handler - INFO - Stored feedback 8b2304de-e9e9-4837-8f0e-9b3f796a0478
+2025-11-17 17:14:21,288 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:14:21,291 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:15:44,904 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:16:23,111 - app.main - INFO - Shutting down services
+2025-11-17 17:16:23,112 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:16:24,459 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:16:24,790 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:16:24,791 - app.main - INFO - All services initialized successfully
+2025-11-17 17:16:24,791 - app.main - INFO - Shutting down services
+2025-11-17 17:16:24,791 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:16:26,290 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:16:26,291 - app.main - INFO - All services initialized successfully
+2025-11-17 17:16:37,994 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:17:49,143 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
+2025-11-17 17:18:09,421 - app.main - INFO - Shutting down services
+2025-11-17 17:18:09,422 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:18:11,412 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:18:11,412 - app.main - INFO - All services initialized successfully
+2025-11-17 17:18:27,794 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:19:06,511 - app.endpoints.timeline - ERROR - Timeline generation error: can't subtract offset-naive and offset-aware datetimes
+2025-11-17 17:19:20,218 - app.endpoints.success_rate - ERROR - Success rate prediction error: 
