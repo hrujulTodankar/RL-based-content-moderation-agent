@@ -21,6 +21,21 @@
             </div>
         </header>
 
+        <!-- Jurisdiction Tabs -->
+        <div class="jurisdiction-tabs">
+            <div class="tabs-container">
+                <button class="tab-button active" data-jurisdiction="IN">
+                    <i class="fas fa-landmark"></i> India
+                </button>
+                <button class="tab-button" data-jurisdiction="UK">
+                    <i class="fas fa-gavel"></i> United Kingdom
+                </button>
+                <button class="tab-button" data-jurisdiction="UAE">
+                    <i class="fas fa-mosque"></i> UAE
+                </button>
+            </div>
+        </div>
+
         <!-- Query Input Section -->
         <div class="query-section">
             <div class="query-form">
@@ -30,14 +45,6 @@
                     <textarea id="query-input" placeholder="Describe the legal content or case you want to analyze..." rows="4"></textarea>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="jurisdiction-select">Jurisdiction:</label>
-                        <select id="jurisdiction-select">
-                            <option value="IN">India</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="UAE">UAE</option>
-                        </select>
-                    </div>
                     <div class="form-group">
                         <label for="case-type-select">Case Type:</label>
                         <select id="case-type-select">

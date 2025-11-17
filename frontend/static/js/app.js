@@ -2,14 +2,24 @@
 class LegalAnalysisDashboard {
     constructor() {
         this.currentAnalysis = null;
+        this.currentJurisdiction = this.loadCachedJurisdiction();
         this.init();
     }
 
     init() {
         this.bindEvents();
+        this.setActiveTab(this.currentJurisdiction);
     }
 
     bindEvents() {
+        // Jurisdiction tabs
+        document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const jurisdiction = e.target.closest('.tab-button').dataset.jurisdiction;
+                this.switchJurisdiction(jurisdiction);
+            });
+        });
+
         // Analyze button
         document.getElementById('analyze-btn').addEventListener('click', () => {
             this.analyzeContent();
@@ -33,18 +43,57 @@ class LegalAnalysisDashboard {
         });
     }
 
-    async analyzeContent() {
+    loadCachedJurisdiction() {
+        return localStorage.getItem('selectedJurisdiction') || 'IN';
+    }
+
+    saveCachedJurisdiction(jurisdiction) {
+        localStorage.setItem('selectedJurisdiction', jurisdiction);
+    }
+
+    setActiveTab(jurisdiction) {
+        // Remove active class from all tabs
+        document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Add active class to selected tab
+        const activeTab = document.querySelector(`[data-jurisdiction="${jurisdiction}"]`);
+        if (activeTab) {
+            activeTab.classList.add('active');
+        }
+    }
+
+    switchJurisdiction(jurisdiction) {
+        if (this.currentJurisdiction === jurisdiction) return;
+
+        this.currentJurisdiction = jurisdiction;
+        this.saveCachedJurisdiction(jurisdiction);
+        this.setActiveTab(jurisdiction);
+
+        // If there's current analysis, re-run it with new jurisdiction
+        if (this.currentAnalysis) {
+            this.analyzeContent(true); // true indicates it's a jurisdiction switch
+        }
+    }
+
+    async analyzeContent(isJurisdictionSwitch = false) {
         const query = document.getElementById('query-input').value.trim();
-        const jurisdiction = document.getElementById('jurisdiction-select').value;
         const caseType = document.getElementById('case-type-select').value;
 
-        if (!query) {
+        if (!query && !isJurisdictionSwitch) {
             alert('Please enter a legal content query');
             return;
         }
 
+        // If it's a jurisdiction switch and no query, just update the jurisdiction
+        if (isJurisdictionSwitch && !query) {
+            this.currentJurisdiction = this.currentJurisdiction;
+            return;
+        }
+
         this.showLoading();
-        this.currentAnalysis = { query, jurisdiction, caseType };
+        this.currentAnalysis = { query, jurisdiction: this.currentJurisdiction, caseType };
 
         try {
             // Make parallel API calls
