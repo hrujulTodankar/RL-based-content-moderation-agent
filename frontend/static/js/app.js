@@ -3,12 +3,14 @@ class LegalAnalysisDashboard {
     constructor() {
         this.currentAnalysis = null;
         this.currentJurisdiction = this.loadCachedJurisdiction();
+        this.previousConfidence = null;
         this.init();
     }
 
     init() {
         this.bindEvents();
         this.setActiveTab(this.currentJurisdiction);
+        this.bindPopupEvents();
     }
 
     bindEvents() {
@@ -401,6 +403,9 @@ class LegalAnalysisDashboard {
     async submitFeedback(feedbackType) {
         if (!this.currentAnalysis) return;
 
+        // Store previous confidence before processing
+        this.previousConfidence = this.getCurrentConfidence();
+        
         // Show learning indicator
         document.getElementById('learning-indicator').style.display = 'flex';
 
@@ -409,11 +414,11 @@ class LegalAnalysisDashboard {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    feedback: {
-                        moderation_id: `analysis_${Date.now()}`,
-                        feedback_type: feedbackType,
-                        comment: `Legal analysis feedback: ${feedbackType}`
-                    }
+                    moderation_id: `analysis_${Date.now()}`,
+                    feedback_type: feedbackType,
+                    comment: `Legal analysis feedback: ${feedbackType}`,
+                    user_id: 'demo_user',
+                    rating: feedbackType === 'thumbs_up' ? 5 : 2
                 })
             });
 
@@ -426,10 +431,13 @@ class LegalAnalysisDashboard {
                         this.reEvaluateAfterFeedback();
                     }, 2000); // Wait 2 seconds for learning to process
                 } else {
-                    // Hide learning indicator after a delay for positive feedback
+                    // For positive feedback, just show the learning badge briefly
                     setTimeout(() => {
-                        document.getElementById('learning-indicator').style.display = 'none';
-                    }, 3000);
+                        this.showLearningBadge();
+                        setTimeout(() => {
+                            document.getElementById('learning-indicator').style.display = 'none';
+                        }, 2000);
+                    }, 1500);
                 }
             } else {
                 throw new Error('Feedback submission failed');
@@ -450,8 +458,17 @@ class LegalAnalysisDashboard {
             // Re-run the analysis with the same parameters
             await this.analyzeContent();
 
+            // Calculate new confidence and show popup
+            const newConfidence = this.getCurrentConfidence();
+            if (this.previousConfidence !== null) {
+                this.showFeedbackPopup(this.previousConfidence, newConfidence);
+            }
+
             // Show success message
             this.showNotification('Analysis updated based on your feedback!', 'success');
+
+            // Show learning badge
+            this.showLearningBadge();
 
             // Hide learning indicator
             setTimeout(() => {
@@ -467,6 +484,67 @@ class LegalAnalysisDashboard {
             // Reset indicator text
             indicator.innerHTML = '<i class="fas fa-brain"></i><span>Re-evaluating after learning from feedback...</span>';
         }
+    }
+
+    getCurrentConfidence() {
+        // Get current confidence from the domain block
+        const confidenceText = document.getElementById('domain-confidence-text');
+        if (confidenceText) {
+            return parseInt(confidenceText.textContent.replace('%', '')) || 85;
+        }
+        return 85; // Default confidence
+    }
+
+    showLearningBadge() {
+        const badge = document.getElementById('learning-badge');
+        if (badge) {
+            badge.style.display = 'flex';
+            // Hide after 3 seconds
+            setTimeout(() => {
+                badge.style.display = 'none';
+            }, 3000);
+        }
+    }
+
+    showFeedbackPopup(previousConfidence, newConfidence) {
+        const popup = document.getElementById('feedback-popup-overlay');
+        const confidenceBefore = document.getElementById('confidence-before');
+        const confidenceAfter = document.getElementById('confidence-after');
+
+        if (popup && confidenceBefore && confidenceAfter) {
+            // Update confidence values
+            confidenceBefore.textContent = `${previousConfidence}%`;
+            confidenceAfter.textContent = `${newConfidence}%`;
+            
+            // Show popup
+            popup.style.display = 'flex';
+            
+            // Bind close event
+            document.getElementById('popup-close-btn').onclick = () => {
+                popup.style.display = 'none';
+            };
+            
+            // Auto-close after 5 seconds
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 5000);
+        }
+    }
+
+    bindPopupEvents() {
+        // Close popup when clicking outside
+        document.getElementById('feedback-popup-overlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('feedback-popup-overlay')) {
+                document.getElementById('feedback-popup-overlay').style.display = 'none';
+            }
+        });
+        
+        // Close popup with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('feedback-popup-overlay').style.display = 'none';
+            }
+        });
     }
 
     showLoading() {

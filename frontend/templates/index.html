@@ -152,15 +152,50 @@
                 <h4><i class="fas fa-comments"></i> Provide Feedback</h4>
                 <div class="feedback-buttons-main">
                     <button class="feedback-btn-main thumbs-up" id="feedback-thumbs-up">
-                        <i class="fas fa-thumbs-up"></i> Good Analysis
+                        <i class="fas fa-thumbs-up"></i> Helpful
                     </button>
                     <button class="feedback-btn-main thumbs-down" id="feedback-thumbs-down">
-                        <i class="fas fa-thumbs-down"></i> Needs Improvement
+                        <i class="fas fa-thumbs-down"></i> Not Helpful
                     </button>
                 </div>
                 <div class="learning-indicator" id="learning-indicator" style="display: none;">
                     <i class="fas fa-brain"></i>
                     <span>Re-evaluating after learning from feedback...</span>
+                </div>
+                <div class="learning-applied-badge" id="learning-badge" style="display: none;">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Learning Applied</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post-Feedback Popup -->
+        <div class="feedback-popup-overlay" id="feedback-popup-overlay" style="display: none;">
+            <div class="feedback-popup">
+                <div class="popup-header">
+                    <i class="fas fa-brain popup-icon"></i>
+                    <h3>Learned from your feedback</h3>
+                </div>
+                <div class="popup-content">
+                    <div class="confidence-improvement">
+                        <div class="confidence-before">
+                            <span class="confidence-label">Previous Confidence:</span>
+                            <span class="confidence-value" id="confidence-before">85%</span>
+                        </div>
+                        <div class="confidence-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="confidence-after">
+                            <span class="confidence-label">Updated Confidence:</span>
+                            <span class="confidence-value" id="confidence-after">92%</span>
+                        </div>
+                    </div>
+                    <div class="popup-message">
+                        <p>Your feedback has been incorporated into our learning system. The analysis has been improved based on your input.</p>
+                    </div>
+                    <div class="popup-actions">
+                        <button class="btn-popup-close" id="popup-close-btn">Got it!</button>
+                    </div>
                 </div>
             </div>
         </div>
