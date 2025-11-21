@@ -374,26 +374,108 @@ class LegalAnalysisDashboard {
             return;
         }
 
+        // Enhanced case rendering with proper object handling
+        const renderCaseDetails = (cases) => {
+            if (!cases || !Array.isArray(cases)) return '';
+            return cases.map(caseObj => {
+                // Handle different possible case object structures
+                let caseName = '';
+                let caseSignificance = '';
+                let casePopularity = '';
+                
+                if (typeof caseObj === 'string') {
+                    caseName = caseObj;
+                } else if (typeof caseObj === 'object' && caseObj !== null) {
+                    caseName = caseObj.name || caseObj.case || caseObj.case_name || 'Unknown Case';
+                    caseSignificance = caseObj.significance || caseObj.description || '';
+                    casePopularity = caseObj.popularity || caseObj.relevance_score || '';
+                }
+                
+                return `
+                    <div class="case-detail-item">
+                        <div class="case-name">${caseName}</div>
+                        ${caseSignificance ? `<div class="case-description">${caseSignificance}</div>` : ''}
+                        ${casePopularity ? `<div class="case-score">Relevance: ${casePopularity}%</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        };
+
         container.innerHTML = `
             <div class="constitution-info">
-                ${data.articles.map(article => `
-                    <div class="constitution-article">
-                        <div class="article-header">
-                            <span class="article-number">Article ${article.number}</span>
-                            <span class="article-title">${article.title}</span>
+                ${data.query_analysis && data.query_analysis.detected_topics.length > 0 ? `
+                    <div class="query-analysis">
+                        <h6>Detected Legal Topics:</h6>
+                        <div class="topics-list">
+                            ${data.query_analysis.detected_topics.map(topic => `
+                                <span class="topic-badge">${topic.charAt(0).toUpperCase() + topic.slice(1)}</span>
+                            `).join('')}
                         </div>
-                        <div class="article-content">${article.content}</div>
-                        ${article.key_cases ? `
-                            <div class="article-cases">
-                                <strong>Key Cases:</strong> ${article.key_cases.join(', ')}
-                            </div>
-                        ` : ''}
                     </div>
-                `).join('')}
+                ` : ''}
+                
+                ${data.popular_cases && data.popular_cases.length > 0 ? `
+                    <div class="popular-cases-section">
+                        <h6><i class="fas fa-star"></i> Most Relevant Cases:</h6>
+                        <div class="popular-cases-grid">
+                            ${data.popular_cases.map(caseObj => {
+                                const caseName = caseObj.name || caseObj.case || 'Unknown Case';
+                                const significance = caseObj.significance || caseObj.description || '';
+                                const popularity = caseObj.popularity || caseObj.relevance_score || '';
+                                return `
+                                    <div class="popular-case-card">
+                                        <div class="case-header">
+                                            <span class="case-name">${caseName}</span>
+                                            ${popularity ? `<span class="popularity-score">${popularity}% Popular</span>` : ''}
+                                        </div>
+                                        ${significance ? `<div class="case-significance">${significance}</div>` : ''}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="constitutional-articles">
+                    <h6>Relevant Constitutional Articles:</h6>
+                    ${data.articles.map(article => `
+                        <div class="constitution-article">
+                            <div class="article-header">
+                                <span class="article-number">Article ${article.number}</span>
+                                <span class="article-title">${article.title}</span>
+                            </div>
+                            <div class="article-content">${article.content}</div>
+                            ${article.key_cases && article.key_cases.length > 0 ? `
+                                <div class="article-cases">
+                                    <strong>Related Cases:</strong> 
+                                    <div class="cases-list">
+                                        ${renderCaseDetails(article.key_cases)}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                
                 ${data.interpretation ? `
                     <div class="constitutional-interpretation">
-                        <h6>Interpretation:</h6>
+                        <h6>Constitutional Analysis:</h6>
                         <p>${data.interpretation}</p>
+                    </div>
+                ` : ''}
+                
+                ${data.amendments && data.amendments.length > 0 ? `
+                    <div class="relevant-amendments">
+                        <h6>Related Constitutional Amendments:</h6>
+                        <div class="amendments-list">
+                            ${data.amendments.map(amendment => `
+                                <div class="amendment-item">
+                                    <span class="amendment-number">Amendment ${amendment.number}</span>
+                                    <span class="amendment-year">(${amendment.year})</span>
+                                    <div class="amendment-description">${amendment.description}</div>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 ` : ''}
             </div>
