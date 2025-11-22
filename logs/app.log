@@ -5065,3 +5065,143 @@ TypeError: argument of type 'NoneType' is not iterable
 2025-11-17 17:26:28,690 - app.event_queue - INFO - EventQueue closed
 2025-11-17 17:26:30,127 - app.main - INFO - Starting RL-Powered Content Moderation API
 2025-11-17 17:26:30,128 - app.main - INFO - All services initialized successfully
+2025-11-17 17:28:11,949 - app.main - INFO - Shutting down services
+2025-11-17 17:28:11,950 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:28:13,423 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:28:13,424 - app.main - INFO - All services initialized successfully
+2025-11-17 17:28:13,517 - app.main - INFO - Shutting down services
+2025-11-17 17:28:13,518 - app.event_queue - INFO - EventQueue closed
+2025-11-17 17:28:14,948 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-17 17:28:14,949 - app.main - INFO - All services initialized successfully
+2025-11-19 09:12:09,477 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-19 09:12:09,479 - app.main - INFO - All services initialized successfully
+2025-11-19 09:16:59,311 - app.main - INFO - Shutting down services
+2025-11-19 09:16:59,312 - app.event_queue - INFO - EventQueue closed
+2025-11-19 09:17:03,418 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-19 09:17:03,419 - app.main - INFO - All services initialized successfully
+2025-11-21 12:06:39,795 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:06:39,797 - app.main - INFO - All services initialized successfully
+2025-11-21 12:13:43,926 - app.main - INFO - Shutting down services
+2025-11-21 12:13:43,927 - app.event_queue - INFO - EventQueue closed
+2025-11-21 12:13:45,653 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:13:45,653 - app.main - INFO - All services initialized successfully
+2025-11-21 12:13:45,654 - app.main - INFO - Shutting down services
+2025-11-21 12:13:45,654 - app.event_queue - INFO - EventQueue closed
+2025-11-21 12:13:47,232 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:13:47,233 - app.main - INFO - All services initialized successfully
+2025-11-21 12:14:03,201 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:14:03,202 - app.main - INFO - All services initialized successfully
+2025-11-21 12:16:23,502 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:16:23,503 - app.main - INFO - All services initialized successfully
+2025-11-21 12:26:22,101 - app.main - INFO - Shutting down services
+2025-11-21 12:26:22,102 - app.event_queue - INFO - EventQueue closed
+2025-11-21 12:27:15,282 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-21 12:27:15,282 - app.main - INFO - All services initialized successfully
+2025-11-21 12:39:08,557 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-21 12:39:09,916 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-21 12:41:20,329 - app.endpoints.constitution - ERROR - Constitution search error: 
+2025-11-22 08:57:30,152 - app.main - INFO - Shutting down services
+2025-11-22 08:57:30,154 - app.event_queue - INFO - EventQueue closed
+2025-11-22 08:57:30,172 - app.main - INFO - Shutting down services
+2025-11-22 08:57:30,174 - app.event_queue - INFO - EventQueue closed
+2025-11-22 08:57:34,017 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 08:57:34,018 - app.main - INFO - All services initialized successfully
+2025-11-22 08:57:34,019 - app.main - INFO - Shutting down services
+2025-11-22 08:57:34,020 - app.event_queue - INFO - EventQueue closed
+2025-11-22 08:57:34,037 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 08:57:34,038 - app.main - INFO - All services initialized successfully
+2025-11-22 08:57:34,039 - app.main - INFO - Shutting down services
+2025-11-22 08:57:34,039 - app.event_queue - INFO - EventQueue closed
+2025-11-22 08:57:36,835 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 08:57:36,836 - app.main - INFO - All services initialized successfully
+2025-11-22 08:57:36,854 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 08:57:36,855 - app.main - INFO - All services initialized successfully
+2025-11-22 09:02:34,536 - app.main - INFO - Shutting down services
+2025-11-22 09:02:34,537 - app.event_queue - INFO - EventQueue closed
+2025-11-22 09:02:34,552 - app.main - INFO - Shutting down services
+2025-11-22 09:02:34,553 - app.event_queue - INFO - EventQueue closed
+2025-11-22 09:02:37,974 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 09:02:37,975 - app.main - INFO - All services initialized successfully
+2025-11-22 09:02:37,979 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 09:02:37,979 - app.main - INFO - All services initialized successfully
+2025-11-22 09:02:37,980 - app.main - INFO - Shutting down services
+2025-11-22 09:02:37,982 - app.event_queue - INFO - EventQueue closed
+2025-11-22 09:02:40,045 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 09:02:40,046 - app.main - INFO - All services initialized successfully
+2025-11-22 09:02:40,046 - app.main - INFO - All services initialized successfully
+2025-11-22 15:25:07,680 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,687 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,695 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,700 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,705 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,709 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,712 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:25:07,717 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,905 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,908 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,914 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,918 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,921 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,924 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,927 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:26:26,929 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:27:48,024 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:27:48,025 - app.main - INFO - All services initialized successfully
+2025-11-22 15:28:07,835 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,838 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,844 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,847 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,850 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,853 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,856 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:28:07,860 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:31:49,400 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:31:49,400 - app.main - INFO - All services initialized successfully
+2025-11-22 15:33:35,868 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:33:40,438 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:33:43,487 - app.endpoints.constitution - ERROR - Constitution search error: cannot access local variable 'jurisdiction_name' where it is not associated with a value
+2025-11-22 15:36:47,482 - app.main - INFO - Shutting down services
+2025-11-22 15:36:47,484 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:36:48,961 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:36:48,962 - app.main - INFO - All services initialized successfully
+2025-11-22 15:36:49,134 - app.main - INFO - Shutting down services
+2025-11-22 15:36:49,134 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:36:50,574 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:36:50,575 - app.main - INFO - All services initialized successfully
+2025-11-22 15:41:47,472 - app.main - INFO - Shutting down services
+2025-11-22 15:41:47,472 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:41:49,204 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:41:49,205 - app.main - INFO - All services initialized successfully
+2025-11-22 15:41:49,206 - app.main - INFO - Shutting down services
+2025-11-22 15:41:49,206 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:41:50,992 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:41:50,993 - app.main - INFO - All services initialized successfully
+2025-11-22 15:46:49,697 - app.main - INFO - Shutting down services
+2025-11-22 15:46:49,698 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:46:51,259 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:46:51,260 - app.main - INFO - All services initialized successfully
+2025-11-22 15:46:51,363 - app.main - INFO - Shutting down services
+2025-11-22 15:46:51,363 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:46:53,841 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:46:53,841 - app.main - INFO - All services initialized successfully
+2025-11-22 15:51:17,438 - app.main - INFO - Shutting down services
+2025-11-22 15:51:17,439 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:51:18,896 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:51:18,897 - app.main - INFO - All services initialized successfully
+2025-11-22 15:51:18,977 - app.main - INFO - Shutting down services
+2025-11-22 15:51:18,977 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:51:20,958 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:51:20,958 - app.main - INFO - All services initialized successfully
+2025-11-22 15:56:19,259 - app.main - INFO - Shutting down services
+2025-11-22 15:56:19,260 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:56:20,753 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:56:20,753 - app.main - INFO - All services initialized successfully
+2025-11-22 15:56:20,825 - app.main - INFO - Shutting down services
+2025-11-22 15:56:20,825 - app.event_queue - INFO - EventQueue closed
+2025-11-22 15:56:22,421 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 15:56:22,422 - app.main - INFO - All services initialized successfully
+2025-11-22 16:26:45,526 - app.main - INFO - Starting RL-Powered Content Moderation API
+2025-11-22 16:26:45,527 - app.main - INFO - All services initialized successfully
+2025-11-22 16:27:10,686 - app.endpoints.timeline - WARNING - Invalid start date format: 2025-11-22T10:57:10.609Z, using today
+2025-11-22 16:27:13,865 - app.endpoints.timeline - WARNING - Invalid start date format: 2025-11-22T10:57:13.855Z, using today
+2025-11-22 16:27:26,555 - app.endpoints.timeline - WARNING - Invalid start date format: 2025-11-22T10:57:26.547Z, using today
