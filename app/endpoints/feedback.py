@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends, Body, Request
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 import asyncio
@@ -30,6 +30,9 @@ class FeedbackRequest(BaseModel):
     user_id: Optional[str] = None
     comment: Optional[str] = None
     rating: Optional[int] = Field(None, ge=1, le=5)
+
+class FeedbackWrapper(BaseModel):
+    feedback: FeedbackRequest
 
 class FeedbackResponse(BaseModel):
     feedback_id: str
@@ -112,11 +115,61 @@ async def emit_feedback_events(feedback_record: Dict[str, Any]):
         logger.error(f"Error emitting feedback events: {str(e)}")
 
 @router.post("/feedback", response_model=FeedbackResponse)
-async def submit_feedback(
-    feedback: FeedbackRequest,
-    background_tasks: BackgroundTasks,
-    user: Optional[Dict[str, Any]] = None
-):
+async def submit_feedback(request: Request):
+    """Accept user feedback (thumbs up/down) and update RL agent"""
+    try:
+        # Manually parse the request body
+        request_data = await request.json()
+        
+        # Handle both formats: direct feedback object and wrapper
+        if "feedback" in request_data:
+            feedback_data = request_data["feedback"]
+        else:
+            feedback_data = request_data
+            
+        # Validate feedback type
+        if feedback_data.get("feedback_type") not in ["thumbs_up", "thumbs_down"]:
+            raise HTTPException(
+                status_code=400,
+                detail="feedback_type must be 'thumbs_up' or 'thumbs_down'"
+            )
+        
+        feedback_id = str(uuid.uuid4())
+        logger.info(f"Feedback {feedback_id} for moderation {feedback_data.get('moderation_id')}")
+        
+        # Normalize feedback to reward value
+        reward_value = feedback_handler.normalize_feedback(
+            feedback_type=feedback_data.get("feedback_type"),
+            rating=feedback_data.get("rating")
+        )
+        
+        # Store feedback
+        feedback_record = {
+            "feedback_id": feedback_id,
+            "moderation_id": feedback_data.get("moderation_id"),
+            "user_id": feedback_data.get("user_id"),
+            "feedback_type": feedback_data.get("feedback_type"),
+            "rating": feedback_data.get("rating"),
+            "comment": feedback_data.get("comment"),
+            "reward_value": reward_value,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+        await feedback_handler.store_feedback(feedback_record)
+        
+        return FeedbackResponse(
+            feedback_id=feedback_id,
+            moderation_id=feedback_data.get("moderation_id"),
+            status="processed",
+            reward_value=reward_value,
+            timestamp=feedback_record["timestamp"]
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Feedback processing error: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Feedback processing error: {str(e)}")
     """
     Accept user feedback (thumbs up/down) and update RL agent
     Integrates with Omkar RL, Ashmit analytics, and Aditya NLP

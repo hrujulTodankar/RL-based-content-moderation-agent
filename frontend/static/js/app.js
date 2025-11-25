@@ -496,11 +496,13 @@ class LegalAnalysisDashboard {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    moderation_id: `analysis_${Date.now()}`,
-                    feedback_type: feedbackType,
-                    comment: `Legal analysis feedback: ${feedbackType}`,
-                    user_id: 'demo_user',
-                    rating: feedbackType === 'thumbs_up' ? 5 : 2
+                    feedback: {
+                        moderation_id: `analysis_${Date.now()}`,
+                        feedback_type: feedbackType,
+                        comment: `Legal analysis feedback: ${feedbackType}`,
+                        user_id: 'demo_user',
+                        rating: feedbackType === 'thumbs_up' ? 5 : 2
+                    }
                 })
             });
 
