@@ -2781,7 +2781,7 @@ async def startup_event():
     """Initialize services on startup"""
     logger.info("Starting RL-Powered Content Moderation API")
     # await event_queue.initialize()  # Disabled for demo
-    # await feedback_handler.initialize()  # Disabled for demo
+    await feedback_handler.initialize()  # Initialize feedback handler database
     # await task_queue.start_workers()  # Disabled for demo
     logger.info("All services initialized successfully")
 
