@@ -123,7 +123,7 @@ def test_all_jurisdictions():
     print(f"Test Results: {success_count}/{total_tests} tests passed")
     
     if success_count == total_tests:
-        print("🎉 All tests passed! All jurisdictions working correctly.")
+        print("SUCCESS: All tests passed! All jurisdictions working correctly.")
     else:
         print(f"⚠️  {total_tests - success_count} tests failed. Please check the output above.")
     

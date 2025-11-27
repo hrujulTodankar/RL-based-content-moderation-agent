@@ -24,8 +24,15 @@ class FeedbackHandler:
         self.db_path = os.getenv("DB_PATH", "logs/moderation.db")
         self.postgres_url = os.getenv("DATABASE_URL", None)
         
+        # Connection management
         self.db_conn = None
         self.pool = None
+        self._connection_retries = 3
+        self._retry_delay = 0.1  # 100ms delay between retries
+        
+        # SQLite connection pool simulation
+        self._sqlite_connections = []
+        self._max_sqlite_connections = 5
         
         logger.info(f"FeedbackHandler initialized with {self.db_type}")
     
@@ -42,13 +49,52 @@ class FeedbackHandler:
             logger.error(f"Error initializing database: {str(e)}", exc_info=True)
             raise
     
+    async def _get_sqlite_connection(self):
+        """Get a healthy SQLite connection with retry logic"""
+        # Clean up closed connections
+        self._sqlite_connections = [conn for conn in self._sqlite_connections if not conn.is_closed()]
+        
+        # Return existing connection if available
+        if self._sqlite_connections:
+            return self._sqlite_connections[0]
+        
+        # Create new connection
+        for attempt in range(self._connection_retries):
+            try:
+                conn = await aiosqlite.connect(self.db_path)
+                await conn.execute("PRAGMA journal_mode=WAL")  # Enable WAL mode for better concurrency
+                await conn.execute("PRAGMA synchronous=NORMAL")  # Balance performance and safety
+                await conn.execute("PRAGMA cache_size=1000")  # Increase cache size
+                self._sqlite_connections.append(conn)
+                logger.debug(f"Created new SQLite connection (attempt {attempt + 1})")
+                return conn
+            except Exception as e:
+                logger.warning(f"SQLite connection attempt {attempt + 1} failed: {str(e)}")
+                if attempt < self._connection_retries - 1:
+                    await asyncio.sleep(self._retry_delay * (attempt + 1))
+        
+        raise ConnectionError("Failed to establish SQLite connection after retries")
+    
+    async def _ensure_postgres_pool(self):
+        """Ensure PostgreSQL connection pool is healthy"""
+        if self.pool is None or self.pool.is_closing():
+            logger.info("Recreating PostgreSQL connection pool")
+            self.pool = await asyncpg.create_pool(
+                self.postgres_url,
+                min_size=2,
+                max_size=10,
+                command_timeout=60
+            )
+    
     async def _init_sqlite(self):
         """Initialize SQLite database"""
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
-        self.db_conn = await aiosqlite.connect(self.db_path)
+        
+        # Create initial connection for schema setup
+        conn = await self._get_sqlite_connection()
         
         # Create moderation table
-        await self.db_conn.execute("""
+        await conn.execute("""
             CREATE TABLE IF NOT EXISTS moderations (
                 moderation_id TEXT PRIMARY KEY,
                 content_type TEXT NOT NULL,
@@ -63,7 +109,7 @@ class FeedbackHandler:
         """)
         
         # Create feedback table
-        await self.db_conn.execute("""
+        await conn.execute("""
             CREATE TABLE IF NOT EXISTS feedback (
                 feedback_id TEXT PRIMARY KEY,
                 moderation_id TEXT NOT NULL,
@@ -79,18 +125,19 @@ class FeedbackHandler:
         """)
         
         # Create indexes
-        await self.db_conn.execute(
+        await conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_moderation_timestamp ON moderations(timestamp)"
         )
-        await self.db_conn.execute(
+        await conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_feedback_moderation ON feedback(moderation_id)"
         )
         
-        await self.db_conn.commit()
+        await conn.commit()
+        logger.info("SQLite database schema initialized")
     
     async def _init_postgres(self):
         """Initialize PostgreSQL/Supabase connection"""
-        self.pool = await asyncpg.create_pool(self.postgres_url)
+        await self._ensure_postgres_pool()
         
         async with self.pool.acquire() as conn:
             # Create moderation table
@@ -133,11 +180,18 @@ class FeedbackHandler:
             )
     
     async def close(self):
-        """Close database connections"""
-        if self.db_conn:
-            await self.db_conn.close()
-        if self.pool:
+        """Close all database connections"""
+        # Close SQLite connections
+        for conn in self._sqlite_connections:
+            if not conn.is_closed():
+                await conn.close()
+        self._sqlite_connections.clear()
+        
+        # Close PostgreSQL pool
+        if self.pool and not self.pool.is_closing():
             await self.pool.close()
+        
+        logger.info("All database connections closed")
     
     async def store_moderation(self, moderation_record: Dict[str, Any]):
         """Store moderation result"""
@@ -154,11 +208,9 @@ class FeedbackHandler:
     
     async def _store_moderation_sqlite(self, record: Dict[str, Any]):
         """Store moderation in SQLite"""
-        if self.db_conn is None:
-            logger.error("Database connection is None, reinitializing...")
-            await self._init_sqlite()
+        conn = await self._get_sqlite_connection()
 
-        await self.db_conn.execute("""
+        await conn.execute("""
             INSERT INTO moderations
             (moderation_id, content_type, flagged, score, confidence,
              mcp_weighted_score, reasons, timestamp)
@@ -173,10 +225,11 @@ class FeedbackHandler:
             json.dumps(record["reasons"]),
             record["timestamp"]
         ))
-        await self.db_conn.commit()
+        await conn.commit()
     
     async def _store_moderation_postgres(self, record: Dict[str, Any]):
         """Store moderation in PostgreSQL"""
+        await self._ensure_postgres_pool()
         async with self.pool.acquire() as conn:
             await conn.execute("""
                 INSERT INTO moderations 
@@ -209,11 +262,9 @@ class FeedbackHandler:
     
     async def _store_feedback_sqlite(self, record: Dict[str, Any]):
         """Store feedback in SQLite"""
-        if self.db_conn is None:
-            logger.error("Database connection is None, reinitializing...")
-            await self._init_sqlite()
+        conn = await self._get_sqlite_connection()
 
-        await self.db_conn.execute("""
+        await conn.execute("""
             INSERT INTO feedback
             (feedback_id, moderation_id, user_id, feedback_type,
              rating, comment, reward_value, timestamp)
@@ -228,10 +279,11 @@ class FeedbackHandler:
             record["reward_value"],
             record["timestamp"]
         ))
-        await self.db_conn.commit()
+        await conn.commit()
     
     async def _store_feedback_postgres(self, record: Dict[str, Any]):
         """Store feedback in PostgreSQL"""
+        await self._ensure_postgres_pool()
         async with self.pool.acquire() as conn:
             await conn.execute("""
                 INSERT INTO feedback 
@@ -268,11 +320,9 @@ class FeedbackHandler:
         moderation_id: str
     ) -> List[Dict[str, Any]]:
         """Get feedback from SQLite"""
-        if self.db_conn is None:
-            logger.error("Database connection is None, reinitializing...")
-            await self._init_sqlite()
+        conn = await self._get_sqlite_connection()
 
-        cursor = await self.db_conn.execute("""
+        cursor = await conn.execute("""
             SELECT feedback_id, moderation_id, user_id, feedback_type,
                    rating, comment, reward_value, timestamp
             FROM feedback
@@ -301,6 +351,7 @@ class FeedbackHandler:
         moderation_id: str
     ) -> List[Dict[str, Any]]:
         """Get feedback from PostgreSQL"""
+        await self._ensure_postgres_pool()
         async with self.pool.acquire() as conn:
             rows = await conn.fetch("""
                 SELECT feedback_id, moderation_id, user_id, feedback_type,
@@ -325,11 +376,9 @@ class FeedbackHandler:
     
     async def _get_stats_sqlite(self) -> Dict[str, Any]:
         """Get statistics from SQLite"""
-        if self.db_conn is None:
-            logger.error("Database connection is None, reinitializing...")
-            await self._init_sqlite()
+        conn = await self._get_sqlite_connection()
 
-        cursor = await self.db_conn.execute("""
+        cursor = await conn.execute("""
             SELECT
                 COUNT(*) as total_moderations,
                 SUM(CASE WHEN flagged = 1 THEN 1 ELSE 0 END) as flagged_count,
@@ -339,7 +388,7 @@ class FeedbackHandler:
         """)
         mod_stats = await cursor.fetchone()
 
-        cursor = await self.db_conn.execute("""
+        cursor = await conn.execute("""
             SELECT
                 COUNT(*) as total_feedback,
                 SUM(CASE WHEN feedback_type = 'thumbs_up' THEN 1 ELSE 0 END) as positive,
@@ -349,7 +398,7 @@ class FeedbackHandler:
         """)
         fb_stats = await cursor.fetchone()
 
-        cursor = await self.db_conn.execute("""
+        cursor = await conn.execute("""
             SELECT content_type, COUNT(*) as count
             FROM moderations
             GROUP BY content_type
@@ -370,6 +419,7 @@ class FeedbackHandler:
     
     async def _get_stats_postgres(self) -> Dict[str, Any]:
         """Get statistics from PostgreSQL"""
+        await self._ensure_postgres_pool()
         async with self.pool.acquire() as conn:
             mod_stats = await conn.fetchrow("""
                 SELECT 

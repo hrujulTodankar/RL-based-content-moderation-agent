@@ -1,7 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 from typing import Dict, Any, List, Optional
 import logging
+import json
+from datetime import datetime, timedelta
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +15,11 @@ class ConstitutionRequest(BaseModel):
     jurisdiction: str = "IN"
     article_number: Optional[int] = None
 
+class PopularityTrackingRequest(BaseModel):
+    article_number: str
+    jurisdiction: str = "IN"
+    action: str  # "view", "search", "click"
+
 class ConstitutionResponse(BaseModel):
     articles: List[Dict[str, Any]]
     relevant_sections: List[Dict[str, Any]]
@@ -20,6 +28,158 @@ class ConstitutionResponse(BaseModel):
     case_law: List[Dict[str, Any]]
     amendments: List[Dict[str, Any]]
     query_analysis: Dict[str, Any]
+    popular_articles: List[Dict[str, Any]]
+    trending_topics: List[str]
+
+# Article popularity tracking storage
+POPULARITY_FILE = Path("logs/article_popularity.jsonl")
+
+def load_article_popularity():
+    """Load article popularity data from file"""
+    popularity_data = {}
+    if POPULARITY_FILE.exists():
+        try:
+            with open(POPULARITY_FILE, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        data = json.loads(line)
+                        key = f"{data['jurisdiction']}_{data['article_number']}"
+                        if key not in popularity_data:
+                            popularity_data[key] = {
+                                "article_number": data['article_number'],
+                                "jurisdiction": data['jurisdiction'],
+                                "views": 0,
+                                "searches": 0,
+                                "clicks": 0,
+                                "total_interactions": 0,
+                                "last_accessed": None,
+                                "trend_score": 0.0
+                            }
+                        # Fix action pluralization for proper tracking
+                        action_plurals = {
+                            'view': 'views',
+                            'search': 'searches', 
+                            'click': 'clicks'
+                        }
+                        action_key = action_plurals.get(data['action'], data['action'] + 's')
+                        popularity_data[key][action_key] += 1
+                        popularity_data[key]['total_interactions'] += 1
+                        popularity_data[key]['last_accessed'] = data.get('timestamp')
+        except Exception as e:
+            logger.error(f"Error loading popularity data: {e}")
+    return popularity_data
+
+def save_article_interaction(article_number: str, jurisdiction: str, action: str):
+    """Save article interaction for popularity tracking"""
+    try:
+        POPULARITY_FILE.parent.mkdir(exist_ok=True)
+        interaction_data = {
+            "article_number": article_number,
+            "jurisdiction": jurisdiction,
+            "action": action,
+            "timestamp": datetime.now().isoformat()
+        }
+        with open(POPULARITY_FILE, 'a') as f:
+            f.write(json.dumps(interaction_data) + '\n')
+    except Exception as e:
+        logger.error(f"Error saving interaction: {e}")
+
+def get_popular_articles(jurisdiction: str = "IN", limit: int = 5) -> List[Dict[str, Any]]:
+    """Get most popular articles based on user interactions"""
+    popularity_data = load_article_popularity()
+    
+    # Filter by jurisdiction and calculate trend scores
+    jurisdiction_data = {}
+    for key, data in popularity_data.items():
+        if data['jurisdiction'] == jurisdiction:
+            # Calculate trend score based on recent activity and total interactions
+            recency_bonus = 0
+            if data['last_accessed']:
+                try:
+                    last_access = datetime.fromisoformat(data['last_accessed'])
+                    days_since = (datetime.now() - last_access).days
+                    recency_bonus = max(0, 10 - days_since) * 0.1  # Bonus for recent access
+                except:
+                    pass
+            
+            trend_score = (
+                data['total_interactions'] * 0.4 +  # 40% weight for total interactions
+                data['views'] * 0.3 +              # 30% weight for views
+                data['searches'] * 0.2 +           # 20% weight for searches
+                data['clicks'] * 0.1 +             # 10% weight for clicks
+                recency_bonus                       # Recent activity bonus
+            )
+            
+            jurisdiction_data[key] = {**data, "trend_score": trend_score}
+    
+    # Sort by trend score and return top articles
+    sorted_articles = sorted(jurisdiction_data.values(), key=lambda x: x['trend_score'], reverse=True)
+    return sorted_articles[:limit]
+
+def get_trending_topics(jurisdiction: str = "IN") -> List[str]:
+    """Get trending topics based on recent searches"""
+    popularity_data = load_article_popularity()
+    
+    # Analyze recent searches to identify trending topics
+    topic_keywords = {
+        "IN": {
+            "14": "Equality & Discrimination",
+            "19": "Freedom of Speech", 
+            "21": "Right to Life & Privacy",
+            "25": "Religious Freedom",
+            "32": "Constitutional Remedies"
+        },
+        "UAE": {
+            "25": "Gender Equality",
+            "31": "Personal Liberty", 
+            "32": "Freedom of Expression",
+            "40": "Women's Rights",
+            "50": "Judicial Independence"
+        },
+        "UK": {
+            "8": "Privacy Rights",
+            "2": "Right to Life",
+            "6": "Fair Trial Rights",
+            "10": "Freedom of Expression",
+            "P1-1": "Property Rights"
+        }
+    }
+    
+    recent_topics = []
+    cutoff_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    # Count recent interactions by article
+    article_counts = {}
+    try:
+        if POPULARITY_FILE.exists():
+            with open(POPULARITY_FILE, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        data = json.loads(line)
+                        if (data['jurisdiction'] == jurisdiction and 
+                            data['action'] in ['search', 'view'] and
+                            data.get('timestamp')):
+                            try:
+                                timestamp = datetime.fromisoformat(data['timestamp'])
+                                if timestamp >= cutoff_date:
+                                    article_num = data['article_number']
+                                    article_counts[article_num] = article_counts.get(article_num, 0) + 1
+                            except:
+                                pass
+    except Exception as e:
+        logger.error(f"Error analyzing trending topics: {e}")
+    
+    # Map article numbers to topic names and sort by frequency
+    keywords = topic_keywords.get(jurisdiction, topic_keywords["IN"])
+    topic_scores = {}
+    for article_num, count in article_counts.items():
+        if article_num in keywords:
+            topic_name = keywords[article_num]
+            topic_scores[topic_name] = topic_scores.get(topic_name, 0) + count
+    
+    # Return top 5 trending topics
+    sorted_topics = sorted(topic_scores.items(), key=lambda x: x[1], reverse=True)
+    return [topic for topic, score in sorted_topics[:5]]
 
 # Enhanced Constitution data with popular cases for all jurisdictions
 INDIAN_CONSTITUTION = {
@@ -435,13 +595,22 @@ async def search_constitution(request: ConstitutionRequest):
             for category, data in constitution_data.items():
                 for article in data["articles"]:
                     if article["number"] == request.article_number:
+                        # Track article view
+                        save_article_interaction(str(article["number"]), jurisdiction, "view")
+                        
+                        # Get popular articles for context
+                        popular_articles_data = get_popular_articles(jurisdiction, limit=3)
+                        trending_topics = get_trending_topics(jurisdiction)
+                        
                         court_name = "Supreme Court of India" if jurisdiction == "IN" else "Federal Court" if jurisdiction == "UAE" else "UK Supreme Court"
                         return ConstitutionResponse(
                             articles=[article],
                             relevant_sections=[],
                             interpretation=f"Article {article['number']} - {article['title']}: {article['content'][:100]}...",
                             case_law=[{"case": case["name"], "year": case["name"].split('(')[-1].split(')')[0] if '(' in case["name"] else "Historical", "court": court_name} for case in article["key_cases"]],
-                            amendments=[]
+                            amendments=[],
+                            popular_articles=[],
+                            trending_topics=trending_topics
                         )
 
         # Enhanced query analysis and matching
@@ -908,6 +1077,35 @@ async def search_constitution(request: ConstitutionRequest):
                     }
                 ]
 
+        # Track article interactions for popularity
+        for article in matching_articles:
+            save_article_interaction(str(article["number"]), jurisdiction, "search")
+        
+        # Get popular articles and trending topics
+        popular_articles_data = get_popular_articles(jurisdiction, limit=5)
+        trending_topics = get_trending_topics(jurisdiction)
+        
+        # Convert popular articles data to article objects
+        popular_articles = []
+        for pop_data in popular_articles_data:
+            # Find the actual article object
+            for category, data in constitution_data.items():
+                for article in data["articles"]:
+                    if str(article["number"]) == pop_data["article_number"]:
+                        article_copy = article.copy()
+                        article_copy["popularity_stats"] = {
+                            "total_interactions": pop_data["total_interactions"],
+                            "views": pop_data["views"],
+                            "searches": pop_data["searches"],
+                            "clicks": pop_data["clicks"],
+                            "trend_score": round(pop_data["trend_score"], 2),
+                            "last_accessed": pop_data["last_accessed"]
+                        }
+                        popular_articles.append(article_copy)
+                        break
+                if popular_articles and popular_articles[-1]["number"] == pop_data["article_number"]:
+                    break
+        
         return ConstitutionResponse(
             articles=matching_articles,
             relevant_sections=relevant_sections,
@@ -915,9 +1113,183 @@ async def search_constitution(request: ConstitutionRequest):
             popular_cases=popular_cases,
             case_law=case_law,
             amendments=amendments,
-            query_analysis=query_analysis
+            query_analysis=query_analysis,
+            popular_articles=popular_articles,
+            trending_topics=trending_topics
         )
 
     except Exception as e:
         logger.error(f"Constitution search error: {str(e)}")
         raise HTTPException(status_code=500, detail="Constitution search failed")
+
+
+@router.post("/track-article")
+async def track_article_interaction(request: PopularityTrackingRequest):
+    """Track user interactions with constitutional articles"""
+    try:
+        save_article_interaction(request.article_number, request.jurisdiction, request.action)
+        return {"status": "success", "message": "Interaction tracked"}
+    except Exception as e:
+        logger.error(f"Error tracking article interaction: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to track interaction")
+
+
+@router.get("/popular-articles")
+async def get_popular_constitutional_articles(
+    jurisdiction: str = "IN", 
+    limit: int = 5
+):
+    """Get most popular constitutional articles based on user engagement"""
+    try:
+        if jurisdiction.upper() not in ["IN", "UAE", "UK"]:
+            raise HTTPException(status_code=400, detail="Unsupported jurisdiction")
+        
+        popular_articles_data = get_popular_articles(jurisdiction.upper(), limit)
+        
+        # Convert to response format
+        constitution_data = {
+            "IN": INDIAN_CONSTITUTION,
+            "UAE": UAE_CONSTITUTION,
+            "UK": UK_CONSTITUTION
+        }[jurisdiction.upper()]
+        
+        popular_articles = []
+        for pop_data in popular_articles_data:
+            for category, data in constitution_data.items():
+                for article in data["articles"]:
+                    if str(article["number"]) == pop_data["article_number"]:
+                        article_copy = article.copy()
+                        article_copy["popularity_stats"] = {
+                            "total_interactions": pop_data["total_interactions"],
+                            "views": pop_data["views"],
+                            "searches": pop_data["searches"],
+                            "clicks": pop_data["clicks"],
+                            "trend_score": round(pop_data["trend_score"], 2),
+                            "last_accessed": pop_data["last_accessed"],
+                            "rank": len(popular_articles) + 1
+                        }
+                        popular_articles.append(article_copy)
+                        break
+                if popular_articles and popular_articles[-1]["number"] == pop_data["article_number"]:
+                    break
+        
+        return {
+            "jurisdiction": jurisdiction.upper(),
+            "popular_articles": popular_articles,
+            "total_tracked": len(popular_articles_data),
+            "generated_at": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting popular articles: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to get popular articles")
+
+
+@router.get("/trending-topics")
+async def get_constitution_trending_topics(jurisdiction: str = "IN"):
+    """Get trending constitutional topics based on recent user searches"""
+    try:
+        if jurisdiction.upper() not in ["IN", "UAE", "UK"]:
+            raise HTTPException(status_code=400, detail="Unsupported jurisdiction")
+        
+        trending_topics = get_trending_topics(jurisdiction.upper())
+        
+        # Get popularity data for context
+        popularity_data = load_article_popularity()
+        
+        return {
+            "jurisdiction": jurisdiction.upper(),
+            "trending_topics": trending_topics,
+            "total_interactions": sum(
+                data['total_interactions'] for data in popularity_data.values() 
+                if data['jurisdiction'] == jurisdiction.upper()
+            ),
+            "active_articles": len([
+                data for data in popularity_data.values()
+                if data['jurisdiction'] == jurisdiction.upper() and data['total_interactions'] > 0
+            ]),
+            "generated_at": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting trending topics: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to get trending topics")
+
+
+@router.get("/analytics")
+async def get_constitution_analytics(jurisdiction: str = "IN"):
+    """Get comprehensive analytics for constitutional article usage"""
+    try:
+        popularity_data = load_article_popularity()
+        jurisdiction_data = [
+            data for data in popularity_data.values() 
+            if data['jurisdiction'] == jurisdiction.upper()
+        ]
+        
+        # Calculate analytics
+        total_interactions = sum(data['total_interactions'] for data in jurisdiction_data)
+        total_views = sum(data['views'] for data in jurisdiction_data)
+        total_searches = sum(data['searches'] for data in jurisdiction_data)
+        total_clicks = sum(data['clicks'] for data in jurisdiction_data)
+        
+        # Top articles by different metrics
+        top_by_interactions = sorted(jurisdiction_data, key=lambda x: x['total_interactions'], reverse=True)[:3]
+        top_by_views = sorted(jurisdiction_data, key=lambda x: x['views'], reverse=True)[:3]
+        top_by_searches = sorted(jurisdiction_data, key=lambda x: x['searches'], reverse=True)[:3]
+        
+        # Activity timeline (last 7 days)
+        activity_timeline = []
+        for i in range(7):
+            date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=i)
+            day_str = date.strftime("%Y-%m-%d")
+            
+            day_interactions = 0
+            try:
+                if POPULARITY_FILE.exists():
+                    with open(POPULARITY_FILE, 'r') as f:
+                        for line in f:
+                            if line.strip():
+                                data = json.loads(line)
+                                if (data['jurisdiction'] == jurisdiction.upper() and 
+                                    data.get('timestamp') and
+                                    data['timestamp'][:10] == day_str):
+                                    day_interactions += 1
+            except:
+                pass
+            
+            activity_timeline.append({
+                "date": day_str,
+                "interactions": day_interactions
+            })
+        
+        return {
+            "jurisdiction": jurisdiction.upper(),
+            "summary": {
+                "total_interactions": total_interactions,
+                "total_views": total_views,
+                "total_searches": total_searches,
+                "total_clicks": total_clicks,
+                "active_articles": len([d for d in jurisdiction_data if d['total_interactions'] > 0])
+            },
+            "top_articles": {
+                "by_interactions": [
+                    {"article_number": data["article_number"], "interactions": data["total_interactions"]}
+                    for data in top_by_interactions
+                ],
+                "by_views": [
+                    {"article_number": data["article_number"], "views": data["views"]}
+                    for data in top_by_views
+                ],
+                "by_searches": [
+                    {"article_number": data["article_number"], "searches": data["searches"]}
+                    for data in top_by_searches
+                ]
+            },
+            "activity_timeline": activity_timeline,
+            "trending_topics": get_trending_topics(jurisdiction.upper()),
+            "generated_at": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting analytics: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to get analytics")

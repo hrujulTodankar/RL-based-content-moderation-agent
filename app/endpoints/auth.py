@@ -10,7 +10,7 @@ from app.auth_middleware import (
     jwt_auth, password_manager, auth_rate_limiter, token_blacklist,
     get_current_user
 )
-from app.schemas import UserRegister, UserLogin, Token, RefreshToken, UserProfile
+from app.schemas import UserRegister, UserLogin, Token, RefreshToken, UserProfile, StandardResponse
 
 logger = logging.getLogger(__name__)
 
@@ -44,9 +44,9 @@ async def get_current_user_optional(request: Request) -> Optional[AuthUser]:
     except HTTPException:
         return None
 
-@router.post("/register", response_model=Token, status_code=201)
+@router.post("/register", response_model=StandardResponse, status_code=201)
 async def register_user(user_data: UserRegister, request: Request):
-    """Register new user account with enhanced security"""
+    """Register new user account with enhanced security and standardized response"""
     try:
         # Simple validation
         username = user_data.username.strip()
@@ -82,28 +82,44 @@ async def register_user(user_data: UserRegister, request: Request):
 
         logger.info(f"User registered: {username}")
 
-        return Token(
-            access_token=access_token,
-            refresh_token=refresh_token,
-            token_type="bearer",
-            expires_in=1440,  # 24 hours in minutes
-            user_id=user_id,
-            username=username
+        return StandardResponse(
+            success=True,
+            message="User registered successfully",
+            data={
+                "access_token": access_token,
+                "refresh_token": refresh_token,
+                "token_type": "bearer",
+                "expires_in": 1440,
+                "user_id": user_id,
+                "username": username
+            }
         )
 
     except HTTPException:
         raise
     except Exception as e:
         logger.error(f"Registration error: {e}")
-        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
+        return StandardResponse(
+            success=False,
+            message=f"Registration failed: {str(e)}",
+            error_code="REGISTRATION_ERROR"
+        )
 
 @router.post("/login", response_model=Token, status_code=200)
 async def login_user(
     request: Request,
-    username: str = Form(...),
-    password: str = Form(...)
+    username: Optional[str] = Form(None, description="Username for form-based login"),
+    password: Optional[str] = Form(None, description="Password for form-based login")
 ):
-    """Login user with form data"""
+    """
+    Login user with standardized format support
+    
+    This endpoint supports both:
+    1. Form data: username and password as form fields (Content-Type: application/x-www-form-urlencoded)
+    2. JSON data: username and password in JSON body (Content-Type: application/json)
+    
+    For external integrations, use JSON format for better compatibility.
+    """
     client_ip = request.client.host if request.client else "unknown"
 
     # Check rate limiting
@@ -114,7 +130,42 @@ async def login_user(
         )
 
     try:
-        username = username.strip()
+        # Determine request format and extract credentials
+        content_type = request.headers.get("content-type", "").lower()
+        
+        if "application/json" in content_type:
+            # JSON format
+            try:
+                json_data = await request.json()
+                username = json_data.get("username", "").strip()
+                password = json_data.get("password", "")
+            except Exception as e:
+                raise HTTPException(
+                    status_code=400, 
+                    detail="Invalid JSON format. Expected: {\"username\": \"string\", \"password\": \"string\"}"
+                )
+        elif "application/x-www-form-urlencoded" in content_type or "multipart/form-data" in content_type:
+            # Form format (already extracted via Form parameters)
+            if not username or not password:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Both username and password are required for form-based login"
+                )
+            username = username.strip()
+        else:
+            # Default to expecting form data
+            if not username or not password:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Please provide username and password. Support both form data and JSON formats."
+                )
+            username = username.strip()
+
+        # Validate inputs
+        if not username:
+            raise HTTPException(status_code=400, detail="Username is required")
+        if not password:
+            raise HTTPException(status_code=400, detail="Password is required")
 
         # Find user
         if username not in _users_db:
@@ -139,13 +190,17 @@ async def login_user(
 
         logger.info(f"User logged in: {username}")
 
-        return Token(
-            access_token=access_token,
-            refresh_token=refresh_token,
-            token_type="bearer",
-            expires_in=1440,
-            user_id=user["user_id"],
-            username=username
+        return StandardResponse(
+            success=True,
+            message="Login successful",
+            data={
+                "access_token": access_token,
+                "refresh_token": refresh_token,
+                "token_type": "bearer",
+                "expires_in": 1440,
+                "user_id": user["user_id"],
+                "username": username
+            }
         )
 
     except HTTPException:
@@ -153,11 +208,6 @@ async def login_user(
     except Exception as e:
         logger.error(f"Login error: {e}")
         raise HTTPException(status_code=500, detail=f"Login failed: {str(e)}")
-
-@router.post("/login-json", response_model=Token, status_code=200)
-async def login_user_json(user_data: UserLogin, request: Request):
-    """Login user with JSON payload"""
-    return await login_user(request, user_data.username, user_data.password)
 
 @router.post("/refresh", response_model=Token, status_code=200)
 async def refresh_token(refresh_data: RefreshToken, request: Request):
@@ -189,13 +239,17 @@ async def refresh_token(refresh_data: RefreshToken, request: Request):
 
         logger.info(f"Token refreshed for user: {user['username']}")
 
-        return Token(
-            access_token=access_token,
-            refresh_token=new_refresh_token,
-            token_type="bearer",
-            expires_in=1440,
-            user_id=user["user_id"],
-            username=user["username"]
+        return StandardResponse(
+            success=True,
+            message="Token refreshed successfully",
+            data={
+                "access_token": access_token,
+                "refresh_token": new_refresh_token,
+                "token_type": "bearer",
+                "expires_in": 1440,
+                "user_id": user["user_id"],
+                "username": user["username"]
+            }
         )
 
     except HTTPException:
