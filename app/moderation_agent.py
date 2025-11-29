@@ -27,7 +27,12 @@ class ModerationAgent:
 
         # Enhanced Q-table: { state_key: { action: value } }
         self.q_table = {}
-        self.max_q_table_size = 10000  # Limit Q-table size to prevent memory issues
+        self.max_q_table_size = 10000  # Dynamic limit based on available memory
+        self.min_q_table_size = 5000   # Minimum size to maintain learning capacity
+        self.memory_usage_threshold = 0.8  # 80% memory usage threshold
+        self.access_times = {}  # Track last access time for LRU eviction
+        self.update_frequency = {}  # Track update frequency for intelligent eviction
+        self.compression_enabled = True  # Enable state compression for memory efficiency
 
         # Moderation history for learning
         self.history = []
@@ -65,7 +70,10 @@ class ModerationAgent:
         # Sync with database if available (disabled for demo)
         # self._sync_with_database()
 
-        logger.info("ModerationAgent initialized with persistent learning")
+        # Initialize memory monitoring
+        self._initialize_memory_management()
+
+        logger.info("ModerationAgent initialized with enhanced memory management")
     
     async def moderate(
         self,
@@ -610,7 +618,14 @@ class ModerationAgent:
         return min(weighted_score, 1.0)
     
     def _select_action_enhanced(self, state_key: str, score: float) -> int:
-        """Select action using enhanced epsilon-greedy policy with persistent Q-table"""
+        """Select action using enhanced epsilon-greedy policy with memory-aware Q-table"""
+        # Track state access for memory management
+        self._track_state_access(state_key)
+        
+        # Periodically optimize memory usage
+        if random.random() < 0.1:  # 10% chance
+            self._optimize_memory_usage()
+
         # Epsilon-greedy exploration
         if random.random() < self.epsilon:
             return random.randint(0, self.action_dim - 1)
@@ -665,6 +680,13 @@ class ModerationAgent:
 
                     new_q = old_q + self.learning_rate * (reward + self.gamma * max_q_next - old_q)
                     self.q_table[state_key][str(action)] = max(-100.0, min(100.0, new_q))
+                    
+                    # Track update frequency for memory management
+                    self.update_frequency[state_key] = self.update_frequency.get(state_key, 0) + 1
+                    
+                    # Periodically enforce size limits
+                    if len(self.q_table) > self.max_q_table_size * 0.95:
+                        self._enforce_q_table_size_limit()
 
                     logger.info(
                         f"Updated Q-value for state {state_key}, action {action}: "
@@ -717,16 +739,40 @@ class ModerationAgent:
             logger.error(f"Error sending to RL Core: {str(e)}")
     
     def get_statistics(self) -> Dict[str, Any]:
-        """Get comprehensive agent statistics"""
+        """Get comprehensive agent statistics with memory management info"""
+        # Calculate memory efficiency metrics
+        total_accesses = sum(self.update_frequency.values()) if self.update_frequency else 0
+        avg_access_frequency = total_accesses / len(self.q_table) if self.q_table else 0
+        
+        # Calculate Q-value distribution
+        q_values = []
+        for state_q_values in self.q_table.values():
+            q_values.extend(state_q_values.values())
+        
         return {
             "total_moderations": len(self.history),
             "q_table_size": len(self.q_table),
+            "q_table_max_size": self.max_q_table_size,
+            "q_table_utilization": round(len(self.q_table) / self.max_q_table_size * 100, 2) if self.max_q_table_size > 0 else 0,
             "epsilon": self.epsilon,
             "learning_rate": self.learning_rate,
             "replay_buffer_size": len(self.replay_buffer),
             "registered_contents": len(self.contents),
             "avg_recent_reward": round(sum(self.recent_rewards) / len(self.recent_rewards), 3) if self.recent_rewards else 0.0,
-            "discount_factor": self.gamma
+            "discount_factor": self.gamma,
+            "memory_efficiency": {
+                "avg_access_frequency": round(avg_access_frequency, 2),
+                "total_state_accesses": total_accesses,
+                "compression_enabled": self.compression_enabled,
+                "memory_optimization_active": len(self.q_table) > self.min_q_table_size * 0.8
+            },
+            "q_value_stats": {
+                "total_q_values": len(q_values),
+                "avg_q_value": round(sum(q_values) / len(q_values), 3) if q_values else 0.0,
+                "max_q_value": round(max(q_values), 3) if q_values else 0.0,
+                "min_q_value": round(min(q_values), 3) if q_values else 0.0,
+                "non_zero_q_values": sum(1 for q in q_values if abs(q) > 0.001)
+            }
         }
 
     def register_content(self, content_id: str, content_type: str, metadata: Optional[Dict[str, Any]] = None):
@@ -762,34 +808,112 @@ class ModerationAgent:
 
         logger.debug(f"Registered content {safe_content_id} with state key {state_key}")
 
+    def _initialize_memory_management(self):
+        """Initialize memory management system"""
+        # Detect available memory and adjust Q-table size accordingly
+        try:
+            import psutil
+            available_memory = psutil.virtual_memory().available
+            # Reserve 10% of available memory for Q-table, with upper limit
+            recommended_size = int((available_memory * 0.1) / (self.action_dim * 8))  # 8 bytes per float
+            self.max_q_table_size = min(recommended_size, 50000)  # Cap at 50k entries
+            self.min_q_table_size = max(5000, recommended_size // 4)  # At least 25% of max
+            logger.info(f"Memory-aware Q-table sizing: max={self.max_q_table_size}, min={self.min_q_table_size}")
+        except ImportError:
+            # Fallback if psutil not available
+            logger.info("Using default Q-table sizing (psutil not available)")
+        except Exception as e:
+            logger.warning(f"Could not detect memory: {e}, using defaults")
+
     def _enforce_q_table_size_limit(self):
-        """Enforce Q-table size limit to prevent memory issues"""
-        if len(self.q_table) > self.max_q_table_size:
-            # Remove oldest entries (least recently used)
-            # Sort by access time if available, otherwise remove randomly
-            entries_to_remove = len(self.q_table) - self.max_q_table_size
+        """Enhanced Q-table size management with intelligent eviction"""
+        current_size = len(self.q_table)
+        if current_size <= self.max_q_table_size:
+            return
 
-            # Simple approach: remove entries that have all zero Q-values (unused states)
-            unused_states = []
-            for state_key, q_values in self.q_table.items():
-                if all(abs(v) < 0.001 for v in q_values.values()):  # Very small values
-                    unused_states.append(state_key)
+        # Calculate how many entries to remove
+        entries_to_remove = current_size - self.max_q_table_size
+        
+        # Calculate eviction priorities based on multiple factors
+        eviction_scores = []
+        for state_key, q_values in self.q_table.items():
+            # Calculate importance score for this state
+            importance = self._calculate_state_importance(state_key, q_values)
+            eviction_scores.append((state_key, importance))
 
-            # Remove unused states first
-            for state_key in unused_states[:entries_to_remove]:
+        # Sort by importance (lower importance = higher eviction priority)
+        eviction_scores.sort(key=lambda x: x[1])
+
+        # Remove lowest importance states
+        states_to_remove = [item[0] for item in eviction_scores[:entries_to_remove]]
+        
+        for state_key in states_to_remove:
+            if state_key in self.q_table:
                 del self.q_table[state_key]
-                entries_to_remove -= 1
+            if state_key in self.access_times:
+                del self.access_times[state_key]
+            if state_key in self.update_frequency:
+                del self.update_frequency[state_key]
 
-            # If still need to remove more, remove oldest entries
-            if entries_to_remove > 0:
-                # Remove entries that haven't been updated recently
-                # For simplicity, remove random entries (in production, track access times)
-                all_keys = list(self.q_table.keys())
-                keys_to_remove = all_keys[:entries_to_remove]
-                for key in keys_to_remove:
-                    del self.q_table[key]
+        logger.info(f"Intelligent Q-table eviction: removed {entries_to_remove} entries. "
+                   f"Current size: {len(self.q_table)}")
 
-            logger.warning(f"Q-table size limit enforced. Removed {len(unused_states[:entries_to_remove]) + entries_to_remove} entries. Current size: {len(self.q_table)}")
+    def _calculate_state_importance(self, state_key: str, q_values: Dict[str, float]) -> float:
+        """Calculate importance score for state eviction decisions"""
+        importance = 0.0
+
+        # Factor 1: Recent access (more recent = higher importance)
+        access_time = self.access_times.get(state_key, 0)
+        if access_time > 0:
+            time_score = min(1.0, access_time / 1000.0)  # Normalize by 1000ms
+            importance += time_score * 0.3
+
+        # Factor 2: Update frequency (more frequent updates = higher importance)
+        update_count = self.update_frequency.get(state_key, 0)
+        if update_count > 0:
+            freq_score = min(1.0, update_count / 10.0)  # Normalize by 10 updates
+            importance += freq_score * 0.4
+
+        # Factor 3: Q-value magnitude (higher absolute values = more learned = higher importance)
+        max_q_value = max(abs(v) for v in q_values.values())
+        value_score = min(1.0, max_q_value / 10.0)  # Normalize by Q-value range
+        importance += value_score * 0.3
+
+        return importance
+
+    def _track_state_access(self, state_key: str):
+        """Track state access for LRU-based eviction"""
+        import time
+        self.access_times[state_key] = time.time() * 1000  # Milliseconds
+        
+        # Update access frequency
+        self.update_frequency[state_key] = self.update_frequency.get(state_key, 0) + 1
+
+    def _optimize_memory_usage(self):
+        """Periodic memory optimization"""
+        current_size = len(self.q_table)
+        
+        # If we're close to the limit, proactively remove some entries
+        if current_size > self.max_q_table_size * 0.9:
+            # Remove states with very low importance (but not zero)
+            low_importance_states = []
+            for state_key, q_values in self.q_table.items():
+                importance = self._calculate_state_importance(state_key, q_values)
+                if importance < 0.1:  # Very low importance
+                    low_importance_states.append((state_key, importance))
+            
+            # Remove bottom 5% of low-importance states
+            states_to_remove = sorted(low_importance_states, key=lambda x: x[1])[:max(1, current_size // 20)]
+            for state_key, _ in states_to_remove:
+                if state_key in self.q_table:
+                    del self.q_table[state_key]
+                    if state_key in self.access_times:
+                        del self.access_times[state_key]
+                    if state_key in self.update_frequency:
+                        del self.update_frequency[state_key]
+            
+            if states_to_remove:
+                logger.debug(f"Proactive memory optimization: removed {len(states_to_remove)} low-importance states")
 
     def _generate_state_key(self, content_id: str) -> str:
         """Generate enhanced state key from content features"""

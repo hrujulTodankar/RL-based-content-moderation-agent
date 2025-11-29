@@ -13,6 +13,7 @@ from .observability import (
     sentry_manager, posthog_manager, performance_monitor,
     structured_logger, get_observability_health, track_performance
 )
+from .content_clarity_analyzer import create_clarity_analyzer
 
 # Import endpoint routers
 from .endpoints import (
@@ -1065,6 +1066,9 @@ async def get_bns_content():
     # Import BNS data
     from bharathi_nyaya_sanhita import create_bns_database
     bns_db = create_bns_database()
+    
+    # Initialize NLP-based clarity analyzer
+    clarity_analyzer = create_clarity_analyzer()
 
     # Get sections and simulate moderation results for demo
     moderated_sections = []
@@ -1129,9 +1133,9 @@ async def get_bns_content():
             concerning_keywords = ["violence", "harm", "illegal", "prohibited", "penalty", "punishment"]
             concerning_score = sum(1 for keyword in concerning_keywords if keyword in content_text)
 
-            # Check for clarity issues
-            clarity_issues = ["unclear", "ambiguous", "confusing", "incomplete"]
-            has_clarity_issues = any(issue in content_text for issue in clarity_issues)
+            # Perform NLP-based clarity analysis
+            clarity_analysis = clarity_analyzer.analyze_content_clarity(content, "legal")
+            has_clarity_issues = len(clarity_analysis.get("clarity_issues", [])) > 0
 
             # Check for legal completeness
             legal_keywords = ["shall", "section", "act", "law", "court"]
@@ -2114,9 +2118,9 @@ async def get_crpc_content():
             concerning_keywords = ["violence", "harm", "illegal", "prohibited", "penalty", "punishment"]
             concerning_score = sum(1 for keyword in concerning_keywords if keyword in content_text)
 
-            # Check for clarity issues
-            clarity_issues = ["unclear", "ambiguous", "confusing", "incomplete"]
-            has_clarity_issues = any(issue in content_text for issue in clarity_issues)
+            # Perform NLP-based clarity analysis
+            clarity_analysis = clarity_analyzer.analyze_content_clarity(content, "legal")
+            has_clarity_issues = len(clarity_analysis.get("clarity_issues", [])) > 0
 
             # Check for legal completeness
             legal_keywords = ["shall", "section", "act", "law", "court"]
