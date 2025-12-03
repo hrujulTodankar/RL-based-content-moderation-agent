@@ -202,6 +202,38 @@ async def get_moderated_content(page: int = 1, limit: int = 12) -> Dict[str, Any
         logger.error(f"Error getting moderated content: {str(e)}")
         raise HTTPException(status_code=500, detail="Error retrieving moderated content")
 
+@router.get("/stats")
+async def get_statistics() -> Dict[str, Any]:
+    """Get overall moderation statistics and analytics"""
+    try:
+        # Get feedback handler statistics
+        stats = await feedback_handler.get_statistics()
+        
+        # Get agent statistics
+        agent_stats = moderation_agent.get_statistics()
+        
+        # Combine and return comprehensive statistics
+        return {
+            "total_moderations": stats.get("total_moderations", 0),
+            "flagged_count": stats.get("flagged_count", 0),
+            "avg_score": stats.get("avg_score", 0.0),
+            "avg_confidence": stats.get("avg_confidence", 0.0),
+            "total_feedback": stats.get("total_feedback", 0),
+            "positive_feedback": stats.get("positive_feedback", 0),
+            "negative_feedback": stats.get("negative_feedback", 0),
+            "avg_reward": stats.get("avg_reward", 0.0),
+            "content_types": stats.get("content_types", {}),
+            "q_table_size": agent_stats.get("q_table_size", 0),
+            "learning_rate": agent_stats.get("learning_rate", 0.1),
+            "epsilon": agent_stats.get("epsilon", 0.1),
+            "total_rewards": agent_stats.get("total_rewards", 0.0),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting statistics: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error retrieving statistics")
+
 @router.get("/accuracy-trends")
 async def get_accuracy_trends(content: str = "all", range: str = "24h") -> Dict[str, Any]:
     """Get accuracy trends with content type filtering"""
