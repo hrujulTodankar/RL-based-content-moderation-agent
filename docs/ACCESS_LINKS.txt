@@ -1,0 +1,32 @@
+Hrujul's Legal AI System - Access Links
+========================================
+
+SERVER STATUS: RUNNING (Port 8000)
+
+MAIN ACCESS POINTS:
+- Landing Page: http://localhost:8000/
+- Legal AI Platform: http://localhost:8000/legal-ai
+- API Documentation: http://localhost:8000/docs
+
+LEGAL CONTENT:
+- BNS 2023 Content: http://localhost:8000/bns
+- CrPC 1973 Content: http://localhost:8000/crpc
+
+API ENDPOINTS:
+- Health Check: http://localhost:8000/api/health
+- Classification: http://localhost:8000/api/classify
+- Legal Routes: http://localhost:8000/api/legal-route
+- Constitution: http://localhost:8000/api/constitution
+- Timeline: http://localhost:8000/api/timeline
+- Success Rate: http://localhost:8000/api/success-rate
+- Feedback: http://localhost:8000/api/feedback
+- Jurisdiction Info: http://localhost:8000/api/jurisdiction/IN
+
+QUICK START:
+1. Open http://localhost:8000/ in your browser
+2. Click "Launch Legal AI Platform"
+3. Select jurisdiction (India/UK/UAE)
+4. Enter your legal query
+5. Click "Analyze Legal Query"
+
+All systems operational and ready for use!

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hrujul's Legal AI System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/legal_ai.css" rel="stylesheet">
+</head>
+<body>
+    <div class="legal-ai-container">
+        <!-- Header -->
+        <header class="legal-ai-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <i class="fas fa-balance-scale"></i>
+                    <h1>Hrujul's Legal AI System</h1>
+                </div>
+                <div class="description">
+                    <p>Multi-Jurisdiction Legal Intelligence with Reinforcement Learning</p>
+                    <small>Powered by Advanced ML • India • UK • UAE</small>
+                </div>
+            </div>
+        </header>
+
+        <!-- Jurisdiction Switcher -->
+        <div class="jurisdiction-switcher">
+            <div class="switcher-label">
+                <i class="fas fa-globe"></i>
+                <span>Select Jurisdiction:</span>
+            </div>
+            <div class="jurisdiction-tabs">
+                <button class="jurisdiction-tab active" data-jurisdiction="IN" data-country="India">
+                    <span class="flag">🇮🇳</span>
+                    <span class="country-name">India</span>
+                    <span class="country-code">IN</span>
+                </button>
+                <button class="jurisdiction-tab" data-jurisdiction="UK" data-country="United Kingdom">
+                    <span class="flag">🇬🇧</span>
+                    <span class="country-name">UK</span>
+                    <span class="country-code">UK</span>
+                </button>
+                <button class="jurisdiction-tab" data-jurisdiction="UAE" data-country="United Arab Emirates">
+                    <span class="flag">🇦🇪</span>
+                    <span class="country-name">UAE</span>
+                    <span class="country-code">UAE</span>
+                </button>
+            </div>
+            <div class="current-jurisdiction">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Currently analyzing under: <strong id="current-country">India</strong></span>
+            </div>
+        </div>
+
+        <!-- Query Input Section -->
+        <div class="query-section">
+            <div class="input-container">
+                <div class="input-header">
+                    <i class="fas fa-search"></i>
+                    <label for="legal-query">Enter Your Legal Query:</label>
+                </div>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="legal-query" 
+                        placeholder="Describe your legal situation, question, or case details... 
+                        
+Examples:
+• What are my rights if I'm falsely accused of theft?
+• How do I file for divorce when there's a property dispute?
+• What are the legal requirements for starting a business in Dubai?
+• Can I challenge a parking fine in the UK?"
+                        rows="6"
+                        maxlength="1000"
+                    ></textarea>
+                    <div class="input-stats">
+                        <span id="char-count">0</span>/1000 characters
+                        <span class="ai-indicator">
+                            <i class="fas fa-robot"></i>
+                            <span>AI-Enhanced Analysis</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="query-actions">
+                    <button id="analyze-btn" class="analyze-button" disabled>
+                        <i class="fas fa-magic"></i>
+                        <span>Analyze Legal Query</span>
+                        <div class="loading-spinner" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                    <button id="clear-btn" class="clear-button">
+                        <i class="fas fa-eraser"></i>
+                        Clear Query
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="results-section" style="display: none;">
+            <div class="results-header">
+                <h2>
+                    <i class="fas fa-chart-line"></i>
+                    Legal Analysis Results
+                    <span class="confidence-badge" id="overall-confidence">
+                        <i class="fas fa-brain"></i>
+                        <span id="confidence-score">85%</span>
+                    </span>
+                </h2>
+                <div class="analysis-meta">
+                    <span class="timestamp">
+                        <i class="fas fa-clock"></i>
+                        Analyzed: <span id="analysis-time">Just now</span>
+                    </span>
+                    <span class="query-id">
+                        <i class="fas fa-hashtag"></i>
+                        Query ID: <span id="query-id">#12345</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Domain Classification -->
+            <div class="result-block domain-classification">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-tags"></i>
+                        Domain Classification
+                        <span class="status-indicator status-approved">
+                            <i class="fas fa-check-circle"></i>
+                            Approved
+                        </span>
+                    </h3>
+                </div>
+                <div class="domain-content">
+                    <div class="primary-domain">
+                        <div class="domain-info">
+                            <span class="domain-label">Primary Domain:</span>
+                            <span class="domain-name" id="primary-domain">Criminal Law</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" style="width: 0%" id="domain-confidence"></div>
+                            </div>
+                            <span class="confidence-text" id="domain-confidence-text">0%</span>
+                        </div>
+                    </div>
+                    <div class="secondary-domains" id="secondary-domains">
+                        <!-- Secondary domains will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legal Route Recommendations -->
+            <div class="result-block legal-route">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-route"></i>
+                        Recommended Legal Route
+                        <span class="route-status">
+                            <i class="fas fa-arrow-right"></i>
+                            <span id="recommended-route">Sessions Court</span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="route-content">
+                    <div class="route-details">
+                        <div class="court-hierarchy" id="court-hierarchy">
+                            <!-- Court hierarchy will be populated here -->
+                        </div>
+                        <div class="route-summary">
+                            <div class="timeline-info">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Estimated Timeline: <strong id="estimated-timeline">6-12 months</strong></span>
+                            </div>
+                            <div class="success-probability">
+                                <i class="fas fa-trophy"></i>
+                                <span>Success Probability: <strong id="success-probability">75%</strong></span>
+                            </div>
+                        </div>
+                        <div class="required-documents" id="required-documents">
+                            <!-- Required documents will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constitution & Legal Framework -->
+            <div class="result-block constitution">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-scroll"></i>
+                        Constitutional Articles & Legal Framework
+                        <span class="articles-count">
+                            <i class="fas fa-list"></i>
+                            <span id="articles-count">3 Articles</span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="constitution-content">
+                    <div class="articles-list" id="articles-list">
+                        <!-- Articles will be populated here -->
+                    </div>
+                    <div class="interpretation" id="interpretation">
+                        <!-- Interpretation will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Timeline -->
+            <div class="result-block timeline">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-clock"></i>
+                        Dynamic Case Timeline
+                        <span class="timeline-status">
+                            <i class="fas fa-play"></i>
+                            <span id="timeline-status">Active</span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="timeline-content">
+                    <div class="timeline-events" id="timeline-events">
+                        <!-- Timeline events will be populated here -->
+                    </div>
+                    <div class="critical-deadlines" id="critical-deadlines">
+                        <!-- Critical deadlines will be populated here -->
+                    </div>
+                    <div class="next-actions" id="next-actions">
+                        <!-- Next actions will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Rate Prediction -->
+            <div class="result-block success-rate">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-chart-pie"></i>
+                        Success Rate Prediction
+                        <span class="prediction-confidence">
+                            <i class="fas fa-percentage"></i>
+                            <span id="prediction-confidence">High Confidence</span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="success-content">
+                    <div class="success-metrics">
+                        <div class="main-metric">
+                            <div class="success-circle">
+                                <canvas id="success-circle" width="120" height="120"></canvas>
+                                <div class="success-text">
+                                    <span class="percentage" id="success-percentage">75%</span>
+                                    <span class="label">Success Rate</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="confidence-interval">
+                            <span class="interval-label">Confidence Interval:</span>
+                            <span class="interval-range" id="confidence-interval">70% - 80%</span>
+                        </div>
+                    </div>
+                    <div class="factors-influencing" id="factors-influencing">
+                        <!-- Factors will be populated here -->
+                    </div>
+                    <div class="recommendations" id="recommendations">
+                        <!-- Recommendations will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="result-block feedback">
+                <div class="block-header">
+                    <h3>
+                        <i class="fas fa-comments"></i>
+                        Reinforcement Learning Feedback
+                        <span class="learning-status">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span id="learning-status">System Learning</span>
+                        </span>
+                    </h3>
+                </div>
+                <div class="feedback-content">
+                    <div class="feedback-question">
+                        <p>Help improve our Legal AI system by rating the accuracy of this analysis:</p>
+                    </div>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn positive" data-rating="positive">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Accurate & Helpful</span>
+                        </button>
+                        <button class="feedback-btn neutral" data-rating="neutral">
+                            <i class="fas fa-meh"></i>
+                            <span>Partially Accurate</span>
+                        </button>
+                        <button class="feedback-btn negative" data-rating="negative">
+                            <i class="fas fa-thumbs-down"></i>
+                            <span>Needs Improvement</span>
+                        </button>
+                    </div>
+                    <div class="feedback-learning" id="feedback-learning" style="display: none;">
+                        <div class="learning-indicator">
+                            <i class="fas fa-brain"></i>
+                            <span>System learning from your feedback...</span>
+                            <div class="learning-progress">
+                                <div class="learning-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Section -->
+        <div class="error-section" id="error-section" style="display: none;">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Analysis Error</h3>
+                <p id="error-message">Unable to analyze your query. Please try again.</p>
+                <button id="retry-btn" class="retry-button">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/legal_ai.js"></script>
+</body>
+</html>

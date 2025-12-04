@@ -66,6 +66,12 @@ async def get_frontend():
     with open("frontend/templates/index.html", "r") as f:
         return f.read()
 
+@app.get("/legal-ai", response_class=HTMLResponse)
+async def get_legal_ai_interface():
+    """Serve the new Legal AI interface"""
+    with open("frontend/templates/legal_ai.html", "r") as f:
+        return f.read()
+
 @app.get("/api", response_class=HTMLResponse)
 async def get_api_docs():
     """Serve API documentation with custom styling"""

@@ -3,455 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RL Legal Content Moderation Agent</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Hrujul's Legal AI System</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+
+        .landing-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 800px;
+            margin: 20px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 3rem;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            padding: 25px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            margin-top: 50px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            text-decoration: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(40, 167, 69, 0.4);
+        }
+
+        .cta-icon {
+            font-size: 1.5rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .landing-container {
+                padding: 40px 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Header -->
-        <header class="dashboard-header">
-            <div class="header-content">
-                <h1><i class="fas fa-scale-balanced"></i> RL Legal Content Moderation Agent</h1>
-                <div class="header-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Total Moderated</span>
-                        <span class="stat-value" id="total-moderated">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Flagged Content</span>
-                        <span class="stat-value flagged" id="flagged-count">0</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Avg Confidence</span>
-                        <span class="stat-value" id="avg-confidence">0%</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Total Feedback</span>
-                        <span class="stat-value" id="total-feedback">0</span>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <a href="/api" class="btn-api-docs">
-                        <i class="fas fa-code"></i> API Docs
-                    </a>
-                </div>
-            </div>
-        </header>
-
-        <!-- Filters Section -->
-        <div class="filters-section">
-            <div class="filter-group">
-                <label for="content-filter">Filter by Status:</label>
-                <select id="content-filter">
-                    <option value="all">All Content</option>
-                    <option value="approved">Approved</option>
-                    <option value="flagged">Flagged</option>
-                    <option value="pending">Pending Review</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="content-type-filter">Content Type:</label>
-                <select id="content-type-filter">
-                    <option value="all">All Types</option>
-                    <option value="text">Text</option>
-                    <option value="image">Image</option>
-                    <option value="video">Video</option>
-                    <option value="audio">Audio</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="confidence-range">Min Confidence:</label>
-                <input type="range" id="confidence-range" min="0" max="100" value="0">
-                <span id="confidence-value">0%</span>
-            </div>
-            <button class="btn-primary" onclick="dashboard.loadContentItems()">
-                <i class="fas fa-filter"></i> Apply Filters
-            </button>
+    <div class="landing-container fade-in">
+        <div class="logo pulse">
+            <i class="fas fa-balance-scale"></i>
         </div>
+        
+        <h1 class="title">Hrujul's Legal AI System</h1>
+        
+        <p class="subtitle">
+            Advanced Multi-Jurisdiction Legal Intelligence Platform<br>
+            Powered by Reinforcement Learning • India • UK • UAE
+        </p>
 
-        <!-- Jurisdiction Tabs -->
-        <div class="jurisdiction-tabs">
-            <div class="tabs-container">
-                <button class="tab-button active" data-jurisdiction="IN">
-                    <i class="fas fa-landmark"></i> India
-                </button>
-                <button class="tab-button" data-jurisdiction="UK">
-                    <i class="fas fa-gavel"></i> United Kingdom
-                </button>
-                <button class="tab-button" data-jurisdiction="UAE">
-                    <i class="fas fa-mosque"></i> UAE
-                </button>
-            </div>
-        </div>
-
-        <!-- Query Input Section -->
-        <div class="submission-section">
-            <div class="submission-form">
-                <h3><i class="fas fa-plus-circle"></i> Submit New Content for Moderation</h3>
-                <div class="form-group">
-                    <label for="query-input">Content to Moderate:</label>
-                    <textarea id="query-input" placeholder="Enter legal content, document text, or description for AI-powered moderation..." rows="4"></textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="case-type-select">Case Type:</label>
-                        <select id="case-type-select">
-                            <option value="civil">Civil Law</option>
-                            <option value="criminal">Criminal Law</option>
-                            <option value="constitutional">Constitutional Law</option>
-                            <option value="corporate">Corporate Law</option>
-                            <option value="tax">Tax Law</option>
-                            <option value="family">Family Law</option>
-                            <option value="employment">Employment Law</option>
-                        </select>
-                    </div>
-                </div>
-                <button id="analyze-btn" class="btn-primary">
-                    <i class="fas fa-magnifying-glass"></i> Analyze & Moderate Content
-                </button>
-            </div>
-        </div>
-
-        <!-- Content Grid Section -->
-        <div class="content-section">
-            <h3><i class="fas fa-list"></i> Recent Moderation Results</h3>
-            <div class="content-grid" id="content-grid">
-                <!-- Content items will be populated here by JavaScript -->
-            </div>
-            
-            <!-- Pagination -->
-            <div class="pagination" id="pagination">
-                <!-- Pagination will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Response Display Blocks -->
-        <div class="response-blocks" id="response-blocks" style="display: none;">
-            <!-- Domain/Jurisdiction Block -->
-            <div class="response-block" id="domain-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-shield-alt"></i> Moderation Result</h4>
-                    <div class="confidence-indicator">
-                        <div class="confidence-bar">
-                            <div class="confidence-fill" id="domain-confidence-fill"></div>
-                        </div>
-                        <span class="confidence-text" id="domain-confidence-text">0%</span>
-                    </div>
-                </div>
-                <div class="block-content" id="domain-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Analyzing content...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Legal Route Block -->
-            <div class="response-block" id="legal-route-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-route"></i> Legal Route</h4>
-                </div>
-                <div class="block-content" id="legal-route-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading legal route...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Block -->
-            <div class="response-block" id="timeline-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-calendar-days"></i> Timeline</h4>
-                </div>
-                <div class="block-content" id="timeline-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading timeline...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Success Rate Block -->
-            <div class="response-block" id="success-rate-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-chart-line"></i> Success Rate</h4>
-                </div>
-                <div class="block-content" id="success-rate-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading success rate...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Applicable Laws Block -->
-            <div class="response-block" id="laws-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-book"></i> Applicable Laws</h4>
-                </div>
-                <div class="block-content" id="laws-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading applicable laws...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Constitutional Articles Block -->
-            <div class="response-block" id="constitution-block">
-                <div class="block-header">
-                    <h4><i class="fas fa-scroll"></i> Constitutional Articles</h4>
-                </div>
-                <div class="block-content" id="constitution-content">
-                    <div class="loading-placeholder">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading constitutional articles...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RL Learning Analytics Section -->
-        <div class="rl-analytics-section" id="rl-analytics-section">
-            <h3><i class="fas fa-brain"></i> Reinforcement Learning Analytics</h3>
-            
-            <div class="analytics-tabs">
-                <button class="tab-btn active" onclick="showTab('progress')">Learning Progress</button>
-                <button class="tab-btn" onclick="showTab('metrics')">Training Metrics</button>
-                <button class="tab-btn" onclick="showTab('performance')">Performance</button>
-                <button class="tab-btn" onclick="showTab('accuracy')">Accuracy Trends</button>
-            </div>
-
-            <!-- Learning Progress Tab -->
-            <div id="progress-tab" class="tab-content active">
-                <div class="rl-progress">
-                    <div class="progress-header">
-                        <div class="progress-title">Adaptive Learning Progress</div>
-                        <div class="progress-metric" id="learning-confidence">Confidence: 0%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-stats">
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="total-learnings">0</div>
-                            <div>Total Learnings</div>
-                        </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="accuracy-rate">0%</div>
-                            <div>Accuracy Rate</div>
-                        </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="q-table-size">0</div>
-                            <div>Q-Table Size</div>
-                        </div>
-                        <div class="progress-stat">
-                            <div class="progress-stat-value" id="feedback-count">0</div>
-                            <div>Feedback Received</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Training Metrics Tab -->
-            <div id="metrics-tab" class="tab-content">
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <h4><i class="fas fa-brain"></i> Q-Learning Metrics</h4>
-                        <canvas id="q-learning-chart" width="300" height="200"></canvas>
-                    </div>
-                    <div class="metric-card">
-                        <h4><i class="fas fa-chart-area"></i> Reward Distribution</h4>
-                        <canvas id="reward-chart" width="300" height="200"></canvas>
-                    </div>
-                    <div class="metric-card">
-                        <h4><i class="fas fa-cogs"></i> Action Selection</h4>
-                        <canvas id="action-chart" width="300" height="200"></canvas>
-                    </div>
-                    <div class="metric-card">
-                        <h4><i class="fas fa-clock"></i> Learning Rate</h4>
-                        <canvas id="learning-rate-chart" width="300" height="200"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Performance Tab -->
-            <div id="performance-tab" class="tab-content">
-                <div class="performance-dashboard">
-                    <div class="performance-header">
-                        <h4><i class="fas fa-tachometer-alt"></i> Model Performance Over Time</h4>
-                        <div class="performance-controls">
-                            <select id="time-range">
-                                <option value="1h">Last Hour</option>
-                                <option value="24h">Last 24 Hours</option>
-                                <option value="7d">Last 7 Days</option>
-                                <option value="30d">Last 30 Days</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="performance-charts">
-                        <div class="chart-container">
-                            <canvas id="performance-chart" width="600" height="300"></canvas>
-                        </div>
-                        <div class="performance-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Current Accuracy:</span>
-                                <span class="stat-value" id="current-accuracy">0%</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Improvement Rate:</span>
-                                <span class="stat-value" id="improvement-rate">+0%</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Best Performance:</span>
-                                <span class="stat-value" id="best-performance">0%</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Training Sessions:</span>
-                                <span class="stat-value" id="training-sessions">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Accuracy Trends Tab -->
-            <div id="accuracy-tab" class="tab-content">
-                <div class="accuracy-analysis">
-                    <h4><i class="fas fa-target"></i> Moderation Accuracy Trends</h4>
-                    <div class="accuracy-controls">
-                        <div class="filter-group">
-                            <label>Content Type:</label>
-                            <select id="content-filter">
-                                <option value="all">All Types</option>
-                                <option value="text">Text</option>
-                                <option value="image">Image</option>
-                                <option value="video">Video</option>
-                                <option value="audio">Audio</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label>Time Period:</label>
-                            <select id="accuracy-time-range">
-                                <option value="1h">Last Hour</option>
-                                <option value="6h">Last 6 Hours</option>
-                                <option value="24h">Last 24 Hours</option>
-                                <option value="7d">Last 7 Days</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="accuracy-chart-container">
-                        <canvas id="accuracy-trend-chart" width="700" height="350"></canvas>
-                    </div>
-                    <div class="accuracy-insights">
-                        <div class="insight-card">
-                            <h5>Key Insights</h5>
-                            <ul id="accuracy-insights-list">
-                                <li>Loading insights...</li>
-                            </ul>
-                        </div>
-                        <div class="insight-card">
-                            <h5>Content Type Performance</h5>
-                            <div class="content-performance" id="content-performance">
-                                <div class="performance-item">
-                                    <span>Text:</span>
-                                    <div class="performance-bar">
-                                        <div class="performance-fill" style="width: 0%"></div>
-                                    </div>
-                                    <span class="performance-value">0%</span>
-                                </div>
-                                <div class="performance-item">
-                                    <span>Image:</span>
-                                    <div class="performance-bar">
-                                        <div class="performance-fill" style="width: 0%"></div>
-                                    </div>
-                                    <span class="performance-value">0%</span>
-                                </div>
-                                <div class="performance-item">
-                                    <span>Video:</span>
-                                    <div class="performance-bar">
-                                        <div class="performance-fill" style="width: 0%"></div>
-                                    </div>
-                                    <span class="performance-value">0%</span>
-                                </div>
-                                <div class="performance-item">
-                                    <span>Audio:</span>
-                                    <div class="performance-bar">
-                                        <div class="performance-fill" style="width: 0%"></div>
-                                    </div>
-                                    <span class="performance-value">0%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feedback Section -->
-        <div class="feedback-section-main" id="feedback-section" style="display: none;">
-            <div class="feedback-container">
-                <h4><i class="fas fa-comments"></i> Provide Feedback on Analysis</h4>
-                <div class="feedback-buttons-main">
-                    <button class="feedback-btn-main thumbs-up" id="feedback-thumbs-up">
-                        <i class="fas fa-thumbs-up"></i> Helpful
-                    </button>
-                    <button class="feedback-btn-main thumbs-down" id="feedback-thumbs-down">
-                        <i class="fas fa-thumbs-down"></i> Not Helpful
-                    </button>
-                </div>
-                <div class="learning-indicator" id="learning-indicator" style="display: none;">
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
                     <i class="fas fa-brain"></i>
-                    <span>Re-evaluating after learning from feedback...</span>
                 </div>
-                <div class="learning-applied-badge" id="learning-badge" style="display: none;">
+                <div class="feature-title">AI-Powered Analysis</div>
+                <div class="feature-desc">Machine learning algorithms analyze legal queries with high accuracy and confidence scoring</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="feature-title">Multi-Jurisdiction</div>
+                <div class="feature-desc">Comprehensive legal guidance for India, UK, and UAE with jurisdiction-specific laws</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <div class="feature-title">Legal Route Mapping</div>
+                <div class="feature-desc">Dynamic court hierarchy recommendations with timeline and success probability estimates</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-scroll"></i>
+                </div>
+                <div class="feature-title">Constitutional Articles</div>
+                <div class="feature-desc">Direct mapping to relevant constitutional provisions and case law with interpretations</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="feature-title">Success Predictions</div>
+                <div class="feature-desc">ML-based success rate predictions with confidence intervals and influencing factors</div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">
                     <i class="fas fa-graduation-cap"></i>
-                    <span>Learning Applied</span>
                 </div>
+                <div class="feature-title">Reinforcement Learning</div>
+                <div class="feature-desc">System learns from user feedback to improve accuracy and provide better legal guidance</div>
             </div>
         </div>
 
-        <!-- Post-Feedback Popup -->
-        <div class="feedback-popup-overlay" id="feedback-popup-overlay" style="display: none;">
-            <div class="feedback-popup">
-                <div class="popup-header">
-                    <i class="fas fa-brain popup-icon"></i>
-                    <h3>Learned from your feedback</h3>
-                </div>
-                <div class="popup-content">
-                    <div class="confidence-improvement">
-                        <div class="confidence-before">
-                            <span class="confidence-label">Previous Confidence:</span>
-                            <span class="confidence-value" id="confidence-before">85%</span>
-                        </div>
-                        <div class="confidence-arrow">
-                            <i class="fas fa-arrow-right"></i>
-                        </div>
-                        <div class="confidence-after">
-                            <span class="confidence-label">Updated Confidence:</span>
-                            <span class="confidence-value" id="confidence-after">92%</span>
-                        </div>
-                    </div>
-                    <div class="popup-message">
-                        <p>Your feedback has been incorporated into our learning system. The analysis has been improved based on your input.</p>
-                    </div>
-                    <div class="popup-actions">
-                        <button class="btn-popup-close" id="popup-close-btn">Got it!</button>
-                    </div>
-                </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Jurisdictions</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">AI Availability</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">RL</div>
+                <div class="stat-label">Learning System</div>
             </div>
         </div>
 
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loading-overlay">
-            <div class="spinner"></div>
-            <p>Analyzing content...</p>
+        <div class="cta-section">
+            <a href="/legal-ai" class="cta-button">
+                <span class="cta-icon">
+                    <i class="fas fa-rocket"></i>
+                </span>
+                <span>Launch Legal AI Platform</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p><i class="fas fa-shield-alt"></i> Secure • <i class="fas fa-clock"></i> Instant Analysis • <i class="fas fa-certificate"></i> Professional Grade</p>
+            <p style="margin-top: 10px;">Powered by Advanced AI • Built for Legal Excellence</p>
         </div>
     </div>
 
-    <script src="/static/js/app.js?v=1.1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Add interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate features on scroll
+            const features = document.querySelectorAll('.feature');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            features.forEach((feature, index) => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(30px)';
+                feature.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(feature);
+            });
+
+            // Add click tracking for analytics
+            document.querySelector('.cta-button').addEventListener('click', function() {
+                // Track conversion
+                console.log('Legal AI Platform accessed');
+            });
+
+            // Auto-redirect after 10 seconds if user is idle
+            let redirectTimer;
+            function resetTimer() {
+                clearTimeout(redirectTimer);
+                redirectTimer = setTimeout(() => {
+                    window.location.href = '/legal-ai';
+                }, 10000);
+            }
+
+            // Reset timer on user interaction
+            document.addEventListener('mousemove', resetTimer);
+            document.addEventListener('keypress', resetTimer);
+            document.addEventListener('click', resetTimer);
+
+            // Start timer
+            resetTimer();
+        });
+    </script>
 </body>
 </html>
