@@ -238,8 +238,8 @@ body {
 }
 
 .image-preview img {
-    max-width: 100%;
-    max-height: 300px;
+    max-width: 20%;
+    max-height: 100px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
@@ -1418,4 +1418,5 @@ body {
     .laws-grid {
         grid-template-columns: 1fr;
     }
+
 }
