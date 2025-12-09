@@ -1081,10 +1081,13 @@ async def get_bns_content():
     unapproved_sections = []
 
     for section_num, section_data in list(bns_db.bns_sections.items())[:30]:
-        # Simulate different moderation scores for variety
-        import random
-        base_score = random.uniform(0.3, 0.95)  # Random score between 0.3-0.95
-        confidence = 0.8 + random.uniform(0, 0.15)   # Random confidence between 0.8-0.95
+        # Use deterministic legal content analysis instead of random scoring
+        from app.legal_content_analyzer import analyze_legal_content
+        
+        content = section_data.get("description", section_data.get("content", "Content not available"))
+        legal_analysis = analyze_legal_content(content, content_type="bns", jurisdiction="india")
+        base_score = legal_analysis["adjusted_score"]
+        confidence = legal_analysis["confidence"]
 
         # Get content from the BNS database
         content = section_data.get("description", section_data.get("content", "Content not available"))
@@ -2069,10 +2072,13 @@ async def get_crpc_content():
     unapproved_sections = []
 
     for section_num, section_data in list(crpc_db.sections.items())[:30]:
-        # Simulate different moderation scores for variety
-        import random
-        base_score = random.uniform(0.3, 0.95)  # Random score between 0.3-0.95
-        confidence = 0.8 + random.uniform(0, 0.15)   # Random confidence between 0.8-0.95
+        # Use deterministic legal content analysis instead of random scoring
+        from app.legal_content_analyzer import analyze_legal_content
+        
+        content = section_data.get("description", section_data.get("content", "Content not available"))
+        legal_analysis = analyze_legal_content(content, content_type="bns", jurisdiction="india")
+        base_score = legal_analysis["adjusted_score"]
+        confidence = legal_analysis["confidence"]
 
         # Generate approval/rejection reasons based on score
         approval_reasons = []

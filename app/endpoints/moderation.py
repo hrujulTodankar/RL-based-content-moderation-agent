@@ -66,19 +66,36 @@ async def moderate_content(
         # Set user context for observability
         set_user_context(user_id, "demo-user")
 
-        # Get NLP context if text or code (disabled for demo - external service not available)
+        # Get NLP context if text or code (with fallback for demo)
         nlp_context = None
-        # if request.content_type in ["text", "code"]:
-        #     nlp_result = await integration_services.get_nlp_context(
-        #         request.content,
-        #         request.content_type
-        #     )
-        #     if nlp_result["success"]:
-        #         nlp_context = nlp_result["data"]
-        #         # Merge NLP context into metadata
-        #         if not request.metadata:
-        #             request.metadata = {}
-        #         request.metadata["nlp_context"] = nlp_context
+        if request.content_type in ["text", "code"]:
+            try:
+                nlp_result = await integration_services.get_nlp_context(
+                    request.content,
+                    request.content_type
+                )
+                if nlp_result["success"]:
+                    nlp_context = nlp_result["data"]
+                    # Merge NLP context into metadata
+                    if not request.metadata:
+                        request.metadata = {}
+                    request.metadata["nlp_context"] = nlp_context
+                    logger.info("Successfully retrieved NLP context")
+                else:
+                    logger.warning(f"NLP context service failed: {nlp_result.get('error', 'Unknown error')}")
+            except Exception as e:
+                logger.warning(f"NLP context service error (using fallback): {str(e)}")
+                # Use fallback NLP context
+                if not request.metadata:
+                    request.metadata = {}
+                request.metadata["nlp_context"] = {
+                    "confidence": 0.5,
+                    "toxicity": 0.0,
+                    "sentiment": 0.5,
+                    "language": "en",
+                    "context_embedding": [],
+                    "fallback": True
+                }
 
         # Validate content type
         valid_types = ["text", "image", "audio", "video", "code"]
@@ -88,21 +105,26 @@ async def moderate_content(
                 detail=f"Invalid content_type. Must be one of: {valid_types}"
             )
 
-        # Process through MCP if metadata available (disabled for demo)
-        # if request.mcp_metadata:
-        #     from ..mcp_integration import MCPIntegrator
-        #     mcp_integrator = MCPIntegrator()
-        #     mcp_result = await mcp_integrator.process(
-        #         content=request.content,
-        #         content_type=request.content_type,
-        #         mcp_metadata=request.mcp_metadata
-        #     )
-        #     enhanced_metadata = {
-        #         **(request.metadata or {}),
-        #         "mcp": mcp_result
-        #     }
-        # else:
+        # Process through MCP if metadata available (with fallback)
         enhanced_metadata = request.metadata or {}
+        if request.mcp_metadata:
+            try:
+                from ..mcp_integration import MCPIntegrator
+                mcp_integrator = MCPIntegrator()
+                mcp_result = await mcp_integrator.process(
+                    content=request.content,
+                    content_type=request.content_type,
+                    mcp_metadata=request.mcp_metadata
+                )
+                enhanced_metadata = {
+                    **enhanced_metadata,
+                    "mcp": mcp_result
+                }
+                logger.info("Successfully processed MCP integration")
+            except ImportError:
+                logger.warning("MCP integration module not available, using metadata as-is")
+            except Exception as e:
+                logger.warning(f"MCP integration error (continuing without MCP): {str(e)}")
 
         # Run moderation agent
         logger.info(f"Running moderation agent for content_type: {request.content_type}")
